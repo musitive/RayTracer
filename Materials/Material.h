@@ -1,16 +1,12 @@
 #include "Vec.h"
+#include "LightSource.h"
 
 using namespace std;
-
-struct Light {
-    Colord color;
-    Position position;
-};
 
 class Material {
     public:
         bool isReflective = false;
-        virtual Colori computeColor(Position from, Position p, Direction n, Light light, bool blocked, Colord ambient) = 0;
+        virtual Colori computeColor(Position from, Position p, Direction n, LightSource light, bool blocked, Colord ambient) = 0;
 };
 
 class Diffuse : public Material {
@@ -20,7 +16,7 @@ class Diffuse : public Material {
         double phong;
     public:
         Diffuse(Colord diffuse, Colord specular, double phong) : diffuse(diffuse), specular(specular), phong(phong) {}
-        Colori computeColor(Position from, Position p, Direction n, Light light, bool blocked, Colord ambient) override {
+        Colori computeColor(Position from, Position p, Direction n, LightSource light, bool blocked, Colord ambient) override {
             Direction l = Direction(light.position - p);
             double dt = dot(l, n);
 
@@ -44,7 +40,7 @@ class Reflective : public Material {
         Colord reflective;
     public:
         Reflective(Colord reflective) : reflective(reflective) { isReflective = true; }
-        Colori computeColor(Position from, Position p, Direction n, Light light, bool blocked, Colord ambient) override {
+        Colori computeColor(Position from, Position p, Direction n, LightSource light, bool blocked, Colord ambient) override {
             return bound(reflective);
         }
 };

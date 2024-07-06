@@ -1,0 +1,10 @@
+{
+    "C_Cpp.default.compilerPath": "/usr/bin/g++",
+    "files.associations": {
+        "*.cpp": "cpp",
+        "fstream": "cpp",
+        "vector": "cpp",
+        "new": "cpp",
+        "iostream": "cpp"
+    }
+}
