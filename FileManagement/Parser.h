@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+#include "Position.h"
+#include "Color.h"
 #include "Vec.h"
 #include "Scene.h"
 #include "Triangle.h"
