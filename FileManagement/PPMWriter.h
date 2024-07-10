@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include "Image.h"
-#include "Color.h"
+#include "Vec.h"
 
 using namespace std;
 
@@ -14,7 +14,7 @@ class PPMWriter {
         PPMWriter();
 
         void writeImageToFile(Image* image, const string& output_filename);
-        void prepOutputFile(const string& filename, const int& w, const int& h, const int& max_color);
-        void addColor(const Colori& color);
+        void prepOutputFile(const string& filename, const int& w, const int& h);
+        void writeColor(const Colori& color);
         void closeOutput();
 };

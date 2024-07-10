@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Vec.h"
+#include "Vec.h"
 
 using namespace std;
 
@@ -17,4 +17,7 @@ class Camera {
 
         double getWidth();
         double getHeight();
+        Position getAt();
+        Position getFrom();
+        double getAngle();
 };

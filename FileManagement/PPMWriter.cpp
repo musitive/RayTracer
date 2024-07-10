@@ -14,33 +14,27 @@ Vec3<T> average(vector<Vec3<T>> v) {
 
 PPMWriter::PPMWriter() {}
 
-void PPMWriter::writeImageToFile(Image* image, char* output_filename) {
-    ofstream file;
-    file.open(output_filename);
-    file << "P3\n";
-    file << image->width << " " << image->height << "\n";
-    file << MAX_COLOR << "\n";
+void PPMWriter::writeImageToFile(Image* image, const string& filename) {
+    output_file.open(filename, ios::out);
+    prepOutputFile(filename, image->width, image->height);
+
     for(int j = 0; j < image->height; j++) {
         for(int i = 0; i < image->width; i++) {
             Colori color = image->colors[j * image->width + i];
-            file << color.x << " " << color.y << " " << color.z << "\n";
+            writeColor(color);
         }
     }
-    file.close();
+
+    output_file.close();
 }
 
-void PPMWriter::prepOutputFile(const string& fileName, const int& w, const int& h, const int& max_color) {
-    output_file.open(fileName, ios::out);
+void PPMWriter::prepOutputFile(const string& fileName, const int& w, const int& h) {
     output_file << "P3" << endl;
     output_file << "# " << fileName << endl;
     output_file << w << ' ' << h << endl;
-    output_file << max_color << endl;
+    output_file << MAX_COLOR << endl;
 }
 
-void PPMWriter::addColor(const Colori& color) {
+void PPMWriter::writeColor(const Colori& color) {
     output_file << color << endl;
-}
-
-void PPMWriter::closeOutput() {
-    output_file.close();
 }

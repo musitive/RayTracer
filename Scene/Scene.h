@@ -5,6 +5,7 @@
 #include "Object.h"
 #include "Image.h"
 #include "LightSource.h"
+#include "RayTracer.h"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ class Scene {
         Colord ambient_light;
         Colord background_color;
         vector<Object*> objects;
+        RayTracer* ray_tracer;
 
     public:
         Scene();
@@ -26,5 +28,7 @@ class Scene {
 
         void addObject(Object* object);
 
+        Ray computeRay(double i, double j, double angle);
         Image* render();
+        Colori calculateColorAtPoint(double i, double j);
 };

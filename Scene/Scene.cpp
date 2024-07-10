@@ -6,25 +6,40 @@ Scene::Scene() {
     ambient_light = Colord();
     background_color = Colord();
     objects = vector<Object*>();
+    ray_tracer = new RayTracer();
 }
 
 Image* Scene::render() {
     const int WIDTH = camera->getWidth();
     const int HEIGHT = camera->getHeight();
-    const double aspectratio = WIDTH / double(HEIGHT);
-    const double angle = tan(M_PI * 0.5 * fov / 180.);
-
-    RayTracer* ray_tracer = new RayTracer();
 
     srand(time(0));
+
     for(int row = 0; row < HEIGHT; row++) {
         for(int col = 0; col < WIDTH; col++) {
-            vector<Colori> colors = ray_tracer->subdivide(col, row, 4, angle, aspectratio, scene);
-            image->addColor(average(colors));
+            Colori color = calculateColorAtPoint(col, row);
+            image->addColor(color);
         }
     }
 
     return new Image();
+}
+
+Colori Scene::calculateColorAtPoint(double i, double j) {
+    Ray ray = computeRay(i, j, camera->getAngle());
+    return ray_tracer->trace(ray, this, nullptr, 0);
+}
+
+Ray Scene::computeRay(double i, double j, double angle) {
+    const int WIDTH = camera->getWidth();
+    const int HEIGHT = camera->getHeight();
+    const double aspectratio = WIDTH / double(HEIGHT);
+    double xx = (2 * (i * 1/WIDTH) - 1) * angle * aspectratio;
+    double yy = (1 - 2 * (j * 1/HEIGHT)) * angle;
+    Position look_from = camera->getFrom();
+    Position look_at = Position(xx,yy,0) + camera->getAt();
+
+    return Ray(look_from, look_at);
 }
 
 void Scene::addObject(Object* object) {

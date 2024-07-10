@@ -16,3 +16,15 @@ double Camera::getWidth() {
 double Camera::getHeight() {
     return height;
 }
+
+Position Camera::getAt() {
+    return at;
+}
+
+Position Camera::getFrom() {
+    return from;
+}
+
+double Camera::getAngle() {
+    return tan(M_PI * 0.5 * fov / 180.);
+}
