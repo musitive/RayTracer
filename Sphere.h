@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SPHERE_H
+#define SPHERE_H
 
 #include "Object.h"
 #include "Vec.h"
@@ -14,3 +15,5 @@ class Sphere : public Object {
         Position calculateIntersection(Ray ray, bool culling=true) override;
         Direction computeNormal(Position position) override;
 };
+
+#endif

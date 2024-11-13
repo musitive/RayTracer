@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ENVIRONMENT_H
+#define ENVIRONMENT_H
+
 #include <vector>
 
 #include "Object.h"
@@ -31,3 +33,5 @@ class Environment {
         }
 
 };
+
+#endif

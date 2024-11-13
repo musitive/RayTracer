@@ -1,4 +1,5 @@
-#pragma once
+#ifndef OBJECT_H
+#define OBJECT_H
 
 #include <iostream>
 #include "Material.h"
@@ -19,3 +20,5 @@ class Object {
         virtual Position calculateIntersection(Ray ray, bool culling=true) = 0;
         virtual Colori computeColor(Position from, Position p, Light light, bool blocked, Colord ambient);
 };
+
+#endif

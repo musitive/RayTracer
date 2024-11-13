@@ -1,4 +1,5 @@
-#pragma once
+#ifndef VEC_H
+#define VEC_H
 
 #include <iostream>
 #include <cmath>
@@ -9,24 +10,44 @@ using namespace std;
 template<typename T>
 class Vec3 {
     public:
-        // union { T x; T r; };
-        // union { T y; T g; };
-        // union { T z; T b; };
-        T x,y,z;
+        T x, y, z;
 
         Vec3() : x(T(0)), y(T(0)), z(T(0)) {}
         Vec3(T v) : x(v), y(v), z(v) {}
         Vec3(T u, T v, T w) : x(u), y(v), z(w) {}
 
-        Vec3<T> operator + (const Vec3<T>& b) {return Vec3<T>(x + b.x, y + b.y, z + b.z);}
-        Vec3<T> operator - (const Vec3<T>& b) {return Vec3<T>(x - b.x, y - b.y, z - b.z);}
-        Vec3<T> operator * (const Vec3<T>& b) {return Vec3<T>(x * b.x, y * b.y, z * b.z);}
-        Vec3<T> operator * (const double& b) {return Vec3<T>(x * b, y * b, z * b);}
-        Vec3<T> operator / (const double& b) {return Vec3<T>(x / b, y / b, z / b);}
-        Vec3<T> operator - () {return Vec3<T>(-x, -y, -z);}
-        friend ostream & operator << (std::ostream &os, const Vec3<T> &v) { 
+        Vec3<T> operator + (const Vec3<T>& b) const {
+            return Vec3<T>(x + b.x, y + b.y, z + b.z);
+        }
+
+        Vec3<T> operator - (const Vec3<T>& b) const {
+            return Vec3<T>(x - b.x, y - b.y, z - b.z);
+        }
+
+        Vec3<T> operator * (const Vec3<T>& b) const {
+            return Vec3<T>(x * b.x, y * b.y, z * b.z);
+        }
+
+        Vec3<T> operator * (const double& b) const {
+            return Vec3<T>(x * b, y * b, z * b);
+        }
+
+        Vec3<T> operator / (const double& b) const {
+            return Vec3<T>(x / b, y / b, z / b);
+        }
+
+        Vec3<T> operator - () const {
+            return Vec3<T>(-x, -y, -z);
+        }
+
+        friend ostream & operator << (ostream &os, const Vec3<T> &v) {
             os << v.x << ' ' << v.y << ' ' << v.z; 
             return os; 
+        }
+
+        friend istream & operator >> (istream &is, Vec3<T> &v) {
+            is >> v.x >> v.y >> v.z;
+            return is;
         }
 };
 
@@ -57,8 +78,19 @@ class Ray {
         }
 };
 
+template<typename T>
+Vec3<T> average(vector<Vec3<T>> v) {
+    Vec3<T> t = Vec3<T>();
+    for(Vec3<T> c: v) {
+        t = t + c;
+    }
+    return t / v.size();
+};
+
 double dot(Position& vec1, Position& vec2);
 
 Position cross_product(Position& vec1, Position& vec2);
 
 Colori bound(const Colord& v, const double min=0, const double max=1);
+
+#endif

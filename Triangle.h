@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TRIANGLE_H
+#define TRIANGLE_H
 
 #include "Object.h"
 #include "Vec.h"
@@ -12,3 +13,4 @@ class Triangle : public Object {
         Direction computeNormal(Position p) override;
 };
 
+#endif

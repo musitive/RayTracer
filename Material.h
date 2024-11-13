@@ -1,3 +1,6 @@
+#ifndef MATERIAL_H
+#define MATERIAL_H
+
 #include "Vec.h"
 
 using namespace std;
@@ -48,3 +51,5 @@ class Reflective : public Material {
             return bound(reflective);
         }
 };
+
+#endif

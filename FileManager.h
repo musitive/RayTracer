@@ -1,4 +1,6 @@
-#pragma once
+#ifndef FILEMANAGER_H
+#define FILEMANAGER_H
+
 #include <iostream>
 #include <fstream>
 #include "Vec.h"
@@ -23,3 +25,5 @@ class FileManager {
         void addColor(const Colori& color);
         void closeOutput();
 };
+
+#endif

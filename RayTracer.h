@@ -1,3 +1,6 @@
+#ifndef RAY_TRACER_H
+#define RAY_TRACER_H
+
 #include "Vec.h"
 #include "Object.h"
 #include "Environment.h"
@@ -16,3 +19,5 @@ class RayTracer {
         Colori trace(Ray ray, Environment* env, Object* current, const int& depth);
         vector<Colori> subdivide(int i, int j, double scale, double angle, double aspectratio, Environment* env);
 };
+
+#endif

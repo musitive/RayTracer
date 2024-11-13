@@ -1,7 +1,10 @@
-#pragma once
-
 #include "FileManager.h"
 #include "Object.h"
+#include "Vec.h"
+#include "Sphere.h"
+#include "Triangle.h"
+#include "Material.h"
+#include "Vec.h"
 
 using namespace std;
 
