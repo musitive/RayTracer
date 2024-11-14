@@ -16,14 +16,14 @@ Environment* FileManager::readFile(const string& fileName) {
 
     input_file.open(fileName, ios::in);
     input_file >> line_header >> env->width >> line_header >> env->height;
-    input_file >> line_header >> env->at.x >> env->at.y >> env->at.z;
-    input_file >> line_header >> env->from.x >> env->from.y >> env->from.z;
-    input_file >> line_header >> env->up.x >> env->up.y >> env->up.z;
+    input_file >> line_header >> env->at;
+    input_file >> line_header >> env->from;
+    input_file >> line_header >> env->up;
     input_file >> line_header >> env->fov;
-    input_file >> line_header >> env->light_position.x >> env->light_position.y >> env->light_position.z;
-    input_file >> line_header >> env->light_color.x >> env->light_color.y >> env->light_color.z;
-    input_file >> line_header >> env->ambient_light.x >> env->ambient_light.y >> env->ambient_light.z;
-    input_file >> line_header >> env->background.x >> env->background.y >> env->background.z;
+    input_file >> line_header >> env->light_position;
+    input_file >> line_header >> env->light_color;
+    input_file >> line_header >> env->ambient_light;
+    input_file >> line_header >> env->background;
 
     input_file >> line_header;
     while(!input_file.eof()) {
@@ -31,15 +31,15 @@ Environment* FileManager::readFile(const string& fileName) {
         if (line_header == "Sphere") {
             Position c = Position();
             double rad = 0;
-            input_file >> line_header >> c.x >> c.y >> c.z;
+            input_file >> line_header >> c;
             input_file >> line_header >> rad;
             o = new Sphere(c, rad);
         }
         else if (line_header == "Triangle") {
             Position v1, v2, v3;
-            input_file >> v1.x >> v1.y >> v1.z;
-            input_file >> v2.x >> v2.y >> v2.z;
-            input_file >> v3.x >> v3.y >> v3.z;
+            input_file >> v1;
+            input_file >> v2;
+            input_file >> v3;
             o = new Triangle(v1, v2, v3);;
         }
         input_file >> line_header >> line_header;
@@ -48,8 +48,8 @@ Environment* FileManager::readFile(const string& fileName) {
             Colord diffuse = Colord();
             Colord specular = Colord();
             double phong = 0;
-            input_file >> diffuse.x >> diffuse.y >> diffuse.z;
-            input_file >> line_header >> specular.x >> specular.y >> specular.z;
+            input_file >> diffuse;
+            input_file >> line_header >> specular;
             input_file >> line_header >> phong;
             material = new Diffuse(diffuse, specular, phong);
         }

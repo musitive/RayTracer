@@ -2,6 +2,8 @@
 #define ENVIRONMENT_H
 
 #include <vector>
+#include <numeric>
+#include <random>
 
 #include "Object.h"
 
@@ -31,7 +33,8 @@ class Environment {
             background = Position();
             env = vector<Object*>();
         }
-
 };
+
+double calculateAngle(double fov);
 
 #endif

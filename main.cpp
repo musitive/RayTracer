@@ -4,6 +4,7 @@
 #include "FileManager.h"
 #include "Object.h"
 #include "RayTracer.h"
+#include "Environment.h"
 
 using namespace std;
 
@@ -19,11 +20,11 @@ int main(int argc, char** argv) {
     FileManager* fm = new FileManager();
     Environment* env = fm->readFile(input_filename);
 
-    const int IMAX = env->width, IMIN = 0, JMAX = env->height, JMIN = 0;
+    const int IMAX = env->width, JMAX = env->height;
 
     fm->prepOutputFile(output_filename, IMAX, JMAX, MAX_COLOR);
     double fov = env->fov, aspectratio = IMAX / double(JMAX);
-    double angle = tan(M_PI * 0.5 * fov / 180.);
+    double angle = calculateAngle(fov);
 
     RayTracer* rt = new RayTracer();
     
