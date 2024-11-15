@@ -19,8 +19,8 @@ double dot(Position& vec1, Position& vec2) {
 
 Position cross_product(Position& vec1, Position& vec2) {
     return Position(vec1.y * vec2.z - vec1.z * vec2.y,
-                   vec1.z * vec2.x - vec1.x * vec2.z,
-                   vec1.x * vec2.y - vec1.y * vec2.x);
+                    vec1.z * vec2.x - vec1.x * vec2.z,
+                    vec1.x * vec2.y - vec1.y * vec2.x);
 }
 
 Colori bound(const Colord& v, const double min, const double max) {

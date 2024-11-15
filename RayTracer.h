@@ -13,6 +13,7 @@ using namespace std;
 class RayTracer {
     public:
         virtual Colori trace(Ray ray, Environment* env, Object* current, const int& depth);
+
     private:
         const int MAX_DEPTH = 4;
         Colori calculateReflection(Ray ray, Position p, Object* closest, Environment* env, const int& depth);

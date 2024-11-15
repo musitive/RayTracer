@@ -7,7 +7,7 @@ Scene::Scene(Environment* env) {
 }
 
 void Scene::render(FileManager* fm, const string& output_filename) {
-    const int IMAX = env->cam->width, JMAX = env->cam->height;
+    const int IMAX = env->cam->getWidth(), JMAX = env->cam->getHeight();
 
     fm->prepOutputFile(output_filename, IMAX, JMAX, 255);
 

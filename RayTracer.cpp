@@ -36,11 +36,11 @@ Colori RayTracer::trace(Ray ray, Environment* env, Object* current, const int& d
         bool blocked = false;
         Light light = { env->light_color, env->light_position };
         Direction l = light.position - p;
-        Ray toLight(p, l);
+        Ray to_light(p, l);
         double distance = length(light.position - p);
         for (Object* o: env->env) {
             if (o != closest) {
-                if (length(light.position - o->calculateIntersection(toLight, false)) < distance) {
+                if (length(light.position - o->calculateIntersection(to_light, false)) < distance) {
                     blocked = true;
                     break;
                 }

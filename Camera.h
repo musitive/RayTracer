@@ -12,25 +12,26 @@ double calculateAngle(double fov);
 
 class Camera {
     private:
-        double angle;
-        double aspect_ratio;
+        double width, height, aspect_ratio, angle;
+        Position at, from, up;
 
     public:
-        double width, height;
-        Position at;
-        Position from;
-        Position up;
-        double fov;
-
         Camera(const double& width, const double& height, const Position& at, const Position& from, const Position& up, const double& fov) {
             this->width = width;
             this->height = height;
             this->at = at;
             this->from = from;
             this->up = up;
-            this->fov = fov;
             angle = calculateAngle(fov);
             aspect_ratio = width / height;
+        }
+
+        double getWidth() {
+            return width;
+        }
+
+        double getHeight() {
+            return height;
         }
 
         Ray computeRay(double i, double j);
