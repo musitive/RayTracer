@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Material.h"
 #include "Vec.h"
+#include "Ray.h"
 
 const double INF = numeric_limits<double>::infinity();
 const Position MISS = Position(INF);

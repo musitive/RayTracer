@@ -3,6 +3,7 @@
 
 #include "Vec.h"
 #include "Object.h"
+#include "Ray.h"
 #include "Environment.h"
 #include <numeric>
 #include <random>

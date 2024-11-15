@@ -3,6 +3,7 @@
 
 #include "Object.h"
 #include "Vec.h"
+#include "Ray.h"
 
 class Triangle : public Object {
     private:

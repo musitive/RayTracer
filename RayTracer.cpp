@@ -1,7 +1,7 @@
 #include "RayTracer.h"
 
 double RayTracer::jitter(int i, double scale) {
-    uniform_real_distribution<double> unif(0,scale);
+    uniform_real_distribution<double> unif(0, scale);
     default_random_engine re;
     return i + unif(re);
 }
@@ -32,7 +32,7 @@ Colori RayTracer::calculateReflection(Ray ray, Position p, Object* closest, Envi
     Colori ci = closest->computeColor(ray.origin, p, light, false, env->ambient_light);
     Colord cd = Colord(ci.x/255.,ci.y/255.,ci.z/255.);
     Colori ct = Colori();
-    for(int y = 0; y < 4; y++) {
+    for(int y = 0; y < 4; ++y) {
         ct = ct + trace(jitter(newRay), env, closest, depth+1);
     }
     ct = ct / 4;

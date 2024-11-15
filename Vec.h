@@ -15,6 +15,7 @@ class Vec3 {
         Vec3() : x(T(0)), y(T(0)), z(T(0)) {}
         Vec3(T v) : x(v), y(v), z(v) {}
         Vec3(T u, T v, T w) : x(u), y(v), z(w) {}
+        Vec3(const Vec3<T>& v) : x(v.x), y(v.y), z(v.z) {}
 
         Vec3<T> operator + (const Vec3<T>& b) const {
             return Vec3<T>(x + b.x, y + b.y, z + b.z);
@@ -30,6 +31,10 @@ class Vec3 {
 
         Vec3<T> operator * (const double& b) const {
             return Vec3<T>(x * b, y * b, z * b);
+        }
+
+        Vec3<T> operator / (const Vec3<T>& b) const {
+            return Vec3<T>(x * b.x, y * b.y, z * b.z);
         }
 
         Vec3<T> operator / (const double& b) const {
@@ -51,9 +56,9 @@ class Vec3 {
         }
 };
 
-typedef Vec3<double> Position;
 typedef Vec3<double> Colord;
 typedef Vec3<int> Colori;
+typedef Vec3<double> Position;
 
 double length(const Position& vec);
 
@@ -64,17 +69,6 @@ class Direction : public Position {
         Direction(Position d) {
             d = normalize(d);
             x = d.x, y = d.y, z = d.z;
-        }
-};
-
-class Ray {
-    public:
-        Position origin;        // r_0
-        Direction direction;    // r_d
-
-        Ray(Position eye, Direction s) : origin(eye), direction(s) {}
-        Position findPositionOnRay(double t) {
-            return origin + direction * t;
         }
 };
 

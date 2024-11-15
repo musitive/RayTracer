@@ -3,6 +3,7 @@
 
 #include "Object.h"
 #include "Vec.h"
+#include "Ray.h"
 
 class Sphere : public Object {
     private:

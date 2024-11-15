@@ -15,8 +15,6 @@ class FileManager {
         ifstream input_file;
         ofstream output_file;
 
-
-
     public:
         FileManager();
 
