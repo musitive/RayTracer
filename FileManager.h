@@ -15,6 +15,14 @@ class FileManager {
         FileManager();
 
         Environment* readFile(const string& filename);
+        void parseObjects();
+        Object* parseObject(string line_header);
+        Sphere* parseSphere();
+        Triangle* parseTriangle();
+        Material* parseMaterial(string line_header);
+        Diffuse* parseDiffuseMaterial();
+        Reflective* parseReflectiveMaterial();
+
         void prepOutputFile(const string& filename, const int& w, const int& h, const int& max_color);
         void addColor(const Colori& color);
         void closeOutput();
@@ -22,6 +30,7 @@ class FileManager {
     private:
         ifstream input_file;
         ofstream output_file;
+        Environment* env;
 };
 
 #endif

@@ -12,7 +12,7 @@ FileManager::FileManager() {}
 
 Environment* FileManager::readFile(const string& fileName) {
     string line_header;
-    Environment* env = new Environment();
+    env = new Environment();
 
     input_file.open(fileName, ios::in);
     input_file >> line_header >> env->cam.width >> line_header >> env->cam.height;
@@ -25,45 +25,85 @@ Environment* FileManager::readFile(const string& fileName) {
     input_file >> line_header >> env->ambient_light;
     input_file >> line_header >> env->background;
 
+    parseObjects();
+
+    input_file.close();
+    return env;
+}
+
+void FileManager::parseObjects() {
+    string line_header;
+    Object* o;
+    Material* m;
+
     input_file >> line_header;
     while(!input_file.eof()) {
-        Object* o;
-        if (line_header == "Sphere") {
-            Position c = Position();
-            double rad = 0;
-            input_file >> line_header >> c;
-            input_file >> line_header >> rad;
-            o = new Sphere(c, rad);
-        }
-        else if (line_header == "Triangle") {
-            Position v1, v2, v3;
-            input_file >> v1;
-            input_file >> v2;
-            input_file >> v3;
-            o = new Triangle(v1, v2, v3);;
-        }
+        o = parseObject(line_header);
+
         input_file >> line_header >> line_header;
-        Material* material;
-        if (line_header == "Diffuse") {
-            Colord diffuse = Colord();
-            Colord specular = Colord();
-            double phong = 0;
-            input_file >> diffuse;
-            input_file >> line_header >> specular;
-            input_file >> line_header >> phong;
-            material = new Diffuse(diffuse, specular, phong);
-        }
-        else if (line_header == "Reflective") {
-            Colord reflective = Colord();
-            input_file >> reflective.x >> reflective.y >> reflective.z;
-            material = new Reflective(reflective);
-        }
-        o->setMaterial(material);
+        m = parseMaterial(line_header);
+        
+        o->setMaterial(m);
         env->env.push_back(o);
         input_file >> line_header;
     }
-    input_file.close();
-    return env;
+}
+
+Object* FileManager::parseObject(string line_header) {
+    Object* o;
+
+    if (line_header == "Sphere")
+        o = parseSphere();
+    else if (line_header == "Triangle")
+        o = parseTriangle();
+
+    return o;
+}
+
+Sphere* FileManager::parseSphere() {
+    string line_header;
+    Position c = Position();
+    double rad = 0;
+    input_file >> line_header >> c;
+    input_file >> line_header >> rad;
+    return new Sphere(c, rad);
+}
+
+Triangle* FileManager::parseTriangle() {
+    Position v1, v2, v3;
+    input_file >> v1;
+    input_file >> v2;
+    input_file >> v3;
+    return new Triangle(v1, v2, v3);
+}
+
+Material* FileManager::parseMaterial(string line_header) {
+    Material* m;
+
+    if (line_header == "Diffuse") 
+        m = parseDiffuseMaterial();
+    else if (line_header == "Reflective")
+        m = parseReflectiveMaterial();
+
+    return m;
+}
+
+Diffuse* FileManager::parseDiffuseMaterial() {
+    string line_header;
+    Colord diffuse = Colord();
+    Colord specular = Colord();
+    double phong = 0;
+    input_file >> diffuse;
+    input_file >> line_header >> specular;
+    input_file >> line_header >> phong;
+    return new Diffuse(diffuse, specular, phong);
+}
+
+Reflective* FileManager::parseReflectiveMaterial() {
+    string line_header;
+    Colord reflective = Colord();
+    input_file >> reflective;
+    return new Reflective(reflective);
 }
 
 void FileManager::prepOutputFile(const string& fileName, const int& w, const int& h, const int& max_color) {
