@@ -12,6 +12,7 @@ using namespace std;
 class RayTracer {
     private:
         const int MAX_DEPTH = 4;
+        Colori calculateReflection(Ray ray, Position p, Object* closest, Environment* env, const int& depth);
     public:
         double jitter(int i, double scale);
         Ray jitter(Ray r);

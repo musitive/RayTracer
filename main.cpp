@@ -8,9 +8,6 @@
 
 using namespace std;
 
-const double UMAX = 1, UMIN = -1, VMAX = -1, VMIN = 1;
-const int MAX_COLOR = 255;
-
 int main(int argc, char** argv) {
     char* input_filename = argv[1];
     char* output_filename = argv[2];
@@ -22,14 +19,14 @@ int main(int argc, char** argv) {
 
     const int IMAX = env->width, JMAX = env->height;
 
-    fm->prepOutputFile(output_filename, IMAX, JMAX, MAX_COLOR);
+    fm->prepOutputFile(output_filename, IMAX, JMAX, 255);
     double fov = env->fov, aspectratio = IMAX / double(JMAX);
     double angle = calculateAngle(fov);
 
     RayTracer* rt = new RayTracer();
     
-    for(int j = 0; j < JMAX; j++) {
-        for(int i = 0; i < IMAX; i++) {
+    for(int j = 0; j < JMAX; ++j) {
+        for(int i = 0; i < IMAX; ++i) {
             vector<Colori> colors = rt->subdivide(i, j, 4, angle, aspectratio, env);
             fm->addColor(average(colors));
         }
