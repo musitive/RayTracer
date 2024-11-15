@@ -12,14 +12,11 @@ FileManager::FileManager() {}
 
 Environment* FileManager::readFile(const string& fileName) {
     string line_header;
-    env = new Environment();
 
     input_file.open(fileName, ios::in);
-    input_file >> line_header >> env->cam.width >> line_header >> env->cam.height;
-    input_file >> line_header >> env->cam.at;
-    input_file >> line_header >> env->cam.from;
-    input_file >> line_header >> env->cam.up;
-    input_file >> line_header >> env->cam.fov;
+    Camera* cam = parseCamera();
+
+    env = new Environment(cam);
     input_file >> line_header >> env->light_position;
     input_file >> line_header >> env->light_color;
     input_file >> line_header >> env->ambient_light;
@@ -29,6 +26,20 @@ Environment* FileManager::readFile(const string& fileName) {
 
     input_file.close();
     return env;
+}
+
+Camera* FileManager::parseCamera() {
+    string line_header;
+    double width, height, fov;
+    Position at, from, up;
+
+    input_file >> line_header >> width >> line_header >> height;
+    input_file >> line_header >> at;
+    input_file >> line_header >> from;
+    input_file >> line_header >> up;
+    input_file >> line_header >> fov;
+
+    return new Camera(width, height, at, from, up, fov);
 }
 
 void FileManager::parseObjects() {

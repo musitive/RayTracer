@@ -8,9 +8,12 @@
 
 using namespace std;
 
+double calculateAngle(double fov);
+
 class Camera {
     private:
-        
+        double angle;
+        double aspect_ratio;
 
     public:
         double width, height;
@@ -19,16 +22,18 @@ class Camera {
         Position up;
         double fov;
 
-        Camera() {
-            at = Position();
-            from = Position();
-            up = Position();
-            fov = 0;
+        Camera(const double& width, const double& height, const Position& at, const Position& from, const Position& up, const double& fov) {
+            this->width = width;
+            this->height = height;
+            this->at = at;
+            this->from = from;
+            this->up = up;
+            this->fov = fov;
+            angle = calculateAngle(fov);
+            aspect_ratio = width / height;
         }
-        Camera(const double& width, const double& height, const Position& at, const Position& from, const Position& up, const double& fov) :
-            width(width), height(height), at(at), from(from), up(up), fov(fov) {}
-};
 
-double calculateAngle(double fov);
+        Ray computeRay(double i, double j);
+};
 
 #endif

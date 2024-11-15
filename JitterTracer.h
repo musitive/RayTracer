@@ -8,7 +8,7 @@ class JitterTracer : public RayTracer {
         Colori trace(Ray ray, Environment* env, Object* current, const int& depth) override;
         double jitter(int i, double scale);
         Ray jitter(Ray r);
-        vector<Colori> subdivide(int i, int j, double scale, double angle, double aspectratio, Environment* env);
+        Colori subdivide(int i, int j, double scale, Environment* env);
 };
 
 #endif

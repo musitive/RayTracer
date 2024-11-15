@@ -15,6 +15,7 @@ class FileManager {
         FileManager();
 
         Environment* readFile(const string& filename);
+        Camera* parseCamera();
         void parseObjects();
         Object* parseObject(string line_header);
         Sphere* parseSphere();

@@ -13,16 +13,20 @@ Ray JitterTracer::jitter(Ray ray) {
     return ray;
 }
 
-vector<Colori> JitterTracer::subdivide(int i, int j, double scale, double angle, double aspectratio, Environment* env) {
+Colori JitterTracer::subdivide(int i, int j, double scale, Environment* env) {
     vector<Colori> colors = vector<Colori>();
     for(int y = 0; y < scale; ++y) {
         for(int x = 0; x < scale; ++x) {
             double first = jitter(i, 1 / scale) + x / scale;
             double second = jitter(j, 1 / scale) + y / scale;
-            Ray r = computeRay(first, second, angle, aspectratio, env);
+            Ray r = env->cam->computeRay(first, second);
             Colori c = trace(r, env, NULL, 0);
             colors.push_back(c);
         }
     }
-    return colors;
+    return average(colors);
+}
+
+Colori JitterTracer::trace(Ray ray, Environment* env, Object* current, const int& depth) {
+    return RayTracer::trace(ray, env, current, depth);
 }
