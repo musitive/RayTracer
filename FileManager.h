@@ -11,10 +11,6 @@
 using namespace std;
 
 class FileManager {
-    private:
-        ifstream input_file;
-        ofstream output_file;
-
     public:
         FileManager();
 
@@ -22,6 +18,10 @@ class FileManager {
         void prepOutputFile(const string& filename, const int& w, const int& h, const int& max_color);
         void addColor(const Colori& color);
         void closeOutput();
+
+    private:
+        ifstream input_file;
+        ofstream output_file;
 };
 
 #endif
