@@ -1,11 +1,5 @@
 #include "RayTracer.h"
 
-double RayTracer::jitter(int i, double scale) {
-    uniform_real_distribution<double> unif(0, scale);
-    default_random_engine re;
-    return i + unif(re);
-}
-
 Ray RayTracer::computeRay(double i, double j, double angle, double aspectratio, Environment* env) {
     double xx = (2 * (i * 1/env->width) - 1) * angle * aspectratio;
     double yy = (1 - 2 * (j * 1/env->height)) * angle;
@@ -13,13 +7,6 @@ Ray RayTracer::computeRay(double i, double j, double angle, double aspectratio, 
     Position look_at = Position(xx,yy,0) + env->at;
 
     Ray ray = Ray(look_from, look_at);
-    return ray;
-}
-
-Ray RayTracer::jitter(Ray ray) {
-    uniform_real_distribution<double> unif(0,0.1);
-    default_random_engine re;
-    ray.direction = Direction(Position(ray.direction.x+unif(re),ray.direction.y+unif(re),ray.direction.z+unif(re)));
     return ray;
 }
 
@@ -31,11 +18,8 @@ Colori RayTracer::calculateReflection(Ray ray, Position p, Object* closest, Envi
     Ray newRay(p, -r);
     Colori ci = closest->computeColor(ray.origin, p, light, false, env->ambient_light);
     Colord cd = Colord(ci.x/255.,ci.y/255.,ci.z/255.);
-    Colori ct = Colori();
-    for(int y = 0; y < 4; ++y) {
-        ct = ct + trace(jitter(newRay), env, closest, depth+1);
-    }
-    ct = ct / 4;
+    Colori ct = trace(newRay, env, closest, depth+1);
+
     return Colori(ct.x*cd.x,ct.y*cd.y,ct.z*cd.z);
 }
 
@@ -79,18 +63,4 @@ Colori RayTracer::trace(Ray ray, Environment* env, Object* current, const int& d
             return closest->computeColor(ray.origin, p, light, blocked, env->ambient_light);
         }
     }
-}
-
-vector<Colori> RayTracer::subdivide(int i, int j, double scale, double angle, double aspectratio, Environment* env) {
-    vector<Colori> colors = vector<Colori>();
-    for(int y = 0; y < scale; ++y) {
-        for(int x = 0; x < scale; ++x) {
-            double first = jitter(i, 1 / scale) + x / scale;
-            double second = jitter(j, 1 / scale) + y / scale;
-            Ray r = computeRay(first, second, angle, aspectratio, env);
-            Colori c = trace(r, env, NULL, 0);
-            colors.push_back(c);
-        }
-    }
-    return colors;
 }

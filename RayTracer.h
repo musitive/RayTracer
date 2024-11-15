@@ -15,11 +15,8 @@ class RayTracer {
         const int MAX_DEPTH = 4;
         Colori calculateReflection(Ray ray, Position p, Object* closest, Environment* env, const int& depth);
     public:
-        double jitter(int i, double scale);
-        Ray jitter(Ray r);
         Ray computeRay(double i, double j, double angle, double aspectratio, Environment* env);
-        Colori trace(Ray ray, Environment* env, Object* current, const int& depth);
-        vector<Colori> subdivide(int i, int j, double scale, double angle, double aspectratio, Environment* env);
+        virtual Colori trace(Ray ray, Environment* env, Object* current, const int& depth);
 };
 
 #endif

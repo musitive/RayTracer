@@ -25,10 +25,13 @@ int main(int argc, char** argv) {
 
     RayTracer* rt = new RayTracer();
     
+// TODO: Refactor this code
+
     for(int j = 0; j < JMAX; ++j) {
         for(int i = 0; i < IMAX; ++i) {
-            vector<Colori> colors = rt->subdivide(i, j, 4, angle, aspectratio, env);
-            fm->addColor(average(colors));
+            Ray r = rt->computeRay(i, j, angle, aspectratio, env);
+            Colori c = rt->trace(r, env, NULL, 0);
+            fm->addColor(c);
         }
     }
     
