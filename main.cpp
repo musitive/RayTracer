@@ -1,10 +1,6 @@
 #include <iostream>
 #include <numeric>
 #include <random>
-#include "FileManager.h"
-#include "Object.h"
-#include "RayTracer.h"
-#include "Environment.h"
 #include "Scene.h"
 
 using namespace std;

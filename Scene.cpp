@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "Camera.h"
 
 Scene::Scene(Environment* env) {
     this->env = env;
@@ -6,13 +7,11 @@ Scene::Scene(Environment* env) {
 }
 
 void Scene::render(FileManager* fm, const string& output_filename) {
-    const int IMAX = env->width, JMAX = env->height;
+    const int IMAX = env->cam.width, JMAX = env->cam.height;
 
     fm->prepOutputFile(output_filename, IMAX, JMAX, 255);
-    double fov = env->fov, aspectratio = IMAX / double(JMAX);
+    double fov = env->cam.fov, aspectratio = IMAX / double(JMAX);
     double angle = calculateAngle(fov);
-    
-// TODO: Refactor this code
 
     for(int j = 0; j < JMAX; ++j) {
         for(int i = 0; i < IMAX; ++i) {

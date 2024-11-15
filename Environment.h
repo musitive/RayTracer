@@ -2,20 +2,14 @@
 #define ENVIRONMENT_H
 
 #include <vector>
-#include <numeric>
-#include <random>
-
 #include "Object.h"
+#include "Camera.h"
 
 using namespace std;
 
 class Environment {
     public:
-        double width, height;
-        Position at;
-        Position from;
-        Position up;
-        double fov = 0;
+        Camera cam;
         Position light_position;
         Colord light_color;
         Colord ambient_light;
@@ -23,10 +17,7 @@ class Environment {
         vector<Object*> env;
 
         Environment() {
-            at = Position();
-            from = Position();
-            up = Position();
-            fov = 0;
+            cam = Camera();
             light_position = Position();
             light_color = Position();
             ambient_light = Position();
@@ -34,7 +25,5 @@ class Environment {
             env = vector<Object*>();
         }
 };
-
-double calculateAngle(double fov);
 
 #endif

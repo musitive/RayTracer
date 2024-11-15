@@ -1,10 +1,10 @@
 #include "RayTracer.h"
 
 Ray RayTracer::computeRay(double i, double j, double angle, double aspectratio, Environment* env) {
-    double xx = (2 * (i * 1/env->width) - 1) * angle * aspectratio;
-    double yy = (1 - 2 * (j * 1/env->height)) * angle;
-    Position look_from = env->from;
-    Position look_at = Position(xx,yy,0) + env->at;
+    double xx = (2 * (i * 1/env->cam.width) - 1) * angle * aspectratio;
+    double yy = (1 - 2 * (j * 1/env->cam.height)) * angle;
+    Position look_from = env->cam.from;
+    Position look_at = Position(xx,yy,0) + env->cam.at;
 
     Ray ray = Ray(look_from, look_at);
     return ray;

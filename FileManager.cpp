@@ -15,11 +15,11 @@ Environment* FileManager::readFile(const string& fileName) {
     Environment* env = new Environment();
 
     input_file.open(fileName, ios::in);
-    input_file >> line_header >> env->width >> line_header >> env->height;
-    input_file >> line_header >> env->at;
-    input_file >> line_header >> env->from;
-    input_file >> line_header >> env->up;
-    input_file >> line_header >> env->fov;
+    input_file >> line_header >> env->cam.width >> line_header >> env->cam.height;
+    input_file >> line_header >> env->cam.at;
+    input_file >> line_header >> env->cam.from;
+    input_file >> line_header >> env->cam.up;
+    input_file >> line_header >> env->cam.fov;
     input_file >> line_header >> env->light_position;
     input_file >> line_header >> env->light_color;
     input_file >> line_header >> env->ambient_light;

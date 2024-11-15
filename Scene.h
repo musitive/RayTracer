@@ -4,6 +4,7 @@
 #include "Environment.h"
 #include "RayTracer.h"
 #include "FileManager.h"
+#include "Camera.h"
 
 class Scene {
     public:
