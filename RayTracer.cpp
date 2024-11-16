@@ -19,19 +19,25 @@ Colori RayTracer::trace(Ray ray, Environment* env, Object* current, const int& d
 
     Position p = Position(numeric_limits<double>::infinity());
     Object* closest = NULL;
+    double previous_length = numeric_limits<double>::infinity();
+    double next_length = numeric_limits<double>::infinity();
 
     for(Object* o: env->env) {
         if (o != current) {
             Position np = o->calculateIntersection(ray);
-            if(length(np - ray.origin) < length(p - ray.origin)) {
+            next_length = length(np - ray.origin);
+            if(next_length < previous_length) {
                 closest = o;
                 p = np;
+                previous_length = next_length;
             }
         }
     }
     
     if (!closest)
         return Colori(env->background.x*255,env->background.y*255,env->background.z*255);
+    else if (closest->getMaterial()->isReflective)
+        return calculateReflection(ray, p, closest, env, depth);
     else {
         bool blocked = false;
         Light light = { env->light_color, env->light_position };
@@ -46,11 +52,6 @@ Colori RayTracer::trace(Ray ray, Environment* env, Object* current, const int& d
                 }
             }
         }
-        if (closest->getMaterial()->isReflective) {
-            return calculateReflection(ray, p, closest, env, depth);
-        }
-        else {
-            return closest->computeColor(ray.origin, p, light, blocked, env->ambient_light);
-        }
+        return closest->computeColor(ray.origin, p, light, blocked, env->ambient_light);
     }
 }

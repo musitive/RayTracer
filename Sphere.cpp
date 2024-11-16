@@ -3,7 +3,7 @@
 
 Sphere::Sphere(Position center, double radius) : center(center), radius(radius) {}
 
-Position Sphere::calculateIntersection(Ray ray, bool culling) {
+Position Sphere::calculateIntersection(const Ray& ray, const bool& culling) {
     // Distance between the center of the sphere and the origin of the ray
     // OC = S_c - r_0
     Position distance_to_origin = this->center - ray.origin;
@@ -15,8 +15,8 @@ Position Sphere::calculateIntersection(Ray ray, bool culling) {
         return MISS;
 
     // d^2 = ||OC||^2 - tca^2
-    double d_squared = dot(distance_to_origin, distance_to_origin) - pow(tca, 2);
-    double radius_squared = pow(radius, 2);
+    double d_squared = dot(distance_to_origin, distance_to_origin) - tca * tca;
+    double radius_squared = radius * radius;
 
     // if d^2 > r^2, the ray misses the sphere
     if (d_squared > radius_squared)

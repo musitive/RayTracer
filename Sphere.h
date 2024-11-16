@@ -13,7 +13,7 @@ class Sphere : public Object {
     public:
         Sphere(Position center, double radius);
 
-        Position calculateIntersection(Ray ray, bool culling=true) override;
+        Position calculateIntersection(const Ray& ray, const bool& culling=true) override;
         Direction computeNormal(Position position) override;
 };
 

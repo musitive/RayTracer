@@ -18,7 +18,7 @@ class Object {
         Material* getMaterial();
 
         virtual Direction computeNormal(Position p) = 0;
-        virtual Position calculateIntersection(Ray ray, bool culling=true) = 0;
+        virtual Position calculateIntersection(const Ray& ray, const bool& culling=true) = 0;
         virtual Colori computeColor(Position from, Position p, Light light, bool blocked, Colord ambient);
 };
 

@@ -5,6 +5,7 @@
 #include "Triangle.h"
 #include "Material.h"
 #include "Vec.h"
+#include <string> 
 
 using namespace std;
 
@@ -119,14 +120,14 @@ Reflective* FileManager::parseReflectiveMaterial() {
 
 void FileManager::prepOutputFile(const string& fileName, const int& w, const int& h, const int& max_color) {
     output_file.open(fileName, ios::out);
-    output_file << "P3" << endl;
-    output_file << "# " << fileName << endl;
-    output_file << w << ' ' << h << endl;
-    output_file << max_color << endl;
+    output_file << "P3" << '\n';
+    output_file << "# " << fileName << '\n';
+    output_file << w << ' ' << h << '\n';
+    output_file << max_color << '\n';
 }
 
 void FileManager::addColor(const Colori& color) {
-    output_file << color << endl;
+    output_file << color << '\n';
 }
 
 void FileManager::closeOutput() {

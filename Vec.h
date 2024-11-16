@@ -81,10 +81,18 @@ Vec3<T> average(vector<Vec3<T>> v) {
     return t / v.size();
 };
 
-double dot(Position& vec1, Position& vec2);
+inline double dot(const Position& vec1, const Position& vec2) {
+    return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
+}
 
-Position cross_product(Position& vec1, Position& vec2);
+inline Position cross_product(const Position& vec1, const Position& vec2) {
+    return Position(vec1.y * vec2.z - vec1.z * vec2.y,
+                    vec1.z * vec2.x - vec1.x * vec2.z,
+                    vec1.x * vec2.y - vec1.y * vec2.x);
+}
 
-Colori bound(const Colord& v, const double min=0, const double max=1);
+inline Colori bound(const Colord& v, const double& min = 0, const double& max = 1) {
+    return Colori(clamp(v.x, min, max)*255, clamp(v.y, min, max)*255, clamp(v.z, min, max)*255);
+}
 
 #endif
