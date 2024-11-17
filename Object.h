@@ -18,8 +18,10 @@ class Object {
         Material* getMaterial();
 
         virtual Direction computeNormal(Position p) = 0;
-        virtual Position calculateIntersection(const Ray& ray, const bool& culling=true) = 0;
+        virtual Position findIntersectPosition(const Ray& ray, const bool& culling=true) const = 0;
         virtual Colord computeColor(Position from, Position p, Light light, bool blocked, Colord ambient);
+
+        bool isBlocking(const Ray& to_light, const Position& light_position, const double& distance);
 };
 
 #endif

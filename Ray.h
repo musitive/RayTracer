@@ -8,6 +8,7 @@ class Ray {
         Position origin;        // r_0
         Direction direction;    // r_d
 
+        Ray() : origin(Position()), direction(Direction(Position())) {}
         Ray(Position eye, Direction s) : origin(eye), direction(s) {}
         Position findPositionOnRay(double t) const {
             return origin + direction * t;

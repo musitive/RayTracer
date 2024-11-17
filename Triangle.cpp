@@ -2,7 +2,7 @@
 
 const double K_EPSILON = .000000001;
 
-Position Triangle::calculateIntersection(const Ray& ray, const bool& culling) {
+Position Triangle::findIntersectPosition(const Ray& ray, const bool& culling) const {
     Position edge_a = v2 - v1;
     Position edge_b = v3 - v1;
 

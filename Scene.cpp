@@ -3,7 +3,7 @@
 
 Scene::Scene(Environment* env) {
     this->env = env;
-    this->rt = new RayTracer();
+    this->rt = new RayTracer(env);
 }
 
 void Scene::render(FileManager* fm, const string& output_filename) {
@@ -14,7 +14,7 @@ void Scene::render(FileManager* fm, const string& output_filename) {
     for(int j = 0; j < JMAX; ++j) {
         for(int i = 0; i < IMAX; ++i) {
             Ray r = env->cam->computeRay(i, j);
-            Colord c = rt->trace(r, env, NULL, 0);
+            Colord c = rt->trace(r, NULL, 0);
             fm->addColor(c);
         }
     }

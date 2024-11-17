@@ -3,7 +3,7 @@
 
 Sphere::Sphere(Position center, double radius) : center(center), radius(radius) {}
 
-Position Sphere::calculateIntersection(const Ray& ray, const bool& culling) {
+Position Sphere::findIntersectPosition(const Ray& ray, const bool& culling) const {
     // Distance between the center of the sphere and the origin of the ray
     // OC = S_c - r_0
     Position distance_to_origin = this->center - ray.origin;
