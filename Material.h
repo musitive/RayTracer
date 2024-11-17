@@ -13,7 +13,7 @@ struct Light {
 class Material {
     public:
         bool isReflective = false;
-        virtual Colori computeColor(const Position& from, const Position& p, const Direction& n, const Light& light, const bool& blocked, const Colord& ambient) = 0;
+        virtual Colord computeColor(const Position& from, const Position& p, const Direction& n, const Light& light, const bool& blocked, const Colord& ambient) = 0;
 };
 
 class Diffuse : public Material {
@@ -23,7 +23,7 @@ class Diffuse : public Material {
         double phong;
     public:
         Diffuse(Colord diffuse, Colord specular, double phong) : diffuse(diffuse), specular(specular), phong(phong) {}
-        Colori computeColor(const Position& from, const Position& p, const Direction& n, const Light& light, const bool& blocked, const Colord& ambient) override {
+        Colord computeColor(const Position& from, const Position& p, const Direction& n, const Light& light, const bool& blocked, const Colord& ambient) override {
 
             Colord d(0);
             Colord ph(0);
@@ -47,7 +47,7 @@ class Reflective : public Material {
         Colord reflective;
     public:
         Reflective(Colord reflective) : reflective(reflective) { isReflective = true; }
-        Colori computeColor(const Position& from, const Position& p, const Direction& n, const Light& light, const bool& blocked, const Colord& ambient) override {
+        Colord computeColor(const Position& from, const Position& p, const Direction& n, const Light& light, const bool& blocked, const Colord& ambient) override {
             return bound(reflective);
         }
 };

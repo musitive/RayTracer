@@ -126,6 +126,11 @@ void FileManager::prepOutputFile(const string& fileName, const int& w, const int
     output_file << max_color << '\n';
 }
 
+void FileManager::addColor(const Colord& color) {
+    Colori c = convert_color_to_int(color);
+    output_file << c << '\n';
+}
+
 void FileManager::addColor(const Colori& color) {
     output_file << color << '\n';
 }

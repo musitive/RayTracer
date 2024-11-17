@@ -25,6 +25,7 @@ class FileManager {
         Reflective* parseReflectiveMaterial();
 
         void prepOutputFile(const string& filename, const int& w, const int& h, const int& max_color);
+        void addColor(const Colord& color);
         void addColor(const Colori& color);
         void closeOutput();
 

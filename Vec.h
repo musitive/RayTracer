@@ -91,8 +91,12 @@ inline Position cross_product(const Position& vec1, const Position& vec2) {
                     vec1.x * vec2.y - vec1.y * vec2.x);
 }
 
-inline Colori bound(const Colord& v, const double& min = 0, const double& max = 1) {
-    return Colori(clamp(v.x, min, max)*255, clamp(v.y, min, max)*255, clamp(v.z, min, max)*255);
+inline Colord bound(const Colord& v, const double& min = 0, const double& max = 1) {
+    return Colord(clamp(v.x, min, max), clamp(v.y, min, max), clamp(v.z, min, max));
+}
+
+inline Colori convert_color_to_int(const Colord& c) {
+    return Colori(int(c.x * 255), int(c.y * 255), int(c.z * 255));
 }
 
 #endif

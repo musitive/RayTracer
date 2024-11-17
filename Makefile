@@ -1,7 +1,7 @@
 all: tracer
 
 tracer:
-	g++ -g -std=c++17 Vec.cpp Object.cpp Sphere.cpp Triangle.cpp Camera.cpp Environment.cpp FileManager.cpp RayTracer.cpp JitterTracer.cpp Scene.cpp main.cpp -o $@
+	g++ -g -std=c++17 Vec.cpp Object.cpp Sphere.cpp Triangle.cpp Camera.cpp Environment.cpp FileManager.cpp RayTracer.cpp Scene.cpp main.cpp -o $@
 
 small_test:
 	./tracer tests/test.env outputs/test.ppm

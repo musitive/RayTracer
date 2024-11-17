@@ -19,7 +19,7 @@ class Object {
 
         virtual Direction computeNormal(Position p) = 0;
         virtual Position calculateIntersection(const Ray& ray, const bool& culling=true) = 0;
-        virtual Colori computeColor(Position from, Position p, Light light, bool blocked, Colord ambient);
+        virtual Colord computeColor(Position from, Position p, Light light, bool blocked, Colord ambient);
 };
 
 #endif
