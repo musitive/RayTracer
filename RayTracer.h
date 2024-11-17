@@ -10,13 +10,19 @@
 
 using namespace std;
 
+struct Intersection {
+    Object* closest;
+    Position p;
+};
+
 class RayTracer {
     public:
         virtual Colord trace(const Ray& ray, Environment* env, Object* current, const int& depth);
 
     private:
         const int MAX_DEPTH = 2;
-        Colord calculateReflection(const Ray& ray, Position p, Object* closest, Environment* env, const int& depth);
+        Colord calculateReflection(const Ray& ray, Intersection closest_intersection, Environment* env, const int& depth);
+        Intersection findClosestIntersection(const Ray& ray, Environment* env, Object* current);
 };
 
 #endif
