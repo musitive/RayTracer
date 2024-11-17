@@ -4,7 +4,7 @@ Colori RayTracer::calculateReflection(Ray ray, Position p, Object* closest, Envi
     Direction n = closest->computeNormal(p);
     double dt = dot(ray.direction, n);
     Direction r = n * dt * 2 - ray.direction;
-    Light light = { env->light_color, env->light_position };
+    Light light = { env->light.color, env->light.position };
     Ray newRay(p, -r);
     Colori ci = closest->computeColor(ray.origin, p, light, false, env->ambient_light);
     Colord cd = Colord(ci.x/255.,ci.y/255.,ci.z/255.);
@@ -40,7 +40,7 @@ Colori RayTracer::trace(Ray ray, Environment* env, Object* current, const int& d
         return calculateReflection(ray, p, closest, env, depth);
     else {
         bool blocked = false;
-        Light light = { env->light_color, env->light_position };
+        Light light = env->light;
         Direction l = light.position - p;
         Ray to_light(p, l);
         double distance = length(light.position - p);

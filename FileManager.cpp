@@ -18,8 +18,8 @@ Environment* FileManager::readFile(const string& fileName) {
     Camera* cam = parseCamera();
 
     env = new Environment(cam);
-    input_file >> line_header >> env->light_position;
-    input_file >> line_header >> env->light_color;
+    input_file >> line_header >> env->light.position;
+    input_file >> line_header >> env->light.color;
     input_file >> line_header >> env->ambient_light;
     input_file >> line_header >> env->background;
 

@@ -10,16 +10,14 @@ using namespace std;
 class Environment {
     public:
         Camera* cam;
-        Position light_position;
-        Colord light_color;
+        Light light;
         Colord ambient_light;
         Colord background;
         vector<Object*> env;
 
         Environment(Camera* cam) {
             this->cam = cam;
-            light_position = Position();
-            light_color = Position();
+            light = Light();
             ambient_light = Position();
             background = Position();
             env = vector<Object*>();
