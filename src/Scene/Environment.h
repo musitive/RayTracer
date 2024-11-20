@@ -2,7 +2,7 @@
 #define ENVIRONMENT_H
 
 #include <vector>
-#include "Object.h"
+#include "AbstractObject.h"
 
 using namespace std;
 
@@ -11,7 +11,7 @@ class Environment {
         Light light;
         Colord ambient_light;
         Colord background;
-        vector<Object*> env;
+        vector<AbstractObject*> env;
 
         Environment();
 };

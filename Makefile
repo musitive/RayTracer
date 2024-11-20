@@ -10,7 +10,7 @@ FILE_MANAGEMENT_DIR = $(SRC_DIR)/FileManagement
 
 # Source files
 SRCFILES = $(MATH_DIR)/Vec.cpp $(MATH_DIR)/Ray.cpp $(MATERIALS_DIR)/Diffuse.cpp $(MATERIALS_DIR)/Reflective.cpp \
-$(OBJECTS_DIR)/Object.cpp $(OBJECTS_DIR)/Sphere.cpp $(OBJECTS_DIR)/Triangle.cpp $(MATH_DIR)/Intersection.cpp \
+$(OBJECTS_DIR)/AbstractObject.cpp $(OBJECTS_DIR)/Sphere.cpp $(OBJECTS_DIR)/Triangle.cpp $(MATH_DIR)/Intersection.cpp \
 $(CAMERA_DIR)/Frame.cpp $(SCENE_DIR)/Environment.cpp $(CAMERA_DIR)/RayTracer.cpp $(CAMERA_DIR)/Camera.cpp \
 $(SCENE_DIR)/Scene.cpp $(FILE_MANAGEMENT_DIR)/FileManager.cpp $(SRC_DIR)/main.cpp
 

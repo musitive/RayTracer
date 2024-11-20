@@ -27,6 +27,6 @@ Colori JitterTracer::subdivide(int i, int j, double scale, Environment* env) {
     return average(colors);
 }
 
-Colori JitterTracer::trace(Ray ray, Environment* env, Object* current, const int& depth) {
+Colori JitterTracer::trace(Ray ray, Environment* env, AbstractObject* current, const int& depth) {
     return RayTracer::trace(ray, env, current, depth);
 }

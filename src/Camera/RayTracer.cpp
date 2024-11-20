@@ -4,7 +4,7 @@ RayTracer::RayTracer(Environment* env) {
     this->env = env;
 }
 
-Colord RayTracer::trace(const Ray& ray, Object* reflected_object, const int& depth) {
+Colord RayTracer::trace(const Ray& ray, AbstractObject* reflected_object, const int& depth) {
     if (depth >= MAX_DEPTH) return Colord(1);
     
     Intersection closest_intersection = findClosestIntersection(ray, reflected_object);
@@ -20,11 +20,11 @@ Colord RayTracer::trace(const Ray& ray, Object* reflected_object, const int& dep
     return color;
 }
 
-Intersection RayTracer::findClosestIntersection(const Ray& ray, Object* reflected_object) {
+Intersection RayTracer::findClosestIntersection(const Ray& ray, AbstractObject* reflected_object) {
     Intersection closest_intersection = Intersection();
     Intersection new_intersection = Intersection();
 
-    for(Object* o: env->env) {
+    for(AbstractObject* o: env->env) {
         if (o == reflected_object) continue;
 
         new_intersection = Intersection(o, ray);
@@ -60,7 +60,7 @@ bool RayTracer::isObjectBlocked(const Intersection& i, const Point3D& light_posi
     double distance = length(light_position - i.getPosition());
     Ray to_light(i.getPosition(), direction_to_light);
 
-    for (Object* o: env->env)
+    for (AbstractObject* o: env->env)
         if (o != i.getObject() && o->isBlocking(to_light, light_position, distance))
             return true;
 

@@ -9,7 +9,7 @@
 const double INF = numeric_limits<double>::infinity();
 const Point3D MISS = Point3D(INF);
 
-class Object {
+class AbstractObject {
     public:
         void setMaterial(IMaterial* material);
         IMaterial* getMaterial();

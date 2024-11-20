@@ -1,5 +1,5 @@
 #include "FileManager.h"
-#include "Object.h"
+#include "AbstractObject.h"
 #include "Vec.h"
 #include "Sphere.h"
 #include "Triangle.h"
@@ -48,7 +48,7 @@ Camera* FileManager::parseCamera() {
 
 void FileManager::parseObjects() {
     string line_header;
-    Object* o;
+    AbstractObject* o;
     IMaterial* m;
 
     input_file >> line_header;
@@ -64,8 +64,8 @@ void FileManager::parseObjects() {
     }
 }
 
-Object* FileManager::parseObject(string line_header) {
-    Object* o;
+AbstractObject* FileManager::parseObject(string line_header) {
+    AbstractObject* o;
 
     if (line_header == "Sphere")
         o = parseSphere();

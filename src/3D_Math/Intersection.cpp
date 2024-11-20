@@ -7,7 +7,7 @@ Intersection::Intersection() {
     distance = numeric_limits<double>::infinity();
 }
 
-Intersection::Intersection(Object* o, const Ray& r) {
+Intersection::Intersection(AbstractObject* o, const Ray& r) {
     this->o = o;
     this->p = o->findIntersectPosition(r);
     this->r = r;
@@ -34,7 +34,7 @@ double Intersection::getDistance() const {
     return distance;
 }
 
-Object* Intersection::getObject() const {
+AbstractObject* Intersection::getObject() const {
     return o;
 }
 

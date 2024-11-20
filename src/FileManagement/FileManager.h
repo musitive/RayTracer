@@ -20,7 +20,7 @@ class FileManager {
         Scene* readFile(const string& filename);
         Camera* parseCamera();
         void parseObjects();
-        Object* parseObject(string line_header);
+        AbstractObject* parseObject(string line_header);
         Sphere* parseSphere();
         Triangle* parseTriangle();
         IMaterial* parseMaterial(string line_header);
