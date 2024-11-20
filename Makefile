@@ -1,12 +1,3 @@
-# test:
-# 	./tracer tests/test.env outputs/test.ppm &
-# 	./tracer tests/SceneII.env outputs/SceneII.ppm &
-# 	./tracer tests/diffuse.env outputs/diffuse.ppm &
-# 	./tracer tests/test2.env outputs/test2.ppm &
-
-# handin:
-# 	tar -czf raytracer.tar *.cpp *.h diffuse.ppm test.ppm SceneII.ppm
-
 # Directories
 SRC_DIR = src
 OBJ_DIR = obj
@@ -34,17 +25,22 @@ LDFLAGS =
 # Program
 TARGET = raytracer
 
+# Rules
 all: $(TARGET)
 
+# Dependencies
 $(TARGET): $(OBJFILES)
 	$(CXX) $(LDFLAGS) -o $@ $^
 
+# Pattern rule
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+# Clean
 clean:
 	rm -f $(OBJFILES) $(TARGET) *~
 
+# Test
 small_test:
 	./raytracer tests/test.env outputs/test.ppm
