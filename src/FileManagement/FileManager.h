@@ -11,13 +11,11 @@
 #include "Reflective.h"
 #include "Scene.h"
 
-using namespace std;
-
 class FileManager {
     public:
         FileManager();
 
-        Scene* readFile(const string& filename);
+        void readFile(const string& filename);
         Camera* parseCamera();
         void parseObjects();
         AbstractObject* parseObject(string line_header);

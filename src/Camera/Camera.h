@@ -8,14 +8,14 @@
 #include "RayTracer.h"
 #include "Frame.h"
 
-using namespace std;
+class Scene;
 
 class Camera {
     public:
         Camera(const int& width, const int& height, const Point3D& at, const Point3D& from,
-                const Point3D& up, const double& fov, Environment* env);
+                const Point3D& up, const double& fov);
 
-        Frame render();
+        Frame* render();
         int getWidth() const;
         int getHeight() const;
 

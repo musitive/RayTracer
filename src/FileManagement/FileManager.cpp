@@ -12,8 +12,8 @@ using namespace std;
 
 FileManager::FileManager() {}
 
-Scene* FileManager::readFile(const string& fileName) {
-    string line_header;
+void FileManager::readFile(const string& fileName) {
+    string line_header = "";
 
     input_file.open(fileName, ios::in);
     env = new Environment();
@@ -28,12 +28,11 @@ Scene* FileManager::readFile(const string& fileName) {
 
     input_file.close();
 
-    Scene* scene = new Scene(env, cam);
-    return scene;
+    Scene::initializeInstance(env, cam);
 }
 
 Camera* FileManager::parseCamera() {
-    string line_header;
+    string line_header = "";
     double width, height, fov;
     Point3D at, from, up;
 
@@ -43,7 +42,7 @@ Camera* FileManager::parseCamera() {
     input_file >> line_header >> up;
     input_file >> line_header >> fov;
 
-    return new Camera(width, height, at, from, up, fov, env);
+    return new Camera(width, height, at, from, up, fov);
 }
 
 void FileManager::parseObjects() {

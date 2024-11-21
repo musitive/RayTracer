@@ -1,6 +1,9 @@
 #include "RayTracer.h"
+#include "Scene.h"
 
-RayTracer::RayTracer(Environment* env) {
+RayTracer::RayTracer() {}
+
+void RayTracer::setEnvironment(Environment* env) {
     this->env = env;
 }
 
@@ -10,9 +13,9 @@ Colord RayTracer::trace(const Ray& ray, AbstractObject* reflected_object, const 
     Intersection closest_intersection = findClosestIntersection(ray, reflected_object);
     Colord color = Colord(1);
 
-    if (!closest_intersection.getObject()) return env->background;
-
-    if (closest_intersection.getObject()->getMaterial()->isReflective)
+    if (!closest_intersection.getObject())
+        color = env->background;
+    else if (closest_intersection.getObject()->getMaterial()->isReflective)
         color = calculateReflection(closest_intersection, depth);
     else
         color = calculateDiffuse(closest_intersection);

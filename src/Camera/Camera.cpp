@@ -1,11 +1,12 @@
 #include "Camera.h"
+#include "Scene.h"
 #include <numeric>
 #include <random>
 
 using namespace std;
 
 Camera::Camera(const int& width, const int& height, const Point3D& at, const Point3D& from,
-                const Point3D& up, const double& fov, Environment* env) {
+                const Point3D& up, const double& fov) {
     this->width = width;
     this->height = height;
     this->at = at;
@@ -13,7 +14,7 @@ Camera::Camera(const int& width, const int& height, const Point3D& at, const Poi
     this->up = up;
     angle = calculateAngle(fov);
     aspect_ratio = static_cast<double>(width) / height;
-    rt = new RayTracer(env);
+    rt = new RayTracer();
 }
 
 Ray Camera::computeRay(double i, double j) {
@@ -32,14 +33,17 @@ double Camera::calculateAngle(double fov) {
     return tan(angle_in_radians / 180.);
 }
 
-Frame Camera::render() {
-    Frame frame = Frame(width, height);
+Frame* Camera::render() {
+    Scene* scene = Scene::getInstance();
+    rt->setEnvironment(scene->getEnvironment());
+
+    Frame* frame = new Frame(width, height);
 
     for(int j = 0; j < height; ++j) {
         for(int i = 0; i < width; ++i) {
             Ray r = computeRay(i, j);
             Colord c = rt->trace(r, NULL, 0);
-            frame.setPixel(Point2D{i, j}, c);
+            frame->setPixel(Point2D{i, j}, c);
         }
     }
 

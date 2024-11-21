@@ -4,16 +4,18 @@
 #include "Vec.h"
 #include "AbstractObject.h"
 #include "Ray.h"
-#include "Environment.h"
 #include "Intersection.h"
+#include "Environment.h"
 #include <numeric>
 #include <random>
 
-using namespace std;
+// Forward declaration
+class Scene;
 
 class RayTracer {
     public:
-        RayTracer(Environment* env);
+        RayTracer();
+        void setEnvironment(Environment* env);
         virtual Colord trace(const Ray& ray, AbstractObject* current, const int& depth);
 
     private:

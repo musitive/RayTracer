@@ -14,10 +14,12 @@ int main(int argc, char** argv) {
     srand(time(0));
 
     FileManager* fm = new FileManager();
-    Scene* scene = fm->readFile(input_filename);
+    fm->readFile(input_filename);
 
-    Frame frame = scene->render();
-    frame.writeToFile(output_filename, 255);
+    Scene* scene = Scene::getInstance();
+
+    Frame* frame = scene->render();
+    frame->writeToFile(output_filename, 255);
 
     return 0;
 }
