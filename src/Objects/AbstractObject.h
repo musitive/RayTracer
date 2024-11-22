@@ -12,9 +12,9 @@ const Point3D MISS = Point3D(INF);
 class AbstractObject {
     public:
         void setMaterial(IMaterial* material);
-        IMaterial* getMaterial();
+        IMaterial* getMaterial() const;
 
-        virtual Direction computeNormal(Point3D p) = 0;
+        virtual Direction computeNormal(const Point3D& p) = 0;
         virtual Point3D findIntersectPosition(const Ray& ray, const bool& culling=true) const = 0;
         virtual Colord computeColor(Point3D from, Point3D p, Light light, bool blocked, Colord ambient);
 

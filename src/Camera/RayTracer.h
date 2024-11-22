@@ -4,27 +4,31 @@
 #include "Vec.h"
 #include "AbstractObject.h"
 #include "Ray.h"
-#include "Intersection.h"
 #include "Environment.h"
 #include <numeric>
 #include <random>
 
-// Forward declaration
-class Scene;
-
 class RayTracer {
     public:
-        RayTracer();
-        void setEnvironment(Environment* env);
-        virtual Colord trace(const Ray& ray, AbstractObject* current, const int& depth);
+        static void setEnvironment(Environment* env);
+        static Colord trace(const Ray& ray, AbstractObject* current, const int& depth);
+
+        class AIntersect; // Forward declaration
+        class MissedIntersection; // Forward declaration
+        class ReflectionIntersect; // Forward declaration
+        class DiffuseIntersect; // Forward declaration
 
     private:
-        const int MAX_DEPTH = 2;
-        Environment* env;
-        Colord calculateReflection(const Intersection& closest_intersection, const int& depth);
-        Colord calculateDiffuse(const Intersection& closest_intersection);
-        Intersection findClosestIntersection(const Ray& ray, AbstractObject* current);
-        bool isObjectBlocked(const Intersection& i, const Point3D& light_position);
+        static const int MAX_DEPTH = 2;
+        static Environment* env;
+
+        static AIntersect* findClosestIntersection(const Ray& ray, AbstractObject* current);
+
+        class IntersectionFactory {
+            public:
+                static AIntersect* create(AbstractObject* o, const Ray& r);
+                static AIntersect* createMissed();
+        };
 };
 
 #endif

@@ -8,7 +8,7 @@ void AbstractObject::setMaterial(IMaterial* material) {
     this->material = material;
 }
 
-IMaterial* AbstractObject::getMaterial() {
+IMaterial* AbstractObject::getMaterial() const {
     return this->material;
 }
 

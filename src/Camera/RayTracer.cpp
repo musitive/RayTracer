@@ -1,71 +1,49 @@
 #include "RayTracer.h"
 #include "Scene.h"
+#include "Intersection.h"
 
-RayTracer::RayTracer() {}
+Environment* RayTracer::env = nullptr;
 
 void RayTracer::setEnvironment(Environment* env) {
-    this->env = env;
+    RayTracer::env = env;
 }
 
 Colord RayTracer::trace(const Ray& ray, AbstractObject* reflected_object, const int& depth) {
     if (depth >= MAX_DEPTH) return Colord(1);
     
-    Intersection closest_intersection = findClosestIntersection(ray, reflected_object);
-    Colord color = Colord(1);
+    AIntersect* i = findClosestIntersection(ray, reflected_object);
 
-    if (!closest_intersection.getObject())
-        color = env->background;
-    else if (closest_intersection.getObject()->getMaterial()->isReflective)
-        color = calculateReflection(closest_intersection, depth);
-    else
-        color = calculateDiffuse(closest_intersection);
-
-    return color;
+    return i->computeColor(env->light, env->ambient_light, depth);
 }
 
-Intersection RayTracer::findClosestIntersection(const Ray& ray, AbstractObject* reflected_object) {
-    Intersection closest_intersection = Intersection();
-    Intersection new_intersection = Intersection();
+RayTracer::AIntersect* RayTracer::findClosestIntersection(const Ray& ray, AbstractObject* reflected_object) {
+    AIntersect* closest = IntersectionFactory::createMissed();
+    AIntersect* next;
 
     for(AbstractObject* o: env->env) {
         if (o == reflected_object) continue;
 
-        new_intersection = Intersection(o, ray);
-
-        if (new_intersection.isCloserThan(closest_intersection))
-            closest_intersection = new_intersection;
+        next = IntersectionFactory::create(o, ray);
+        if (next->isCloserThan(closest)) closest = next;
     }
 
-    return closest_intersection;
+    return closest;
 }
 
-Colord RayTracer::calculateReflection(const Intersection& i, const int& depth) {
-    Direction normal = i.computeNormal();
-    Direction ray_direction = i.getRay().direction;
-    double dt = dot(ray_direction, normal);
-    Direction reflection_direction = normal * (dt * 2) - ray_direction;
-    Ray reflection(i.getPosition(), -reflection_direction);
+RayTracer::AIntersect* RayTracer::IntersectionFactory::create(AbstractObject* o, const Ray& r) {
+    AIntersect* i;
 
-    Colord cd = i.computeColor(env->light, false, env->ambient_light);
-    Colord ct = trace(reflection, i.getObject(), depth+1);
+    Point3D p = o->findIntersectPosition(r);
 
-    return ct * cd;
+    if (p == MISS) i = new MissedIntersection(o, r);
+    else if (o->getMaterial()->isReflective)
+        i = new ReflectionIntersect(o, r, p);
+    else
+        i = new DiffuseIntersect(o, r, p);
+
+    return i;
 }
 
-Colord RayTracer::calculateDiffuse(const Intersection& i) {
-    bool blocked = isObjectBlocked(i, env->light.position);
-    
-    return i.getObject()->computeColor(i.getRay().origin, i.getPosition(), env->light, blocked, env->ambient_light);
-}
-
-bool RayTracer::isObjectBlocked(const Intersection& i, const Point3D& light_position) {
-    Direction direction_to_light = light_position - i.getPosition();
-    double distance = length(light_position - i.getPosition());
-    Ray to_light(i.getPosition(), direction_to_light);
-
-    for (AbstractObject* o: env->env)
-        if (o != i.getObject() && o->isBlocking(to_light, light_position, distance))
-            return true;
-
-    return false;
+RayTracer::AIntersect* RayTracer::IntersectionFactory::createMissed() {
+    return new MissedIntersection(nullptr, Ray(Point3D(0), Direction(0)));
 }

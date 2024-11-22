@@ -2,7 +2,8 @@
 
 const double K_EPSILON = .000000001;
 
-Triangle::Triangle(Point3D v1, Point3D v2, Point3D v3) : v1(v1), v2(v2), v3(v3) {}
+Triangle::Triangle(Point3D v1, Point3D v2, Point3D v3)
+    : v1(v1), v2(v2), v3(v3), normal(cross_product(v2 - v1, v3 - v1)) {}
 
 Point3D Triangle::findIntersectPosition(const Ray& ray, const bool& culling) const {
     Point3D edge_a = v2 - v1;
@@ -33,8 +34,6 @@ Point3D Triangle::findIntersectPosition(const Ray& ray, const bool& culling) con
     return ray.findPositionOnRay(t); 
 }
 
-Direction Triangle::computeNormal(Point3D p) {
-    Direction a = v2 - v1;
-    Direction b = v3 - v1;
-    return cross_product(a, b);
+Direction Triangle::computeNormal(const Point3D& p) {
+    return normal;
 }
