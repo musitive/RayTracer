@@ -10,13 +10,13 @@ struct Point2D {
 
 class Frame {
     public:
-        Frame(const int& w, const int& h);
+        int width, height;
 
+        Frame(const int& w, const int& h);
         void setPixel(const Point2D& setPixel, const Colord& color);
-        void writeToFile(const string& filename, const int& max_color);
+        Colord getPixel(const Point2D& getPixel) const;
 
     private:
-        int width, height;
         Colord** pixels;
 };
 

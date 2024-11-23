@@ -33,9 +33,13 @@
 
 # Folders
 .vscode/
+.VSCodeCounter/
 build/
 obj/
 outputs/
 
 # PPM image files
 *.ppm
+
+#Program
+raytracer

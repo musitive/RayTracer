@@ -3,7 +3,8 @@
 #include <random>
 #include "Scene.h"
 #include "Frame.h"
-#include "FileManager.h"
+#include "SceneLoader.h"
+#include "PPM.h"
 
 using namespace std;
 
@@ -13,13 +14,12 @@ int main(int argc, char** argv) {
 
     srand(time(0));
 
-    FileManager* fm = new FileManager();
-    fm->readFile(input_filename);
+    SceneLoader::loadScene(input_filename);
 
     Scene* scene = Scene::getInstance();
-
     Frame* frame = scene->render();
-    frame->writeToFile(output_filename, 255);
+
+    PPM::writeToFile(output_filename, frame, 255);
 
     return 0;
 }

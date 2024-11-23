@@ -64,7 +64,11 @@
         "typeinfo": "cpp",
         "unordered_map": "cpp",
         "utility": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "__verbose_abort": "cpp",
+        "complex": "cpp",
+        "print": "cpp",
+        "sstream": "cpp"
     },
     "lldb-dap.executable-path": "/usr/local/opt/lldpd/sbin/lldpd"
 }

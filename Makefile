@@ -12,7 +12,7 @@ FILE_MANAGEMENT_DIR = $(SRC_DIR)/FileManagement
 SRCFILES = $(MATH_DIR)/Vec.cpp $(MATH_DIR)/Ray.cpp $(MATERIALS_DIR)/Diffuse.cpp $(MATERIALS_DIR)/Reflective.cpp \
 $(OBJECTS_DIR)/AbstractObject.cpp $(OBJECTS_DIR)/Sphere.cpp $(OBJECTS_DIR)/Triangle.cpp \
 $(CAMERA_DIR)/Frame.cpp $(SCENE_DIR)/Environment.cpp $(CAMERA_DIR)/RayTracer.cpp $(CAMERA_DIR)/Intersection.cpp $(CAMERA_DIR)/Camera.cpp \
-$(SCENE_DIR)/Scene.cpp $(FILE_MANAGEMENT_DIR)/FileManager.cpp $(SRC_DIR)/main.cpp
+$(SCENE_DIR)/Scene.cpp $(FILE_MANAGEMENT_DIR)/SceneLoader.cpp $(FILE_MANAGEMENT_DIR)/PPM.cpp $(SRC_DIR)/main.cpp
 
 # Object files
 OBJFILES = $(SRCFILES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)

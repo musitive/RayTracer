@@ -1,18 +1,10 @@
-#include "FileManager.h"
-#include "AbstractObject.h"
-#include "Vec.h"
-#include "Sphere.h"
-#include "Triangle.h"
-#include "IMaterial.h"
-#include "Vec.h"
+#include "SceneLoader.h"
 #include "Scene.h"
-#include <string> 
 
-using namespace std;
+std::ifstream SceneLoader::input_file = std::ifstream();
+Environment* SceneLoader::env = nullptr;
 
-FileManager::FileManager() {}
-
-void FileManager::readFile(const string& fileName) {
+void SceneLoader::loadScene(const string& fileName) {
     string line_header = "";
 
     input_file.open(fileName, ios::in);
@@ -31,7 +23,7 @@ void FileManager::readFile(const string& fileName) {
     Scene::initializeInstance(env, cam);
 }
 
-Camera* FileManager::parseCamera() {
+Camera* SceneLoader::parseCamera() {
     string line_header = "";
     double width, height, fov;
     Point3D at, from, up;
@@ -45,7 +37,7 @@ Camera* FileManager::parseCamera() {
     return new Camera(width, height, at, from, up, fov);
 }
 
-void FileManager::parseObjects() {
+void SceneLoader::parseObjects() {
     string line_header;
     AbstractObject* o;
     IMaterial* m;
@@ -63,7 +55,7 @@ void FileManager::parseObjects() {
     }
 }
 
-AbstractObject* FileManager::parseObject(string line_header) {
+AbstractObject* SceneLoader::parseObject(string line_header) {
     AbstractObject* o;
 
     if (line_header == "Sphere")
@@ -74,7 +66,7 @@ AbstractObject* FileManager::parseObject(string line_header) {
     return o;
 }
 
-Sphere* FileManager::parseSphere() {
+Sphere* SceneLoader::parseSphere() {
     string line_header;
     Point3D c = Point3D();
     double rad = 0;
@@ -83,7 +75,7 @@ Sphere* FileManager::parseSphere() {
     return new Sphere(c, rad);
 }
 
-Triangle* FileManager::parseTriangle() {
+Triangle* SceneLoader::parseTriangle() {
     Point3D v1, v2, v3;
     input_file >> v1;
     input_file >> v2;
@@ -91,7 +83,7 @@ Triangle* FileManager::parseTriangle() {
     return new Triangle(v1, v2, v3);
 }
 
-IMaterial* FileManager::parseMaterial(string line_header) {
+IMaterial* SceneLoader::parseMaterial(string line_header) {
     IMaterial* m;
 
     if (line_header == "Diffuse") 
@@ -102,7 +94,7 @@ IMaterial* FileManager::parseMaterial(string line_header) {
     return m;
 }
 
-Diffuse* FileManager::parseDiffuseMaterial() {
+Diffuse* SceneLoader::parseDiffuseMaterial() {
     string line_header;
     Colord diffuse = Colord();
     Colord specular = Colord();
@@ -113,30 +105,9 @@ Diffuse* FileManager::parseDiffuseMaterial() {
     return new Diffuse(diffuse, specular, phong);
 }
 
-Reflective* FileManager::parseReflectiveMaterial() {
+Reflective* SceneLoader::parseReflectiveMaterial() {
     string line_header;
     Colord reflective = Colord();
     input_file >> reflective;
     return new Reflective(reflective);
-}
-
-void FileManager::prepOutputFile(const string& fileName, const int& w, const int& h, const int& max_color) {
-    output_file.open(fileName, ios::out);
-    output_file << "P3" << '\n';
-    output_file << "# " << fileName << '\n';
-    output_file << w << ' ' << h << '\n';
-    output_file << max_color << '\n';
-}
-
-void FileManager::addColor(const Colord& color) {
-    Colori c = convert_color_to_int(color);
-    output_file << c << '\n';
-}
-
-void FileManager::addColor(const Colori& color) {
-    output_file << color << '\n';
-}
-
-void FileManager::closeOutput() {
-    output_file.close();
 }
