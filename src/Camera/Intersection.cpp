@@ -43,9 +43,9 @@ Direction RayTracer::AIntersect::computeNormal() const {
 //     return o->computeColor(r.origin, p, light, blocked, ambient_light);
 // }
 
-RayTracer::MissedIntersection::MissedIntersection(AbstractObject* o, const Ray& r) : AIntersect(o, r, MISS, INF) {}
+RayTracer::MissedIntersect::MissedIntersect(AbstractObject* o, const Ray& r) : AIntersect(o, r, MISS, INF) {}
 
-Colord RayTracer::MissedIntersection::computeColor(const Light& light, const Colord& ambient_light, const int& depth) const {
+Colord RayTracer::MissedIntersect::computeColor(const Light& light, const Colord& ambient_light, const int& depth) const {
     return env->background;
 }
 

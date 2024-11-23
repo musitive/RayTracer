@@ -13,10 +13,11 @@ class RayTracer {
         static void setEnvironment(Environment* env);
         static Colord trace(const Ray& ray, AbstractObject* current, const int& depth);
 
-        class AIntersect; // Forward declaration
-        class MissedIntersection; // Forward declaration
-        class ReflectionIntersect; // Forward declaration
-        class DiffuseIntersect; // Forward declaration
+        // Forward declarations
+        class AIntersect;
+        class MissedIntersect;
+        class ReflectionIntersect;
+        class DiffuseIntersect;
 
     private:
         static const int MAX_DEPTH = 2;

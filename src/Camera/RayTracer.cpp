@@ -35,7 +35,7 @@ RayTracer::AIntersect* RayTracer::IntersectionFactory::create(AbstractObject* o,
 
     Point3D p = o->findIntersectPosition(r);
 
-    if (p == MISS) i = new MissedIntersection(o, r);
+    if (p == MISS) i = new MissedIntersect(o, r);
     else if (o->getMaterial()->isReflective)
         i = new ReflectionIntersect(o, r, p);
     else
@@ -45,5 +45,5 @@ RayTracer::AIntersect* RayTracer::IntersectionFactory::create(AbstractObject* o,
 }
 
 RayTracer::AIntersect* RayTracer::IntersectionFactory::createMissed() {
-    return new MissedIntersection(nullptr, Ray(Point3D(0), Direction(0)));
+    return new MissedIntersect(nullptr, Ray(Point3D(0), Direction(0)));
 }

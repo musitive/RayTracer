@@ -25,9 +25,9 @@ class RayTracer::AIntersect {
         Environment* env;
 };
 
-class RayTracer::MissedIntersection : public RayTracer::AIntersect {
+class RayTracer::MissedIntersect : public RayTracer::AIntersect {
     public:
-        MissedIntersection(AbstractObject* o, const Ray& r);
+        MissedIntersect(AbstractObject* o, const Ray& r);
         Colord computeColor(const Light& light, const Colord& ambient_light, const int& depth) const override;
 };
 
