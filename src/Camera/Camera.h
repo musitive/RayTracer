@@ -19,14 +19,17 @@ class Camera {
         int getWidth() const;
         int getHeight() const;
 
+    protected:
+        RayTracer* rt;
+        Ray computeRay(double i, double j);
+
     private:
         int width, height;
         double aspect_ratio, angle;
         Point3D at, from, up;
-        RayTracer* rt;
 
         double calculateAngle(double fov);
-        Ray computeRay(double i, double j);
+        virtual Colord computerColorAtPixel(int i, int j);
 };
 
 #endif

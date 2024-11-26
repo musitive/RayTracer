@@ -79,6 +79,8 @@ class Direction : public Point3D {
         Direction(Point3D d);
 };
 
+typedef Point3D Vector3D;
+
 template<typename T>
 Vec3<T> average(vector<Vec3<T>> v) {
     Vec3<T> t = Vec3<T>();
@@ -107,6 +109,14 @@ inline Colord bound(const Colord& v, const double& min = 0, const double& max = 
 
 inline Colori convert_color_to_int(const Colord& c) {
     return Colori(int(c.x * 255), int(c.y * 255), int(c.z * 255));
+}
+
+inline double square(const double& x) {
+    return x * x;
+}
+
+inline double square(const Vector3D& a) {
+    return dot(a, a);
 }
 
 #endif

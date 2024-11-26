@@ -1,5 +1,6 @@
 #include "SceneLoader.h"
 #include "Scene.h"
+#include "AntiAliasCam.h"
 
 std::ifstream SceneLoader::input_file = std::ifstream();
 Environment* SceneLoader::env = nullptr;
@@ -34,7 +35,7 @@ Camera* SceneLoader::parseCamera() {
     input_file >> line_header >> up;
     input_file >> line_header >> fov;
 
-    return new Camera(width, height, at, from, up, fov);
+    return new AntiAliasCam(width, height, at, from, up, fov, 4);
 }
 
 void SceneLoader::parseObjects() {

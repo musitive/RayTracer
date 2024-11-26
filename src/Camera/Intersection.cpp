@@ -5,7 +5,7 @@ RayTracer::AIntersect::AIntersect(AbstractObject* o, const Ray& r) {
     env = Scene::getInstance()->getEnvironment();
     this->o = o;
     this->r = r;
-    this->p = o->findIntersectPosition(r);
+    this->p = o->findIntersection(r);
     distance = findDistanceFromPoint(r.origin);
 }
 
@@ -22,7 +22,7 @@ RayTracer::AIntersect::AIntersect(AbstractObject* o, const Ray& r, const Point3D
     this->o = o;
     this->r = r;
     this->p = p;
-    // this->p = o->findIntersectPosition(r);
+    // this->p = o->findIntersection(r);
     this->distance = distance;
     // distance = findDistanceFromPoint(r.origin);
 }

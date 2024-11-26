@@ -68,7 +68,8 @@
         "__verbose_abort": "cpp",
         "complex": "cpp",
         "print": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "queue": "cpp"
     },
     "lldb-dap.executable-path": "/usr/local/opt/lldpd/sbin/lldpd"
 }

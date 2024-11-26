@@ -33,7 +33,7 @@ RayTracer::AIntersect* RayTracer::findClosestIntersection(const Ray& ray, Abstra
 RayTracer::AIntersect* RayTracer::IntersectionFactory::create(AbstractObject* o, const Ray& r) {
     AIntersect* i;
 
-    Point3D p = o->findIntersectPosition(r);
+    Point3D p = o->findIntersection(r);
 
     if (p == MISS) i = new MissedIntersect(o, r);
     else if (o->getMaterial()->isReflective)

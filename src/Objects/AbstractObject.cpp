@@ -19,5 +19,5 @@ Colord AbstractObject::computeColor(Point3D from, Point3D p, Light light, bool b
 }
 
 bool AbstractObject::isBlocking(const Ray& to_light, const Point3D& light_position, const double& distance) {
-    return length(light_position - findIntersectPosition(to_light, false)) < distance;
+    return length(light_position - findIntersection(to_light, false)) < distance;
 }

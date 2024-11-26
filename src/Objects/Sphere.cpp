@@ -3,37 +3,32 @@
 
 Sphere::Sphere(Point3D center, double radius) : center(center), radius(radius) {}
 
-Point3D Sphere::findIntersectPosition(const Ray& ray, const bool& culling) const {
+Point3D Sphere::findIntersection(const Ray& ray, const bool& culling) const {
     // Distance between the center of the sphere and the origin of the ray
     // OC = S_c - r_0
-    Point3D distance_to_origin = this->center - ray.origin;
+    Vector3D to_origin = center - ray.origin;
 
     // tca = OC . r_d
-    double tca = dot(distance_to_origin, ray.direction);
+    double projection_length = dot(to_origin, ray.direction);
 
-    if (tca < 0)
-        return MISS;
+    // if tca < 0, the projection of OC onto the ray is behind the origin
+    if (projection_length < 0) return MISS;
 
-    // d^2 = ||OC||^2 - tca^2
-    double d_squared = dot(distance_to_origin, distance_to_origin) - tca * tca;
-    double radius_squared = radius * radius;
+    // d^2 = ||OC||^2 - r_d^2
+    double distance_squared = square(to_origin) - square(projection_length);
+    double radius_squared = square(radius); // r^2
 
     // if d^2 > r^2, the ray misses the sphere
-    if (d_squared > radius_squared)
-        return MISS;
+    if (distance_squared > radius_squared) return MISS;
 
     // thc = sqrt(r^2 - d^2)
-    double thc = sqrt(radius_squared - d_squared);
+    double half_chord_length = sqrt(radius_squared - distance_squared);
 
-    // if the origin of the ray is outside of the sphere
-    double root = tca - thc;
+    // t0 = tca - thc
+    double root = projection_length - half_chord_length;
 
-    // else use the positive root
-    // root = tca + thc;
-
-    Point3D intersection = ray.findPositionOnRay(root);
-
-    return intersection;
+    // the root exists if the ray intersects the sphere
+    return ray.findPoint(root);
 }
 
 Direction Sphere::computeNormal(const Point3D& position) {

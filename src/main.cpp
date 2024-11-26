@@ -6,8 +6,6 @@
 #include "SceneLoader.h"
 #include "PPM.h"
 
-using namespace std;
-
 int main(int argc, char** argv) {
     char* input_filename = argv[1];
     char* output_filename = argv[2];

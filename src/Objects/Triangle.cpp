@@ -2,36 +2,56 @@
 
 const double K_EPSILON = .000000001;
 
-Triangle::Triangle(Point3D v1, Point3D v2, Point3D v3)
-    : v1(v1), v2(v2), v3(v3), normal(cross_product(v2 - v1, v3 - v1)) {}
+Triangle::Triangle(Point3D a, Point3D b, Point3D c)
+    : v1(a), v2(b), v3(c), edge1(b - a), edge2(c - a), normal(cross_product(edge1, edge2)) {}
 
-Point3D Triangle::findIntersectPosition(const Ray& ray, const bool& culling) const {
-    Point3D edge_a = v2 - v1;
-    Point3D edge_b = v3 - v1;
+// Moller-Trumbore algorithm
+Point3D Triangle::findIntersection(const Ray& ray, const bool& culling) const {
+    // Cramer's rule
+    // P = D x E2
+    Vector3D P = cross_product(ray.direction, edge2);
 
-    Point3D pvec = cross_product(ray.direction, edge_b);
+    // det = E1 . P
+    float determinant = dot(edge1, P);
 
-    float det = dot(edge_a, pvec);
+    if (culling && isParallel(determinant)) return MISS;
 
-    if (culling && det < K_EPSILON) return MISS;
+    // division is expensive, so do it once
+    float inverse_determinant = 1 / determinant;
 
-    float invDet = 1 / det;
+    // T = O - V1
+    Vector3D T = ray.origin - v1;
 
-    Point3D tvec = ray.origin - v1;
+    // u = T . P / det
+    Barycentric u = computeBarycentricCoordinate(T, P, inverse_determinant);
+    if (isOutsideTriangle(u)) return MISS;
 
-    double u = dot(tvec, pvec) * invDet;
+    // Q = T x E1
+    Vector3D Q = cross_product(T, edge1);
 
-    if (u < 0 || u > 1) return MISS;
- 
-    Point3D qvec = cross_product(tvec, edge_a); 
+    // v = D . Q / det
+    Barycentric v = computeBarycentricCoordinate(ray.direction, Q, inverse_determinant);
+    if (isOutsideTriangle(u, v)) return MISS;
 
-    double v = dot(ray.direction, qvec) * invDet; 
+    // t = E2 . Q / det
+    double intersection_distance = dot(edge2, Q) * inverse_determinant;
+    return ray.findPoint(intersection_distance);
+}
 
-    if (v < 0 || u + v > 1) return MISS; 
- 
-    double t = dot(edge_b, qvec) * invDet; 
- 
-    return ray.findPositionOnRay(t); 
+double Triangle::computeBarycentricCoordinate(const Vector3D& a, const Vector3D& b, const double& inverse_determinant) const {
+    return dot(a, b) * inverse_determinant;
+}
+
+bool Triangle::isParallel(const float& determinant) const {
+    return determinant < K_EPSILON;
+}
+
+bool Triangle::isOutsideTriangle(const Barycentric& u) const {
+    return u < 0 || u > 1;
+}
+
+bool Triangle::isOutsideTriangle(const Barycentric& u, const Barycentric& v) const {
+    return v < 0 || u + v > 1;
 }
 
 Direction Triangle::computeNormal(const Point3D& p) {
