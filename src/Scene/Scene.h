@@ -29,6 +29,10 @@ class Scene {
             return instance->env;
         }
 
+        static Colord getAmbientLightColor() {
+            return instance->env->background;
+        }
+
         Frame* render();
         int getCameraWidth() const;
         int getCameraHeight() const;

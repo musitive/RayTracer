@@ -64,9 +64,9 @@ Colord RayTracer::ReflectionIntersect::computeColor(const Light& light, const in
 RayTracer::DiffuseIntersect::DiffuseIntersect(AbstractObject* o, const Ray& r, const Point3D& p) : AbstractIntersect(o, r, p) {}
 
 Colord RayTracer::DiffuseIntersect::computeColor(const Light& light, const int& depth) const {
-    bool blocked = isBlocked(env->light.position);
+    bool blocked = isBlocked(light.position);
     
-    return o->computeColor(r.origin, p, env->light, blocked);
+    return o->computeColor(r.origin, p, light, blocked);
 }
 
 bool RayTracer::DiffuseIntersect::isBlocked(const Point3D& light_position) const {
