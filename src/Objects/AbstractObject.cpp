@@ -12,10 +12,10 @@ IMaterial* AbstractObject::getMaterial() const {
     return this->material;
 }
 
-Colord AbstractObject::computeColor(Point3D from, Point3D p, Light light, bool blocked, Colord ambient) {
+Colord AbstractObject::computeColor(Point3D from, Point3D p, Light light, bool blocked) {
     Direction normal = computeNormal(p);
 
-    return material->computeColor(from, p, normal, light, blocked, ambient);
+    return material->computeColor(from, p, normal, light, blocked);
 }
 
 bool AbstractObject::isBlocking(const Ray& to_light, const Point3D& light_position, const double& distance) {

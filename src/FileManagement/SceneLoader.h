@@ -15,6 +15,7 @@
 class SceneLoader {
     public:
         static void loadScene(const std::string& fileName);
+        static void unloadScene();
 
     private:
         static std::ifstream input_file;

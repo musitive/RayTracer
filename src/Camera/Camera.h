@@ -14,6 +14,7 @@ class Camera {
     public:
         Camera(const int& width, const int& height, const Point3D& at, const Point3D& from,
                 const Point3D& up, const double& fov);
+        virtual ~Camera();
 
         Frame* render();
         int getWidth() const;

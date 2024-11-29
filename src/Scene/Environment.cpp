@@ -6,3 +6,9 @@ Environment::Environment()  {
     background = Point3D();
     env = vector<AbstractObject*>();
 }
+
+Environment::~Environment() {
+    for (AbstractObject* o : env) {
+        delete o;
+    }
+}

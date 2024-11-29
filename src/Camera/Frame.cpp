@@ -12,6 +12,14 @@ Frame::Frame(const int& w, const int& h) {
     }
 }
 
+Frame::~Frame() {
+    for (int i = 0; i < height; i++) {
+        delete[] pixels[i];
+    }
+
+    delete[] pixels;
+}
+
 void Frame::setPixel(const Point2D& p, const Colord& color) {
     pixels[p.y][p.x] = color;
 }

@@ -14,6 +14,13 @@ class Scene {
             return instance;
         }
 
+        static void destroyInstance() {
+            if (instance) {
+                delete instance;
+                instance = nullptr;
+            }
+        }
+
         static Scene* getInstance() {
             return instance;
         }
@@ -34,5 +41,6 @@ class Scene {
         static Scene* instance;
 
         Scene(Environment* env, Camera* cam);
+        ~Scene();
 };
 #endif

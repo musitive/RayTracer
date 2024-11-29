@@ -14,6 +14,7 @@ class Environment {
         vector<AbstractObject*> env;
 
         Environment();
+        ~Environment();
 };
 
 #endif

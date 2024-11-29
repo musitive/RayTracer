@@ -25,3 +25,8 @@ int Scene::getCameraHeight() const {
 Environment* Scene::getEnvironment() const {
     return env;
 }
+
+Scene::~Scene() {
+    delete env;
+    delete cam;
+}

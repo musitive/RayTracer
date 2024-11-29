@@ -11,7 +11,7 @@ struct Light {
 class IMaterial {
     public:
         bool isReflective = false;
-        virtual Colord computeColor(const Point3D& from, const Point3D& p, const Direction& n, const Light& light, const bool& blocked, const Colord& ambient) = 0;
+        virtual Colord computeColor(const Point3D& from, const Point3D& p, const Direction& n, const Light& light, const bool& blocked) = 0;
 };
 
 #endif

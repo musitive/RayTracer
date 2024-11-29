@@ -6,7 +6,7 @@
 class Reflective : public IMaterial {
     public:
         Reflective(Colord reflective);
-        Colord computeColor(const Point3D& from, const Point3D& p, const Direction& n, const Light& light, const bool& blocked, const Colord& ambient) override;
+        Colord computeColor(const Point3D& from, const Point3D& p, const Direction& n, const Light& light, const bool& blocked) override;
 
     public:
         Colord reflective;

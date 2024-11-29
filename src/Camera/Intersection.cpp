@@ -1,7 +1,7 @@
 #include "Intersection.h"
 #include "Scene.h"
 
-RayTracer::AIntersect::AIntersect(AbstractObject* o, const Ray& r) {
+RayTracer::AbstractIntersect::AbstractIntersect(AbstractObject* o, const Ray& r) {
     env = Scene::getInstance()->getEnvironment();
     this->o = o;
     this->r = r;
@@ -9,7 +9,7 @@ RayTracer::AIntersect::AIntersect(AbstractObject* o, const Ray& r) {
     distance = findDistanceFromPoint(r.origin);
 }
 
-RayTracer::AIntersect::AIntersect(AbstractObject* o, const Ray& r, const Point3D& p) {
+RayTracer::AbstractIntersect::AbstractIntersect(AbstractObject* o, const Ray& r, const Point3D& p) {
     env = Scene::getInstance()->getEnvironment();
     this->o = o;
     this->r = r;
@@ -17,7 +17,7 @@ RayTracer::AIntersect::AIntersect(AbstractObject* o, const Ray& r, const Point3D
     distance = findDistanceFromPoint(r.origin);
 }
 
-RayTracer::AIntersect::AIntersect(AbstractObject* o, const Ray& r, const Point3D& p, const double& distance) {
+RayTracer::AbstractIntersect::AbstractIntersect(AbstractObject* o, const Ray& r, const Point3D& p, const double& distance) {
     env = Scene::getInstance()->getEnvironment();
     this->o = o;
     this->r = r;
@@ -27,48 +27,46 @@ RayTracer::AIntersect::AIntersect(AbstractObject* o, const Ray& r, const Point3D
     // distance = findDistanceFromPoint(r.origin);
 }
 
-double RayTracer::AIntersect::findDistanceFromPoint(const Point3D& p) const {
+RayTracer::AbstractIntersect::~AbstractIntersect() {}
+
+double RayTracer::AbstractIntersect::findDistanceFromPoint(const Point3D& p) const {
     return length(this->p - p);
 }
 
-bool RayTracer::AIntersect::isCloserThan(const AIntersect* i) const {
+bool RayTracer::AbstractIntersect::isCloserThan(const AbstractIntersect* i) const {
     return distance < i->distance;
 }
 
-Direction RayTracer::AIntersect::computeNormal() const {
+Direction RayTracer::AbstractIntersect::computeNormal() const {
     return o->computeNormal(p);
 }
 
-// Colord RayTracer::AbstractIntersection::computeColor(const Light& light, const bool& blocked, const Colord& ambient_light) const {
-//     return o->computeColor(r.origin, p, light, blocked, ambient_light);
-// }
+RayTracer::MissedIntersect::MissedIntersect(AbstractObject* o, const Ray& r) : AbstractIntersect(o, r, MISS, INF) {}
 
-RayTracer::MissedIntersect::MissedIntersect(AbstractObject* o, const Ray& r) : AIntersect(o, r, MISS, INF) {}
-
-Colord RayTracer::MissedIntersect::computeColor(const Light& light, const Colord& ambient_light, const int& depth) const {
+Colord RayTracer::MissedIntersect::computeColor(const Light& light, const int& depth) const {
     return env->background;
 }
 
-RayTracer::ReflectionIntersect::ReflectionIntersect(AbstractObject* o, const Ray& r, const Point3D& p) : AIntersect(o, r, p) {}
+RayTracer::ReflectionIntersect::ReflectionIntersect(AbstractObject* o, const Ray& r, const Point3D& p) : AbstractIntersect(o, r, p) {}
 
-Colord RayTracer::ReflectionIntersect::computeColor(const Light& light, const Colord& ambient_light, const int& depth) const {
+Colord RayTracer::ReflectionIntersect::computeColor(const Light& light, const int& depth) const {
     Direction normal = computeNormal();
     double dt = dot(r.direction, normal);
     Direction reflection_direction = normal * (dt * 2) - r.direction;
     Ray reflection(p, -reflection_direction);
 
-    Colord cd = o->computeColor(r.origin, p, light, false, ambient_light);
+    Colord cd = o->computeColor(r.origin, p, light, false);
     Colord ct = RayTracer::trace(reflection, o, depth+1);
 
     return ct * cd;
 }
 
-RayTracer::DiffuseIntersect::DiffuseIntersect(AbstractObject* o, const Ray& r, const Point3D& p) : AIntersect(o, r, p) {}
+RayTracer::DiffuseIntersect::DiffuseIntersect(AbstractObject* o, const Ray& r, const Point3D& p) : AbstractIntersect(o, r, p) {}
 
-Colord RayTracer::DiffuseIntersect::computeColor(const Light& light, const Colord& ambient_light, const int& depth) const {
+Colord RayTracer::DiffuseIntersect::computeColor(const Light& light, const int& depth) const {
     bool blocked = isBlocked(env->light.position);
     
-    return o->computeColor(r.origin, p, env->light, blocked, env->ambient_light);
+    return o->computeColor(r.origin, p, env->light, blocked);
 }
 
 bool RayTracer::DiffuseIntersect::isBlocked(const Point3D& light_position) const {

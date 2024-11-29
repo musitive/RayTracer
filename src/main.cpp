@@ -19,5 +19,8 @@ int main(int argc, char** argv) {
 
     PPM::writeToFile(output_filename, frame, 255);
 
+    free(frame);
+    SceneLoader::unloadScene();
+
     return 0;
 }

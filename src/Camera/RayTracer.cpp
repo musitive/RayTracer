@@ -11,14 +11,16 @@ void RayTracer::setEnvironment(Environment* env) {
 Colord RayTracer::trace(const Ray& ray, AbstractObject* reflected_object, const int& depth) {
     if (depth >= MAX_DEPTH) return Colord(1);
     
-    AIntersect* i = findClosestIntersection(ray, reflected_object);
+    AbstractIntersect* i = findClosestIntersection(ray, reflected_object);
+    Colord c = i->computeColor(env->light, depth);
+    free(i);
 
-    return i->computeColor(env->light, env->ambient_light, depth);
+    return c;
 }
 
-RayTracer::AIntersect* RayTracer::findClosestIntersection(const Ray& ray, AbstractObject* reflected_object) {
-    AIntersect* closest = IntersectionFactory::createMissed();
-    AIntersect* next;
+RayTracer::AbstractIntersect* RayTracer::findClosestIntersection(const Ray& ray, AbstractObject* reflected_object) {
+    AbstractIntersect* closest = IntersectionFactory::createMissed();
+    AbstractIntersect* next;
 
     for(AbstractObject* o: env->env) {
         if (o == reflected_object) continue;
@@ -30,8 +32,8 @@ RayTracer::AIntersect* RayTracer::findClosestIntersection(const Ray& ray, Abstra
     return closest;
 }
 
-RayTracer::AIntersect* RayTracer::IntersectionFactory::create(AbstractObject* o, const Ray& r) {
-    AIntersect* i;
+RayTracer::AbstractIntersect* RayTracer::IntersectionFactory::create(AbstractObject* o, const Ray& r) {
+    AbstractIntersect* i;
 
     Point3D p = o->findIntersection(r);
 
@@ -44,6 +46,6 @@ RayTracer::AIntersect* RayTracer::IntersectionFactory::create(AbstractObject* o,
     return i;
 }
 
-RayTracer::AIntersect* RayTracer::IntersectionFactory::createMissed() {
+RayTracer::AbstractIntersect* RayTracer::IntersectionFactory::createMissed() {
     return new MissedIntersect(nullptr, Ray(Point3D(0), Direction(0)));
 }

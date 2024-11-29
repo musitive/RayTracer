@@ -112,3 +112,7 @@ Reflective* SceneLoader::parseReflectiveMaterial() {
     input_file >> reflective;
     return new Reflective(reflective);
 }
+
+void SceneLoader::unloadScene() {
+    Scene::destroyInstance();
+}

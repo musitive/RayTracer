@@ -1,25 +1,26 @@
 #include "Diffuse.h"
+#include "Scene.h"
 
 Diffuse::Diffuse(Colord diffuse, Colord specular, double phong) : diffuse(diffuse), specular(specular), phong(phong) {}
 
-Colord Diffuse::computeColor(const Point3D& from, const Point3D& p, const Direction& n, const Light& light, const bool& blocked, const Colord& ambient) {
+Colord Diffuse::computeColor(const Point3D& from, const Point3D& p, const Direction& n, const Light& light, const bool& blocked) {
     Colord color(0);
 
-    if (blocked)
-        color = computeBlockedColor(ambient);
-    else
-        color = computeColorFromLight(from, p, n, light, ambient);
+    if (blocked) color = computeBlockedColor();
+    else color = computeColorFromLight(from, p, n, light);
 
     return color;
 }
 
-Colord Diffuse::computeBlockedColor(const Colord& ambient) {
+Colord Diffuse::computeBlockedColor() {
+    const Colord ambient = Scene::getInstance()->getEnvironment()->background;
     return bound(diffuse * ambient);
 }
 
-Colord Diffuse::computeColorFromLight(const Point3D& from, const Point3D& p, const Direction& n, const Light& light, const Colord& ambient) {
+Colord Diffuse::computeColorFromLight(const Point3D& from, const Point3D& p, const Direction& n, const Light& light) {
     Colord d(0);
     Colord ph(0);
+    const Colord ambient = Scene::getInstance()->getEnvironment()->background;
     
     Direction l = Direction(light.position - p);
     double dt = dot(l, n);

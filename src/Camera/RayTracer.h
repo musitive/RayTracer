@@ -14,7 +14,7 @@ class RayTracer {
         static Colord trace(const Ray& ray, AbstractObject* current, const int& depth);
 
         // Forward declarations
-        class AIntersect;
+        class AbstractIntersect;
         class MissedIntersect;
         class ReflectionIntersect;
         class DiffuseIntersect;
@@ -23,12 +23,12 @@ class RayTracer {
         static const int MAX_DEPTH = 2;
         static Environment* env;
 
-        static AIntersect* findClosestIntersection(const Ray& ray, AbstractObject* current);
+        static AbstractIntersect* findClosestIntersection(const Ray& ray, AbstractObject* current);
 
         class IntersectionFactory {
             public:
-                static AIntersect* create(AbstractObject* o, const Ray& r);
-                static AIntersect* createMissed();
+                static AbstractIntersect* create(AbstractObject* o, const Ray& r);
+                static AbstractIntersect* createMissed();
         };
 };
 

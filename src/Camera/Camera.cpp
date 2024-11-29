@@ -17,6 +17,10 @@ Camera::Camera(const int& width, const int& height, const Point3D& at, const Poi
     rt = new RayTracer();
 }
 
+Camera::~Camera() {
+    delete rt;
+}
+
 Ray Camera::computeRay(double i, double j) {
     double xx = (2 * (i + 0.5) / width - 1) * angle * aspect_ratio;
     double yy = (1 - 2 * (j + 0.5) / height) * angle;

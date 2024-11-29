@@ -11,6 +11,7 @@ class Ray {
         Ray();
         Ray(Point3D eye, Direction s);
         Point3D findPoint(double t) const;
+        
 
     private:
     
