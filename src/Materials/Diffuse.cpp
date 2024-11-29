@@ -9,7 +9,8 @@ Colord Diffuse::computeColor(const AbstractIntersect* i, const Light& light, con
 }
 
 Colord Diffuse::computeBlockedColor() {
-    return clamp(diffuse_constant * Scene::getAmbientLightColor(), MIN_COLOR, MAX_COLOR);
+    Colord ambient_lighting = Scene::getInstance()->getAmbientLightColor();
+    return clamp(diffuse_constant * ambient_lighting, MIN_COLOR, MAX_COLOR);
 }
 
 Colord Diffuse::computeColorFromLight(const AbstractIntersect* i, const Light& light) {   
@@ -25,7 +26,8 @@ Colord Diffuse::computeColorFromLight(const AbstractIntersect* i, const Light& l
 
 Colord Diffuse::computeDiffuseColor(const Colord& light_color, const double& diffuse_intensity) const {
     Colord diffuse_lighting = light_color * max(0.0, diffuse_intensity);
-    return diffuse_constant * (Scene::getAmbientLightColor() + diffuse_lighting);
+    Colord ambient_lighting = Scene::getInstance()->getAmbientLightColor();
+    return diffuse_constant * (ambient_lighting + diffuse_lighting);
 }
 
 Colord Diffuse::computeSpecularColor(const AbstractIntersect* i, const Colord& light_color, const double& diffuse_intensity, const Direction& to_light) const {

@@ -5,13 +5,11 @@
 #include "AbstractObject.h"
 #include "Ray.h"
 #include "Intersection.h"
-#include "Environment.h"
 #include <numeric>
 #include <random>
 
 class RayTracer {
     public:
-        static void setEnvironment(Environment* env);
         static Colord trace(const Ray& ray, AbstractObject* current, const int& depth);
 
     private:

@@ -5,7 +5,6 @@
 #include <fstream>
 
 #include "Vec.h"
-#include "Environment.h"
 #include "Triangle.h"
 #include "Sphere.h"
 #include "Diffuse.h"
@@ -19,7 +18,7 @@ class SceneLoader {
 
     private:
         static std::ifstream input_file;
-        static Environment* env;
+        static Scene* scene;
 
         static Camera* parseCamera();
         static void parseObjects();

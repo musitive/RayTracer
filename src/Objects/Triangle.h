@@ -18,7 +18,7 @@ class Triangle : public AbstractObject {
         Vector3D edge1, edge2;
         Direction normal;
 
-        inline double computeBarycentricCoordinate(const Vector3D& a, const Vector3D& b, const double& inverse_determinant) const;
+        inline Barycentric computeBarycentricCoordinate(const Vector3D& a, const Vector3D& b, const double& inverse_determinant) const;
         inline bool isParallel(const float& determinant) const;
         inline bool isOutsideTriangle(const Barycentric& u) const;
         inline bool isOutsideTriangle(const Barycentric& u, const Barycentric& v) const;

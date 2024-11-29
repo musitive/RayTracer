@@ -8,9 +8,6 @@ class AntiAliasCam : public Camera {
         AntiAliasCam(const int& width, const int& height, const Point3D& at, const Point3D& from,
                      const Point3D& up, const double& fov, const int& samples);
 
-    protected:
-        
-
     private:
         int samples;
 

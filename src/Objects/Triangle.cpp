@@ -38,7 +38,7 @@ Point3D Triangle::findIntersection(const Ray& ray, const bool& culling) const {
     return ray.findPoint(intersection_distance);
 }
 
-double Triangle::computeBarycentricCoordinate(const Vector3D& a, const Vector3D& b, const double& inverse_determinant) const {
+Barycentric Triangle::computeBarycentricCoordinate(const Vector3D& a, const Vector3D& b, const double& inverse_determinant) const {
     return dot(a, b) * inverse_determinant;
 }
 

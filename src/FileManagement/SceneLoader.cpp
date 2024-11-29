@@ -3,25 +3,27 @@
 #include "AntiAliasCam.h"
 
 std::ifstream SceneLoader::input_file = std::ifstream();
-Environment* SceneLoader::env = nullptr;
+Scene* SceneLoader::scene = nullptr;
 
 void SceneLoader::loadScene(const string& fileName) {
     string line_header = "";
 
     input_file.open(fileName, ios::in);
-    env = new Environment();
     Camera* cam = parseCamera();
+    Light light = Light();
+    Colord ambient_light = Colord();
+    Colord background = Colord();
 
-    input_file >> line_header >> env->light.position;
-    input_file >> line_header >> env->light.color;
-    input_file >> line_header >> env->ambient_light;
-    input_file >> line_header >> env->background;
+    input_file >> line_header >> light.position;
+    input_file >> line_header >> light.color;
+    input_file >> line_header >> ambient_light;
+    input_file >> line_header >> background;
+
+    scene = Scene::initializeInstance(light, ambient_light, background, cam);
 
     parseObjects();
 
     input_file.close();
-
-    Scene::initializeInstance(env, cam);
 }
 
 Camera* SceneLoader::parseCamera() {
@@ -51,7 +53,7 @@ void SceneLoader::parseObjects() {
         m = parseMaterial(line_header);
         
         o->setMaterial(m);
-        env->env.push_back(o);
+        scene->addActor(o);
         input_file >> line_header;
     }
 }

@@ -4,20 +4,22 @@
 
 Colord RayTracer::trace(const Ray& ray, AbstractObject* reflected_object, const int& depth) {
     if (depth >= MAX_DEPTH) return Colord(MAX_COLOR);
+    Light light = Scene::getInstance()->getLight();
 
     void* closest_buffer = malloc(sizeof(ReflectionIntersect));
     AbstractIntersect* i = findClosestIntersection(ray, reflected_object, closest_buffer);
-    Colord c = i->computeColor(Scene::getEnvironment()->light, depth);
+    Colord c = i->computeColor(light, depth);
 
     return c;
 }
 
 AbstractIntersect* RayTracer::findClosestIntersection(const Ray& ray, AbstractObject* reflected_object, void* closest_buffer) {
     void* buffer = malloc(sizeof(ReflectionIntersect));
+    vector<AbstractObject*> actors = Scene::getInstance()->getActors();
     AbstractIntersect* closest = new (closest_buffer) MissedIntersect(nullptr, Ray());
     AbstractIntersect* next;
 
-    for (AbstractObject* o : Scene::getEnvironment()->env) {
+    for (AbstractObject* o : actors) {
         if (o == reflected_object) continue;
 
         next = IntersectionFactory::create(o, ray, buffer);
