@@ -5,5 +5,5 @@ Reflective::Reflective(Colord reflective) : reflective(reflective) {
 }
 
 Colord Reflective::computeColor(const Point3D& from, const Point3D& p, const Direction& n, const Light& light, const bool& blocked) {
-    return bound(reflective);
+    return clamp(reflective, MIN_COLOR, MAX_COLOR);
 }

@@ -25,10 +25,13 @@ class Scene {
             return instance;
         }
 
+        static Environment* getEnvironment() {
+            return instance->env;
+        }
+
         Frame* render();
         int getCameraWidth() const;
         int getCameraHeight() const;
-        Environment* getEnvironment() const;
 
         Scene(const Scene&) = delete;
         Scene& operator=(const Scene&) = delete;

@@ -50,7 +50,8 @@ Vec3<T> operator / (const Vec3<T>& a, const Vec3<T>& b) {
 
 template<typename T>
 Vec3<T> operator / (const Vec3<T>& a, const double& b) {
-    return Vec3<T>(a.x / b, a.y / b, a.z / b);
+    double inv_b = 1 / b;
+    return a * inv_b;
 }
 
 template<typename T>
@@ -74,9 +75,13 @@ typedef Vec3<double> Colord;
 typedef Vec3<int> Colori;
 typedef Vec3<double> Point3D;
 
+const double MIN_COLOR = 0.0;
+const double MAX_COLOR = 1.0;
+
 class Direction : public Point3D {
     public:
-        Direction(Point3D d);
+        Direction(const Point3D& to, const Point3D& from);
+        Direction(const Point3D& v);
 };
 
 typedef Point3D Vector3D;
@@ -91,7 +96,7 @@ Vec3<T> average(vector<Vec3<T>> v) {
 }
 
 double length(const Point3D& vec);
-Point3D normalize(Point3D& vec);
+Point3D normalize(const Point3D& vec);
 
 inline double dot(const Point3D& vec1, const Point3D& vec2) {
     return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
@@ -103,7 +108,7 @@ inline Point3D cross_product(const Point3D& vec1, const Point3D& vec2) {
                     vec1.x * vec2.y - vec1.y * vec2.x);
 }
 
-inline Colord bound(const Colord& v, const double& min = 0, const double& max = 1) {
+inline Colord clamp(const Colord& v, const double& min, const double& max) {
     return Colord(clamp(v.x, min, max), clamp(v.y, min, max), clamp(v.z, min, max));
 }
 

@@ -47,5 +47,5 @@ RayTracer::AbstractIntersect* RayTracer::IntersectionFactory::create(AbstractObj
 }
 
 RayTracer::AbstractIntersect* RayTracer::IntersectionFactory::createMissed() {
-    return new MissedIntersect(nullptr, Ray(Point3D(0), Direction(0)));
+    return new MissedIntersect(nullptr, Ray());
 }

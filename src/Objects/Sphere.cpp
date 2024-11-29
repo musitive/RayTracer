@@ -32,5 +32,5 @@ Point3D Sphere::findIntersection(const Ray& ray, const bool& culling) const {
 }
 
 Direction Sphere::computeNormal(const Point3D& position) {
-    return Direction(position - center);
+    return Direction(position, center);
 }
