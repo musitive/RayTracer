@@ -3,9 +3,9 @@
 
 Diffuse::Diffuse(Colord diffuse, Colord specular, double phong) : diffuse_constant(diffuse), specular_constant(specular), phong_constant(phong) {}
 
-Colord Diffuse::computeColor(const Point3D& from, const Point3D& point, const Direction& normal, const Light& light, const bool& blocked) {
+Colord Diffuse::computeColor(const AbstractIntersect* i, const Light& light, const bool& blocked) {
     if (blocked) return computeBlockedColor();
-    else return computeColorFromLight(from, point, normal, light);
+    else return computeColorFromLight(i->ray.origin, i->point, i->computeNormal(), light);
 }
 
 Colord Diffuse::computeBlockedColor() {

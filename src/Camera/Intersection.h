@@ -3,14 +3,13 @@
 
 #include "AbstractObject.h"
 #include "Vec.h"
-#include "RayTracer.h"
 
-class RayTracer::AbstractIntersect {
+class AbstractIntersect {
     public:
-        AbstractObject* o;
-        Point3D p;
+        AbstractObject* obj;
+        Point3D point;
         double distance;
-        Ray r;
+        Ray ray;
 
         AbstractIntersect(AbstractObject* o, const Ray& r);
         AbstractIntersect(AbstractObject* o, const Ray& r, const Point3D& p);
@@ -21,24 +20,21 @@ class RayTracer::AbstractIntersect {
         bool isCloserThan(const AbstractIntersect* i) const;
         Direction computeNormal() const;
         virtual Colord computeColor(const Light& light, const int& depth) const = 0;
-    
-    protected:
-        Environment* env;
 };
 
-class RayTracer::MissedIntersect : public RayTracer::AbstractIntersect {
+class MissedIntersect : public AbstractIntersect {
     public:
         MissedIntersect(AbstractObject* o, const Ray& r);
         Colord computeColor(const Light& light, const int& depth) const override;
 };
 
-class RayTracer::ReflectionIntersect : public RayTracer::AbstractIntersect {
+class ReflectionIntersect : public AbstractIntersect {
     public:
         ReflectionIntersect(AbstractObject* o, const Ray& r, const Point3D& p);
         Colord computeColor(const Light& light, const int& depth) const override;
 };
 
-class RayTracer::DiffuseIntersect : public RayTracer::AbstractIntersect {
+class DiffuseIntersect : public AbstractIntersect {
     public:
         DiffuseIntersect(AbstractObject* o, const Ray& r, const Point3D& p);
         Colord computeColor(const Light& light, const int& depth) const override;

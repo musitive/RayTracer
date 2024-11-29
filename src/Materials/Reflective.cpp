@@ -4,6 +4,6 @@ Reflective::Reflective(Colord reflective) : reflective(reflective) {
     isReflective = true;
 }
 
-Colord Reflective::computeColor(const Point3D& from, const Point3D& p, const Direction& n, const Light& light, const bool& blocked) {
+Colord Reflective::computeColor(const AbstractIntersect* i, const Light& light, const bool& blocked) {
     return clamp(reflective, MIN_COLOR, MAX_COLOR);
 }
