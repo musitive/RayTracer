@@ -1,6 +1,8 @@
 #include "RayTracer.h"
 #include "Scene.h"
-#include "Intersection.h"
+#include "MissedIntersect.h"
+#include "ReflectionIntersect.h"
+#include "DiffuseIntersect.h"
 
 Colord RayTracer::trace(const Ray& ray, AbstractObject* reflected_object, const int& depth) {
     if (depth >= MAX_DEPTH) return Colord(MAX_COLOR);

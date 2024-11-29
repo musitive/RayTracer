@@ -24,23 +24,4 @@ class AbstractIntersect {
         virtual Colord computeColor(const Light& light, const int& depth) const = 0;
 };
 
-class MissedIntersect : public AbstractIntersect {
-    public:
-        MissedIntersect(AbstractObject* o, const Ray& r);
-        Colord computeColor(const Light& light, const int& depth) const override;
-};
-
-class ReflectionIntersect : public AbstractIntersect {
-    public:
-        ReflectionIntersect(AbstractObject* o, const Ray& r, const Point3D& p);
-        Colord computeColor(const Light& light, const int& depth) const override;
-};
-
-class DiffuseIntersect : public AbstractIntersect {
-    public:
-        DiffuseIntersect(AbstractObject* o, const Ray& r, const Point3D& p);
-        Colord computeColor(const Light& light, const int& depth) const override;
-        bool isBlocked(const Point3D& light_position) const;
-};
-
 #endif

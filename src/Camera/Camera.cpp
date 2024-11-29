@@ -3,8 +3,6 @@
 #include <numeric>
 #include <random>
 
-using namespace std;
-
 Camera::Camera(const int& width, const int& height, const Point3D& at, const Point3D& from,
                 const Point3D& up, const double& fov) {
     this->width = width;

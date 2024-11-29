@@ -4,7 +4,7 @@
 #include "Vec.h"
 #include "AbstractObject.h"
 #include "Ray.h"
-#include "Intersection.h"
+#include "AbstractIntersect.h"
 #include <numeric>
 #include <random>
 
