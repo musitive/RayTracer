@@ -1,0 +1,64 @@
+Date : 2024-11-21 19:20:36
+Directory : /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src
+Total : 33 files,  851 codes, 18 comments, 259 blanks, all 1128 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| C++      |         33 |        851 |         18 |        259 |      1,128 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                       | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                          |         33 |        851 |         18 |        259 |      1,128 |
+| . (Files)                                                                                  |          1 |         18 |          0 |          7 |         25 |
+| 3D_Math                                                                                    |          4 |        123 |          0 |         35 |        158 |
+| Camera                                                                                     |         10 |        316 |          8 |         87 |        411 |
+| FileManagement                                                                             |          2 |        146 |          0 |         36 |        182 |
+| Materials                                                                                  |          5 |         69 |          0 |         22 |         91 |
+| Objects                                                                                    |          6 |        110 |          9 |         49 |        168 |
+| Scene                                                                                      |          5 |         69 |          1 |         23 |         93 |
++--------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                   | language | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/3D_Math/Ray.cpp                | C++      |          6 |          0 |          3 |          9 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/3D_Math/Ray.h                  | C++      |         13 |          0 |          6 |         19 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/3D_Math/Vec.cpp                | C++      |         15 |          0 |          3 |         18 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/3D_Math/Vec.h                  | C++      |         89 |          0 |         23 |        112 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Camera/Camera.cpp              | C++      |         46 |          2 |         11 |         59 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Camera/Camera.h                | C++      |         25 |          0 |          7 |         32 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Camera/Frame.cpp               | C++      |         29 |          0 |          7 |         36 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Camera/Frame.h                 | C++      |         17 |          0 |          6 |         23 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Camera/Intersection.cpp        | C++      |         60 |          5 |         19 |         84 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Camera/Intersection.h          | C++      |         38 |          0 |          9 |         47 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Camera/JitterTracer.cpp        | C++      |         28 |          0 |          4 |         32 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Camera/JitterTracer.h          | C++      |         11 |          0 |          3 |         14 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Camera/RayTracer.cpp           | C++      |         35 |          0 |         14 |         49 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Camera/RayTracer.h             | C++      |         27 |          1 |          7 |         35 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/FileManagement/FileManager.cpp | C++      |        113 |          0 |         30 |        143 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/FileManagement/FileManager.h   | C++      |         33 |          0 |          6 |         39 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Materials/Diffuse.cpp          | C++      |         24 |          0 |          7 |         31 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Materials/Diffuse.h            | C++      |         14 |          0 |          5 |         19 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Materials/IMaterial.h          | C++      |         13 |          0 |          4 |         17 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Materials/Reflective.cpp       | C++      |          7 |          0 |          2 |          9 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Materials/Reflective.h         | C++      |         11 |          0 |          4 |         15 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Objects/AbstractObject.cpp     | C++      |         17 |          0 |          6 |         23 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Objects/AbstractObject.h       | C++      |         20 |          0 |          7 |         27 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Objects/Sphere.cpp             | C++      |         20 |          9 |         12 |         41 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Objects/Sphere.h               | C++      |         15 |          0 |          4 |         19 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Objects/Triangle.cpp           | C++      |         23 |          0 |         16 |         39 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Objects/Triangle.h             | C++      |         15 |          0 |          4 |         19 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Scene/Environment.cpp          | C++      |          7 |          0 |          1 |          8 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Scene/Environment.h            | C++      |         14 |          0 |          5 |         19 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Scene/Light.h                  | C++      |          0 |          0 |          1 |          1 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Scene/Scene.cpp                | C++      |         20 |          0 |          7 |         27 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/Scene/Scene.h                  | C++      |         28 |          1 |          9 |         38 |
+| /Users/dallinfrank/Documents/Git_Repositories/RayTracer/src/main.cpp                       | C++      |         18 |          0 |          7 |         25 |
+| Total                                                                                      |          |        851 |         18 |        259 |      1,128 |
++--------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
