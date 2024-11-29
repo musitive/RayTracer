@@ -36,9 +36,6 @@ double Camera::calculateAngle(double fov) {
 }
 
 Frame* Camera::render() {
-    Scene* scene = Scene::getInstance();
-    rt->setEnvironment(scene->getEnvironment());
-
     Frame* frame = new Frame(width, height);
 
     Colord c;

@@ -3,13 +3,16 @@
 #include "RayTracer.h"
 
 AbstractIntersect::AbstractIntersect(AbstractObject* o, const Ray& r)
-    : AbstractIntersect(o, r, o->findIntersection(r)) {}
+    : obj(o), ray(r), point(o->findIntersection(r)), distance(findDistanceFromPoint(r.origin)), normal(o->computeNormal(point)) {}
 
 AbstractIntersect::AbstractIntersect(AbstractObject* o, const Ray& r, const Point3D& p)
-    : AbstractIntersect(o, r, p, findDistanceFromPoint(r.origin)) {}
+    : obj(o), ray(r), point(p), distance(findDistanceFromPoint(r.origin)), normal(o->computeNormal(p)) {}
 
 AbstractIntersect::AbstractIntersect(AbstractObject* o, const Ray& r, const Point3D& p, const double& distance)
-    : obj(o), ray(r), point(p), distance(distance) {}
+    : obj(o), ray(r), point(p), distance(distance), normal(o->computeNormal(p)) {}
+
+AbstractIntersect::AbstractIntersect(AbstractObject* o, const Ray& r, const Point3D& p, const double& distance, const Direction& n)
+    : obj(o), ray(r), point(p), distance(distance), normal(n) {}
 
 AbstractIntersect::~AbstractIntersect() {}
 
@@ -25,7 +28,7 @@ Direction AbstractIntersect::computeNormal() const {
     return obj->computeNormal(point);
 }
 
-MissedIntersect::MissedIntersect(AbstractObject* o, const Ray& r) : AbstractIntersect(o, r, MISS, INF) {}
+MissedIntersect::MissedIntersect(AbstractObject* o, const Ray& r) : AbstractIntersect(o, r, MISS, INF, Point3D(0)) {}
 
 Colord MissedIntersect::computeColor(const Light& light, const int& depth) const {
     return Scene::getAmbientLightColor();
@@ -34,7 +37,6 @@ Colord MissedIntersect::computeColor(const Light& light, const int& depth) const
 ReflectionIntersect::ReflectionIntersect(AbstractObject* o, const Ray& r, const Point3D& p) : AbstractIntersect(o, r, p) {}
 
 Colord ReflectionIntersect::computeColor(const Light& light, const int& depth) const {
-    Direction normal = computeNormal();
     double dt = dot(ray.direction, normal);
     Direction reflection_direction = normal * (dt * 2) - ray.direction;
     Ray reflection(point, -reflection_direction);

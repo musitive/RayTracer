@@ -43,4 +43,7 @@ clean:
 
 # Test
 small_test:
-	./raytracer tests/test.env outputs/test.ppm
+	./raytracer tests/test_01_192x144p.env outputs/test_01_192x144p.ppm
+
+large_test:
+	./raytracer tests/test_02_1920x1080p.env outputs/test_02_1920x1080p.ppm

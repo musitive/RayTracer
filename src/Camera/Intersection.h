@@ -10,10 +10,12 @@ class AbstractIntersect {
         Point3D point;
         double distance;
         Ray ray;
+        Direction normal;
 
         AbstractIntersect(AbstractObject* o, const Ray& r);
         AbstractIntersect(AbstractObject* o, const Ray& r, const Point3D& p);
         AbstractIntersect(AbstractObject* o, const Ray& r, const Point3D& p, const double& distance);
+        AbstractIntersect(AbstractObject* o, const Ray& r, const Point3D& p, const double& distance, const Direction& n);
         virtual ~AbstractIntersect();
 
         double findDistanceFromPoint(const Point3D& p) const;

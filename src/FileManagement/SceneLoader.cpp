@@ -35,7 +35,7 @@ Camera* SceneLoader::parseCamera() {
     input_file >> line_header >> up;
     input_file >> line_header >> fov;
 
-    return new AntiAliasCam(width, height, at, from, up, fov, 4);
+    return new Camera(width, height, at, from, up, fov);
 }
 
 void SceneLoader::parseObjects() {

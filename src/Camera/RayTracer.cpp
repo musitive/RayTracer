@@ -2,50 +2,44 @@
 #include "Scene.h"
 #include "Intersection.h"
 
-Environment* RayTracer::env = nullptr;
-
-void RayTracer::setEnvironment(Environment* env) {
-    RayTracer::env = env;
-}
-
 Colord RayTracer::trace(const Ray& ray, AbstractObject* reflected_object, const int& depth) {
     if (depth >= MAX_DEPTH) return Colord(MAX_COLOR);
-    
-    AbstractIntersect* i = findClosestIntersection(ray, reflected_object);
-    Colord c = i->computeColor(env->light, depth);
-    free(i);
+
+    void* closest_buffer = malloc(sizeof(ReflectionIntersect));
+    AbstractIntersect* i = findClosestIntersection(ray, reflected_object, closest_buffer);
+    Colord c = i->computeColor(Scene::getEnvironment()->light, depth);
 
     return c;
 }
 
-AbstractIntersect* RayTracer::findClosestIntersection(const Ray& ray, AbstractObject* reflected_object) {
-    AbstractIntersect* closest = IntersectionFactory::createMissed();
+AbstractIntersect* RayTracer::findClosestIntersection(const Ray& ray, AbstractObject* reflected_object, void* closest_buffer) {
+    void* buffer = malloc(sizeof(ReflectionIntersect));
+    AbstractIntersect* closest = new (closest_buffer) MissedIntersect(nullptr, Ray());
     AbstractIntersect* next;
 
-    for(AbstractObject* o: env->env) {
+    for (AbstractObject* o : Scene::getEnvironment()->env) {
         if (o == reflected_object) continue;
 
-        next = IntersectionFactory::create(o, ray);
-        if (next->isCloserThan(closest)) closest = next;
+        next = IntersectionFactory::create(o, ray, buffer);
+        if (next->isCloserThan(closest))
+            memcpy(closest_buffer, buffer, sizeof(ReflectionIntersect));
     }
+    free(buffer);
 
     return closest;
 }
 
-AbstractIntersect* RayTracer::IntersectionFactory::create(AbstractObject* obj, const Ray& ray) {
-    AbstractIntersect* i;
-
+AbstractIntersect* RayTracer::IntersectionFactory::create(AbstractObject* obj, const Ray& ray, void* buffer) {
     Point3D p = obj->findIntersection(ray);
 
-    if (p == MISS) i = new MissedIntersect(obj, ray);
+    if (p == MISS)
+        return new (buffer) MissedIntersect(obj, ray);
     else if (obj->getMaterial()->isReflective)
-        i = new ReflectionIntersect(obj, ray, p);
+        return new (buffer) ReflectionIntersect(obj, ray, p);
     else
-        i = new DiffuseIntersect(obj, ray, p);
-
-    return i;
+        return new (buffer) DiffuseIntersect(obj, ray, p);
 }
 
-AbstractIntersect* RayTracer::IntersectionFactory::createMissed() {
-    return new MissedIntersect(nullptr, Ray());
+AbstractIntersect* RayTracer::IntersectionFactory::createMissed(void* buffer) {
+    return new (buffer) MissedIntersect(nullptr, Ray());
 }

@@ -12,9 +12,9 @@ class Diffuse : public IMaterial {
         const Colord diffuse_constant, specular_constant;
         const double phong_constant;
         Colord computeBlockedColor();
-        Colord computeColorFromLight(const Point3D& from, const Point3D& p, const Direction& n, const Light& light);
-        Colord computeDiffuseColor(const Colord& light_color, const double& diffuse_intensity);
-        Colord computeSpecularColor(const Point3D& look_from, const Point3D& point, const Colord& light_color, const Direction& normal, const double& diffuse_intensity, const Direction& to_light);
+        Colord computeColorFromLight(const AbstractIntersect* i, const Light& light);
+        inline Colord computeDiffuseColor(const Colord& light_color, const double& diffuse_intensity) const;
+        inline Colord computeSpecularColor(const AbstractIntersect* i, const Colord& light_color, const double& diffuse_intensity, const Direction& to_light) const;
 };
 
 #endif
