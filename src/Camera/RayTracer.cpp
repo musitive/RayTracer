@@ -9,8 +9,11 @@ Colord RayTracer::trace(const Ray& ray, AbstractObject* reflected_object, const 
     Light light = Scene::getInstance()->getLight();
 
     void* closest_buffer = malloc(sizeof(ReflectionIntersect));
+
     AbstractIntersect* i = findClosestIntersection(ray, reflected_object, closest_buffer);
     Colord c = i->computeColor(light, depth);
+
+    free(closest_buffer);
 
     return c;
 }
@@ -28,8 +31,8 @@ AbstractIntersect* RayTracer::findClosestIntersection(const Ray& ray, AbstractOb
         if (next->isCloserThan(closest))
             memcpy(closest_buffer, buffer, sizeof(ReflectionIntersect));
     }
-    free(buffer);
 
+    free(buffer);
     return closest;
 }
 
