@@ -9,9 +9,10 @@
 
 class PPM {
     public:
-        static void writeToFile(const string& filename, const Frame* frame, const int& max_color);
+        static void writeToFile(const string& filename, const Frame* frame);
 
     private:
+        const static int max_color = 255;
         static std::ofstream output_file;
         static inline void addColor(const Colord& color);
         static void addFrame(const Frame* frame);

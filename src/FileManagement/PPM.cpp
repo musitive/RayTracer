@@ -7,7 +7,7 @@ void PPM::addColor(const Colord& color) {
     output_file << c << '\n';
 }
 
-void PPM::writeToFile(const string& filename, const Frame* frame, const int& max_color) {
+void PPM::writeToFile(const string& filename, const Frame* frame) {
     output_file.open(filename);
 
     output_file << "P3\n";

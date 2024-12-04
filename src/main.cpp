@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
     Scene* scene = Scene::getInstance();
     Frame* frame = scene->render();
 
-    PPM::writeToFile(output_filename, frame, 255);
+    PPM::writeToFile(output_filename, frame);
 
     free(frame);
     SceneLoader::unloadScene();
