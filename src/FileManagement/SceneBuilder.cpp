@@ -1,32 +1,32 @@
-#include "SceneLoader.h"
+#include "SceneBuilder.h"
 #include "Scene.h"
 #include "AntiAliasCam.h"
 
-std::ifstream SceneLoader::input_file = std::ifstream();
-Scene* SceneLoader::scene = nullptr;
+std::ifstream SceneBuilder::input_file = std::ifstream();
+Scene* SceneBuilder::scene = nullptr;
 
-void SceneLoader::loadScene(const string& fileName) {
+void SceneBuilder::loadScene(const string& fileName) {
     string line_header = "";
 
     input_file.open(fileName, ios::in);
     Camera* cam = parseCamera();
     Light light = Light();
-    Colord ambient_light = Colord();
-    Colord background = Colord();
+    RGBColor ambient_light = RGBColor();
+    RGBColor background = RGBColor();
 
     input_file >> line_header >> light.position;
     input_file >> line_header >> light.color;
     input_file >> line_header >> ambient_light;
     input_file >> line_header >> background;
 
-    scene = Scene::initializeInstance(light, ambient_light, background, cam);
+    scene = Scene::createInstance(light, ambient_light, background, cam);
 
     parseObjects();
 
     input_file.close();
 }
 
-Camera* SceneLoader::parseCamera() {
+Camera* SceneBuilder::parseCamera() {
     string line_header = "";
     double width, height, fov;
     Point3D at, from, up;
@@ -40,9 +40,9 @@ Camera* SceneLoader::parseCamera() {
     return new Camera(width, height, at, from, up, fov);
 }
 
-void SceneLoader::parseObjects() {
+void SceneBuilder::parseObjects() {
     string line_header;
-    AbstractObject* o;
+    Actor* o;
     IMaterial* m;
 
     input_file >> line_header;
@@ -58,8 +58,8 @@ void SceneLoader::parseObjects() {
     }
 }
 
-AbstractObject* SceneLoader::parseObject(string line_header) {
-    AbstractObject* o;
+Actor* SceneBuilder::parseObject(string line_header) {
+    Actor* o;
 
     if (line_header == "Sphere")
         o = parseSphere();
@@ -69,7 +69,7 @@ AbstractObject* SceneLoader::parseObject(string line_header) {
     return o;
 }
 
-Sphere* SceneLoader::parseSphere() {
+Sphere* SceneBuilder::parseSphere() {
     string line_header;
     Point3D c = Point3D();
     double rad = 0;
@@ -78,7 +78,7 @@ Sphere* SceneLoader::parseSphere() {
     return new Sphere(c, rad);
 }
 
-Triangle* SceneLoader::parseTriangle() {
+Triangle* SceneBuilder::parseTriangle() {
     Point3D v1, v2, v3;
     input_file >> v1;
     input_file >> v2;
@@ -86,7 +86,7 @@ Triangle* SceneLoader::parseTriangle() {
     return new Triangle(v1, v2, v3);
 }
 
-IMaterial* SceneLoader::parseMaterial(string line_header) {
+IMaterial* SceneBuilder::parseMaterial(string line_header) {
     IMaterial* m;
 
     if (line_header == "Diffuse") 
@@ -97,10 +97,10 @@ IMaterial* SceneLoader::parseMaterial(string line_header) {
     return m;
 }
 
-Diffuse* SceneLoader::parseDiffuseMaterial() {
+Diffuse* SceneBuilder::parseDiffuseMaterial() {
     string line_header;
-    Colord diffuse = Colord();
-    Colord specular = Colord();
+    RGBColor diffuse = RGBColor();
+    RGBColor specular = RGBColor();
     double phong = 0;
     input_file >> diffuse;
     input_file >> line_header >> specular;
@@ -108,13 +108,13 @@ Diffuse* SceneLoader::parseDiffuseMaterial() {
     return new Diffuse(diffuse, specular, phong);
 }
 
-Reflective* SceneLoader::parseReflectiveMaterial() {
+Reflective* SceneBuilder::parseReflectiveMaterial() {
     string line_header;
-    Colord reflective = Colord();
+    RGBColor reflective = RGBColor();
     input_file >> reflective;
     return new Reflective(reflective);
 }
 
-void SceneLoader::unloadScene() {
+void SceneBuilder::unloadScene() {
     Scene::destroyInstance();
 }

@@ -2,7 +2,7 @@
 
 std::ofstream PPM::output_file = std::ofstream();
 
-void PPM::addColor(const Colord& color) {
+void PPM::addColor(const RGBColor& color) {
     Colori c = convert_color_to_int(color);
     output_file << c << '\n';
 }
@@ -20,7 +20,7 @@ void PPM::writeToFile(const string& filename, const Frame* frame) {
 }
 
 void PPM::addFrame(const Frame* frame) {
-    Colord c;
+    RGBColor c;
     for (int i = 0; i < frame->height; i++) {
         for (int j = 0; j < frame->width; j++) {
             c = frame->getPixel({j, i});

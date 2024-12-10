@@ -71,7 +71,7 @@ istream & operator >> (istream &is, Vec3<T> &v) {
     return is;
 }
 
-typedef Vec3<double> Colord;
+typedef Vec3<double> RGBColor;
 typedef Vec3<int> Colori;
 typedef Vec3<double> Point3D;
 
@@ -108,11 +108,11 @@ inline Point3D cross_product(const Point3D& vec1, const Point3D& vec2) {
                     vec1.x * vec2.y - vec1.y * vec2.x);
 }
 
-inline Colord clamp(const Colord& v, const double& min, const double& max) {
-    return Colord(clamp(v.x, min, max), clamp(v.y, min, max), clamp(v.z, min, max));
+inline RGBColor clamp(const RGBColor& v, const double& min, const double& max) {
+    return RGBColor(clamp(v.x, min, max), clamp(v.y, min, max), clamp(v.z, min, max));
 }
 
-inline Colori convert_color_to_int(const Colord& c) {
+inline Colori convert_color_to_int(const RGBColor& c) {
     return Colori(int(c.x * 255), int(c.y * 255), int(c.z * 255));
 }
 
@@ -123,5 +123,8 @@ inline double square(const double& x) {
 inline double square(const Vector3D& a) {
     return dot(a, a);
 }
+
+const double INF = numeric_limits<double>::infinity();
+const Point3D MISS = Point3D(INF);
 
 #endif

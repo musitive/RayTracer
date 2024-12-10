@@ -1,15 +1,15 @@
 #include "AbstractIntersect.h"
 
-AbstractIntersect::AbstractIntersect(AbstractObject* o, const Ray& r)
+AbstractIntersect::AbstractIntersect(Actor* o, const Ray& r)
     : obj(o), ray(r), point(o->findIntersection(r)), distance(findDistanceFromPoint(r.origin)), normal(o->computeNormal(point)) {}
 
-AbstractIntersect::AbstractIntersect(AbstractObject* o, const Ray& r, const Point3D& p)
+AbstractIntersect::AbstractIntersect(Actor* o, const Ray& r, const Point3D& p)
     : obj(o), ray(r), point(p), distance(findDistanceFromPoint(r.origin)), normal(o->computeNormal(p)) {}
 
-AbstractIntersect::AbstractIntersect(AbstractObject* o, const Ray& r, const Point3D& p, const double& distance)
+AbstractIntersect::AbstractIntersect(Actor* o, const Ray& r, const Point3D& p, const double& distance)
     : obj(o), ray(r), point(p), distance(distance), normal(o->computeNormal(p)) {}
 
-AbstractIntersect::AbstractIntersect(AbstractObject* o, const Ray& r, const Point3D& p, const double& distance, const Direction& n)
+AbstractIntersect::AbstractIntersect(Actor* o, const Ray& r, const Point3D& p, const double& distance, const Direction& n)
     : obj(o), ray(r), point(p), distance(distance), normal(n) {}
 
 AbstractIntersect::~AbstractIntersect() {}

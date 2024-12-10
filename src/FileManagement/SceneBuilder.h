@@ -1,5 +1,5 @@
-#ifndef SCENELOADER_H
-#define SCENELOADER_H
+#ifndef SCENEBUILDER_H
+#define SCENEBUILDER_H
 
 #include <iostream>
 #include <fstream>
@@ -10,8 +10,9 @@
 #include "Diffuse.h"
 #include "Reflective.h"
 #include "Camera.h"
+#include "Scene.h"
 
-class SceneLoader {
+class SceneBuilder {
     public:
         static void loadScene(const std::string& fileName);
         static void unloadScene();
@@ -22,7 +23,7 @@ class SceneLoader {
 
         static Camera* parseCamera();
         static void parseObjects();
-        static AbstractObject* parseObject(string line_header);
+        static Actor* parseObject(string line_header);
         static Sphere* parseSphere();
         static Triangle* parseTriangle();
         static IMaterial* parseMaterial(string line_header);

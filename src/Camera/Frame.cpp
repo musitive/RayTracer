@@ -5,10 +5,10 @@
 Frame::Frame(const int& w, const int& h) {
     width = w;
     height = h;
-    pixels = new Colord*[height];
+    pixels = new RGBColor*[height];
 
     for (int i = 0; i < height; i++) {
-        pixels[i] = new Colord[width];
+        pixels[i] = new RGBColor[width];
     }
 }
 
@@ -20,10 +20,10 @@ Frame::~Frame() {
     delete[] pixels;
 }
 
-void Frame::setPixel(const Point2D& p, const Colord& color) {
+void Frame::setPixel(const Point2D& p, const RGBColor& color) {
     pixels[p.y][p.x] = color;
 }
 
-Colord Frame::getPixel(const Point2D& p) const {
+RGBColor Frame::getPixel(const Point2D& p) const {
     return pixels[p.y][p.x];
 }

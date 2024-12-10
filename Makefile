@@ -17,7 +17,7 @@ MATERIALS_SRCFILES = $(MATERIALS_DIR)/Diffuse.cpp $(MATERIALS_DIR)/Reflective.cp
 OBJECTS_SRCFILES = $(OBJECTS_DIR)/AbstractObject.cpp $(OBJECTS_DIR)/Sphere.cpp $(OBJECTS_DIR)/Triangle.cpp
 CAMERA_SRCFILES = $(CAMERA_DIR)/Frame.cpp $(CAMERA_DIR)/RayTracer.cpp $(CAMERA_DIR)/Camera.cpp $(CAMERA_DIR)/AntiAliasCam.cpp
 SCENE_SRCFILES = $(SCENE_DIR)/Scene.cpp
-FILE_MANAGEMENT_SRCFILES = $(FILE_MANAGEMENT_DIR)/SceneLoader.cpp $(FILE_MANAGEMENT_DIR)/PPM.cpp
+FILE_MANAGEMENT_SRCFILES = $(FILE_MANAGEMENT_DIR)/SceneBuilder.cpp $(FILE_MANAGEMENT_DIR)/PPM.cpp
 
 SRCFILES = $(MATH_SRCFILES) $(INTERSECT_SRCFILES) $(MATERIALS_SRCFILES) $(OBJECTS_SRCFILES) $(CAMERA_SRCFILES) \
 $(SCENE_SRCFILES) $(FILE_MANAGEMENT_SRCFILES) $(SRC_DIR)/main.cpp
@@ -52,7 +52,7 @@ clean:
 
 # Test
 small_test:
-	./raytracer tests/test_01_192x144p.env outputs/test_01_192x144p.ppm
+	./raytracer tests/test_01.env outputs/test_01.ppm
 
 large_test:
-	./raytracer tests/test_02_1920x1080p.env outputs/test_02_1920x1080p.ppm
+	./raytracer tests/test_02.env outputs/test_02.ppm

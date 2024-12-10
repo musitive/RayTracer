@@ -5,8 +5,8 @@
 
 class ReflectionIntersect : public AbstractIntersect {
     public:
-        ReflectionIntersect(AbstractObject* o, const Ray& r, const Point3D& p);
-        Colord computeColor(const Light& light, const int& depth) const override;
+        ReflectionIntersect(Actor* o, const Ray& r, const Point3D& p);
+        RGBColor computeColor(const Light& light, const int& depth) const override;
 };
 
 #endif

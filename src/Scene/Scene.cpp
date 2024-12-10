@@ -3,8 +3,8 @@
 
 Scene* Scene::instance = nullptr;
 
-Scene::Scene(const Light& light, const Colord& ambient_light, const Colord& background, Camera* cam)
-    : light(light), ambient_light(ambient_light), background(background), cam(cam)
+Scene::Scene(const Light& light, const RGBColor& background, const RGBColor& global, Camera* cam)
+    : light(light), global(global), background(background), cam(cam)
 {
     if (instance) throw invalid_argument("Scene instance already exists");
 }
@@ -13,7 +13,7 @@ Frame* Scene::render() {
     return cam->render();
 }
 
-void Scene::addActor(AbstractObject* actor) {
+void Scene::addActor(Actor* actor) {
     actors.push_back(actor);
 }
 
@@ -25,15 +25,15 @@ int Scene::getCameraHeight() const {
     return cam->getHeight();
 }
 
-vector<AbstractObject*> Scene::getActors() const {
+vector<Actor*> Scene::getActors() const {
     return actors;
 }
 
-Colord Scene::getAmbientLightColor() const {
-    return ambient_light;
+RGBColor Scene::getGlobalIllumination() const {
+    return global;
 }
 
-Colord Scene::getBackgroundColor() const {
+RGBColor Scene::getBackgroundColor() const {
     return background;
 }
 
@@ -43,7 +43,7 @@ Light Scene::getLight() const {
 
 Scene::~Scene() {
     delete cam;
-    for (AbstractObject* o : actors) {
+    for (Actor* o : actors) {
         delete o;
     }
 }

@@ -10,18 +10,18 @@
 
 class RayTracer {
     public:
-        static Colord trace(const Ray& ray, AbstractObject* current, const int& depth);
+        static RGBColor trace(const Ray& ray, Actor* current = nullptr, const int& depth = 0);
 
     private:
         static const int MAX_DEPTH = 2;
 
-        static AbstractIntersect* findClosestIntersection(const Ray& ray, AbstractObject* current, void* closest_buffer);
+        static AbstractIntersect* findClosestIntersection(const Ray& ray, Actor* current, void* closest_buffer);
+};
 
-        class IntersectionFactory {
-            public:
-                static AbstractIntersect* create(AbstractObject* obj, const Ray& ray, void* buffer);
-                static AbstractIntersect* createMissed(void* buffer);
-        };
+class IntersectionFactory {
+    public:
+        static AbstractIntersect* create(Actor* obj, const Ray& ray, void* buffer);
+        static AbstractIntersect* createMissed(void* buffer);
 };
 
 #endif

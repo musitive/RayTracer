@@ -5,11 +5,11 @@
 
 class Reflective : public IMaterial {
     public:
-        Reflective(Colord reflective);
-        Colord computeColor(const AbstractIntersect* i, const Light& light, const bool& blocked) override;
+        Reflective(RGBColor reflective);
+        RGBColor computeColor(const AbstractIntersect* i, const Light& light, const bool& blocked) override;
 
     public:
-        const Colord reflective;
+        const RGBColor reflective;
 };
 
 #endif

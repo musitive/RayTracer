@@ -14,7 +14,7 @@ class PPM {
     private:
         const static int max_color = 255;
         static std::ofstream output_file;
-        static inline void addColor(const Colord& color);
+        static inline void addColor(const RGBColor& color);
         static void addFrame(const Frame* frame);
 };
 

@@ -6,10 +6,7 @@
 #include "Vec.h"
 #include "Ray.h"
 
-const double INF = numeric_limits<double>::infinity();
-const Point3D MISS = Point3D(INF);
-
-class AbstractObject {
+class Actor {
     public:
         void setMaterial(IMaterial* material);
         IMaterial* getMaterial() const;

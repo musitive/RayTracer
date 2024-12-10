@@ -13,15 +13,15 @@ Ray AntiAliasCam::jitter(Ray ray) {
     return ray;
 }
 
-AntiAliasCam::AntiAliasCam(const int& width, const int& height, const Point3D& at, const Point3D& from,
+AntiAliasCam::AntiAliasCam(const int& width, const int& height, const Point3D& look_at, const Point3D& from,
                            const Point3D& up, const double& fov, const int& samples)
-    : Camera(width, height, at, from, up, fov), samples(samples) {}
+    : Camera(width, height, look_at, from, up, fov), samples(samples) {}
 
-Colord AntiAliasCam::computerColorAtPixel(int i, int j) {
-    vector<Colord> colors = vector<Colord>();
+RGBColor AntiAliasCam::computeColorAtPixel(int i, int j) {
+    vector<RGBColor> colors = vector<RGBColor>();
     double altered_i, altered_j;
     Ray r;
-    Colord c;
+    RGBColor c;
 
     double scale = 1. / (double) samples;
 
@@ -30,7 +30,7 @@ Colord AntiAliasCam::computerColorAtPixel(int i, int j) {
             altered_i = jitter(i, scale) + x * scale;
             altered_j = jitter(j, scale) + y * scale;
             r = computeRay(altered_i, altered_j);
-            c = rt->trace(r, nullptr, 0);
+            c = RayTracer::trace(r);
             colors.push_back(c);
         }
     }

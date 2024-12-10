@@ -7,7 +7,7 @@
 
 typedef double Barycentric;
 
-class Triangle : public AbstractObject {
+class Triangle : public Actor {
     public:
         Triangle(Point3D a, Point3D b, Point3D c);
         Point3D findIntersection(const Ray& ray, const bool& culling=true) const override;
