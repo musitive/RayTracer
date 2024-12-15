@@ -3,7 +3,10 @@
 const double K_EPSILON = .000000001;
 
 Triangle::Triangle(Point3D a, Point3D b, Point3D c)
-    : v1(a), v2(b), v3(c), edge1(b - a), edge2(c - a), normal(cross_product(edge1, edge2)) {}
+    : v1(a), v2(b), v3(c), edge1(b - a), edge2(c - a), normal(cross_product(edge1, edge2)) {
+        box.min_bound = min(min(v1, v2), v3);
+        box.max_bound = max(max(v1, v2), v3);
+    }
 
 // Moller-Trumbore algorithm
 Point3D Triangle::findIntersection(const Ray& ray, const bool& culling) const {

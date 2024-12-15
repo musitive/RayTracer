@@ -1,7 +1,10 @@
 #include "Sphere.h"
 #include "Vec.h"
 
-Sphere::Sphere(Point3D center, double radius) : center(center), radius(radius) {}
+Sphere::Sphere(Point3D center, double radius) : center(center), radius(radius) {
+    box.min_bound = center - radius;
+    box.max_bound = center + radius;
+}
 
 Point3D Sphere::findIntersection(const Ray& ray, const bool& culling) const {
     // Distance between the center of the sphere and the origin of the ray

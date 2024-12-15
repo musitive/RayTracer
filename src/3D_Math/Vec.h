@@ -16,6 +16,13 @@ class Vec3 {
         Vec3(T v) : x(v), y(v), z(v) {}
         Vec3(T u, T v, T w) : x(u), y(v), z(w) {}
         Vec3(const Vec3<T>& v) : x(v.x), y(v.y), z(v.z) {}
+
+    const T& operator[](size_t index) const {
+        if (index == 0) return x;
+        if (index == 1) return y;
+        if (index == 2) return z;
+        throw std::out_of_range("Index out of range");
+    }
 };
 
 template<typename T>
@@ -29,8 +36,18 @@ Vec3<T> operator + (const Vec3<T>& a, const Vec3<T>& b) {
 }
 
 template<typename T>
+Vec3<T> operator + (const Vec3<T>& a, const double& b) {
+    return Vec3<T>(a.x + b, a.y + b, a.z + b);
+}
+
+template<typename T>
 Vec3<T> operator - (const Vec3<T>& a, const Vec3<T>& b) {
     return Vec3<T>(a.x - b.x, a.y - b.y, a.z - b.z);
+}
+
+template<typename T>
+Vec3<T> operator - (const Vec3<T>& a, const double& b) {
+    return Vec3<T>(a.x - b, a.y - b, a.z - b);
 }
 
 template<typename T>
@@ -122,6 +139,16 @@ inline double square(const double& x) {
 
 inline double square(const Vector3D& a) {
     return dot(a, a);
+}
+
+template<typename T>
+Vec3<T> min(const Vec3<T>& a, const Vec3<T>& b) {
+    return Vec3<T>(min(a.x, b.x), min(a.y, b.y), min(a.z, b.z));
+}
+
+template<typename T>
+Vec3<T> max(const Vec3<T>& a, const Vec3<T>& b) {
+    return Vec3<T>(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z));
 }
 
 const double INF = numeric_limits<double>::infinity();

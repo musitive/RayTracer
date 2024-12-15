@@ -3,6 +3,7 @@
 
 #include "RayTracer.h"
 #include "Camera.h"
+#include "KDTree.h"
 
 /**
  * The Scene class is a Singleton that holds all of the actors in the scene.

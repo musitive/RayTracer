@@ -1,32 +1,39 @@
 /**
- * Hi! My name is Dallin Frank. I'm a software engineer with a passion for computer graphics.
- * For my code samples, I wanted to demonstrate my ability to write clean and efficient code
- * as well as my strong understanding of 3D math, computer graphics, and algorithms. The first
- * is an implementation of a branch and bound algorithm to solve the Traveling Salesman Problem.
- * The second is a ray tracer that I've been working on in my free time.
- * Earlier this year, I read through Robert C. Martin's "Clean Code" and have strived to apply
- * those principles to my code. For the sake of this sample, I have prioritized readability and
- * software design over performance optimizations.
-*/
+ * Hi! My name is Dallin Frank. I'm a software engineer with a passion for computer graphics. For my code sample,
+ * I wanted to demonstrate my ability to write clean code and my strong understanding of 3D math and computer graphics,
+ * and algorithms. To do this, I showcase a ray tracer that I built from scratch at Brigham Young University and have 
+ * been continuing to work on in my free time.
+ * 
+ * Earlier this year, I read through Robert C. Martin's "Clean Code" and have strived to apply those principles to 
+ * my code. For the sake of this sample, I have prioritized readability and software design over performance
+ * optimizations.
+ * 
+ * I've done the best I can to provide comments and documentation for the code below, but I am a strong believer in
+ * self-documenting code.
+ * 
+ * One last thought before getting into the code:
+ * I really wanted to improve efficiency by implementing a K-D tree and bounding boxes for the ray tracer, but I ran
+ * out of time. However, I was able to clean up inefficient data allocation, cutting down the runtime on my 1080p
+ * testcases from about 60 seconds down to 800 milliseconds.
+ */
 
-// TRAVELING SALESMAN PROBLEM CODE SAMPLE ========================================
-
-// RAY TRACER CODE SAMPLE ========================================================
+// MAIN.CPP ============================================================================================================
 #include <random>
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
     char *input_filename = argv[1];
     char *output_filename = argv[2];
 
-    srand(time(0)); // Create seed for the random number generator
+    srand(time(0));     // Create seed for the random number generator
 
-    // I'm not including the SceneBuilder, Frame, or PPM classes in this code sample
-    // because they mostly deal with file I/O and are not relevant to the ray tracer
-    // and they should be self-evident from the context provided here.
+    // I'm not including the SceneBuilder, Frame, or PPM classes in this code
+    // sample because they mostly deal with file I/O and are not relevant to the
+    // ray tracer and they should be self-evident from the context provided here.
     SceneBuilder::loadScene(input_filename);
 
-    Scene *scene = Scene::getInstance();    // Get pointer to the Singleton instance of the Scene
-    Frame *frame = scene->render();         // This is where the magic happens
+    Scene *scene = Scene::getInstance();
+    Frame *frame = scene->render();
 
     PPM::writeToFile(output_filename, frame);
 
@@ -36,57 +43,72 @@ int main(int argc, char **argv) {
     return 0;
 }
 
+// SCENE ===============================================================================================================
 /**
- * The Scene class is a Singleton that holds all of the actors in the scene.
- * While Singletons can be controversial, I chose to use one here because there
- * should only ever be one scene in the program. Plus, it seems like the cleanest
- * way to handle what are essentially global variables. If this were a game engine,
- * mutexes could be implemented to ensure thread safety.
-*/
-class Scene {
+ * @class Scene
+ * @brief The Scene class is a Singleton that holds all of the actors in a scene. While Singletons can be controversial,
+ * I chose to use one here because there should only ever be one scene in the program. Plus, it seems like the cleanest
+ * way to handle what are essentially global variables. If this were a game engine, mutexes could be implemented to
+ * ensure thread safety.
+ */
+class Scene
+{
     public:
-        // For my purposes, only one scene will ever be created. If this were a
-        // game engine and I swap out scenes, it could be changed here.
+        /**
+         * @brief This method creates the Singleton instance of the Scene class. For my purposes, only one scene will
+         * ever be created. If this were a game engine and I wanted to swap out scenes, it could be changed here.
+         */
         static Scene* createInstance(const Light &light, const RGBColor &global,
-                                     const RGBColor &background, Camera *cam) {
-
+            const RGBColor &background, Camera *cam)
+        {
             instance = new Scene(light, global, background, cam);
             return instance;
         }
 
-        // Including this to demonstrate how to destroy the Singleton instance.
-        static void destroyInstance() {
-            if (instance) {
+        /**
+         * @brief This method destroys the Singleton instance of the Scene class.
+         */
+        static void destroyInstance()
+        {
+            if (instance)
+            {
                 delete instance;
                 instance = nullptr;
             }
         }
 
-        // This is how other classes will get a pointer to the Singleton instance.
-        static Scene* getInstance() {
+        /**
+         * @brief This method returns a pointer to the Singleton instance of the Scene class.
+         */
+        static Scene* getInstance()
+        {
             if (!instance) throw std::invalid_argument("Scene instance does not exist");
             return instance;
         }
 
-        Frame* render() {
+        /**
+         * @brief This method renders the scene using the camera and returns a Frame object.
+         */
+        Frame* render()
+        {
             return cam->render();
         }
 
-        // This is where the getters and setters would go
-
+        // Getters and setters removed for brevity
+        
         // The copy constructor and assignment operator must be deleted to
         // prevent copying the Singleton instance
         Scene(const Scene&) = delete;
         Scene &operator=(const Scene&) = delete;
 
     private:
+        static Scene* instance;
+
         Light light;                // For now, the single light source in the scene
         RGBColor global;            // Global illumination
         RGBColor background;
         std::vector<Actor*> actors; // All objects in the scene
         Camera* cam;
-
-        static Scene* instance;
 
         // Constructor and destructor are private to prevent instantiation outside of the class
         // Constructor and destructor implementations removed for brevity
@@ -94,61 +116,85 @@ class Scene {
         ~Scene();
 };
 
+// CAMERA ==============================================================================================================
+constexpr double DEG_TO_RAD_CONSTANT = M_PI / 180.0;
+#define DEG_TO_RAD(x) (x * DEG_TO_RAD_CONSTANT)
+
 /**
- * The Camera class is responsible for rendering the scene. Some of the math can get a bit complicated.
- * The formulas used to calculate the viewport were provided by Dr. Egbert in C S 455 at BYU.
+ * @class Camera
+ * @brief The Camera class is responsible for rendering the scene. The formulas used to calculate the viewport were
+ * provided by Dr. Egbert in C S 455 at BYU.
  */
-class Camera {
+class Camera
+{
     public:
         Camera(const int &width, const int &height, const Point3D &look_at,
-            const Point3D &look_from, const Point3D &up,
-            const double &field_of_view) {
-
+            const Point3D &look_from, const Point3D &up, const double &field_of_view)
+        {
             // Member variable assignments skipped for brevity, except for the following
             view_angle = calculateViewAngle(field_of_view);
             aspect_ratio = static_cast<double>(width) / height; 
         }
 
-        Frame *render() {
-            RGBColor c;
+        /**
+         * @brief This method creates a frame by calculating the color of each pixel of the camera's viewport.
+         */
+        Frame *render()
+        {
+            RGBColor color;
             Frame *frame = new Frame(width, height);
 
-            for(int y = 0; y < height; ++y) {
-                for(int x = 0; x < width; ++x) {
-                    c = computeColorAtPixel(x, y);
-                    frame->setPixel(x, y, c);
+            for(int y = 0; y < height; ++y)
+            {
+                for(int x = 0; x < width; ++x)
+                {
+                    color = computeColorAtPixel(x, y);
+                    frame->setPixel(x, y, color);
                 }
             }
 
             return frame;
         }
 
-    protected:      // Protected so that subclasses can override these methods
-        // The view_angle is calculated using the field of view in degrees. The half-angle is used in the calculation.
-        inline double calculateViewAngle(const double &field_of_view) const {
-            double fov_angle_radians = M_PI * 0.5 * field_of_view / 180.0;  
+    protected:
+        /**
+         * @brief This method calculates the view angle taking the tangent of half the field of view (in radians).
+         * @param field_of_view The field of view in degrees.
+         */
+        inline double calculateViewAngle(const double &field_of_view) const
+        {
+            double fov_angle_radians = DEG_TO_RAD(field_of_view) * 0.5;  
             return tan(fov_angle_radians);
         }
 
-        // This is where the main logic for the entire program begins! Each 2D pixel in the frame
-        // is projected onto the viewport as a 3D point in the scene and a ray is cast.
-        virtual RGBColor computeColorAtPixel(int x, int y) {
+        /**
+         * @brief This method calculates the color of a pixel by casting a ray and tracing it through the scene.
+         */
+        virtual RGBColor computeColorAtPixel(const int &x, const int &y)
+        {
             Ray ray = computeRay(x, y);
             return RayTracer::trace(ray);
         }
 
-        // Parameters x and y are the pixel coordinates on the frame. This method calculates that
-        // position in 3D space and creates a ray using the camera's look_from and look_at points.
-        virtual Ray computeRay(const double &x, const double &y) {
+        /**
+         * @brief This method calculates the ray that will be cast through the scene using x and y pixel coordinates
+         * on the camera's viewport.
+         */
+        virtual Ray computeRay(const double &x, const double &y)
+        {
             double viewport_x = calculateViewportX(x);
             double viewport_y = calculateViewportY(y);
+            Point3D offset = Point3D(viewport_x, viewport_y, 0);
 
-            Point3D look_at_shifted = Point3D(viewport_x, viewport_y, 0) + look_at;
+            Point3D look_at_shifted = look_at + offset;
             return Ray(look_from, look_at_shifted);
         }
 
-        // Projects the x-coordinate of the pixel onto the viewport in the scene
-        inline double calculateViewportX(const double &x) const {
+        /**
+         * @brief Projects the viewport x-coordinate into the scene
+         */
+        inline double calculateViewportX(const double &x) const
+        {
             double centered_x = x + 0.5;        // 0.5 is added to center coordinates
             double normalized_x = centered_x / width;
 
@@ -156,8 +202,11 @@ class Camera {
             return (2 * normalized_x - 1) * view_angle * aspect_ratio;
         }
 
-        // Projects the y-coordinate of the pixel onto the viewport in the scene
-        inline double calculateViewportY(const double &y) const {
+       /**
+         * @brief Projects the viewport y-coordinate into the scene
+         */
+        inline double calculateViewportY(const double &y) const
+        {
             double centered_y = y + 0.5;        // 0.5 is added to center coordinates
             double normalized_y = centered_y / height;
 
@@ -170,31 +219,39 @@ class Camera {
         Point3D look_at, look_from, up;
 };
 
+// ANTI-ALIASING =======================================================================================================
 /**
- * I want to show off this class. It's an extension of the Camera class that adds anti-aliasing, based on a research
- * paper that I borrowed from Dr. Egbert. I no longer have access to the paper, and I don't remember the author's name;
- * please note that the code is my own implementation of the algorithm described in the paper, but the algorithm itself
- * is not mine.
+ * @class AntiAliasCam
+ * @brief I wanted to this class because it showcases some of the extended learning I did at BYU. The class is an
+ * extension of the Camera class that adds anti-aliasing, based on a research paper that I borrowed from Dr. Egbert.
+ * I no longer have access to the paper, and I don't remember the author's name; please note that the code is my own
+ * implementation of the algorithm described in the paper, but the algorithm itself is not mine.
  */
-class AntiAliasCam : public Camera {
+class AntiAliasCam : public Camera
+{
     protected:
         int samples;                // Number of samples to take per pixel, defined in the constructor
         double inverted_samples;    // 1 / samples for efficiency
 
-        // The first of the two ways that this class provides anti-aliasing is through oversampling.
-        RGBColor computeColorAtPixel(int x, int y) override {
+        /**
+         * @brief This method averages the colors of multiple rays cast through a pixel to provide anti-aliasing.
+         */
+        RGBColor computeColorAtPixel(const int &x, const int &y) override
+        {
             std::vector<RGBColor> colors = std::vector<RGBColor>();
             double jittered_x, jittered_y;
-            Ray r;
+            Ray ray;
             RGBColor c;
 
             // Cast multiple rays per pixel and average the colors
-            for(int y_offset = 0; y_offset < samples; ++y_offset) {
-                for(int x_offset = 0; x_offset < samples; ++x_offset) {
-                    jittered_x = jitter(x) + x_offset * inverted_samples;
-                    jittered_y = jitter(y) + y_offset * inverted_samples;
-                    r = computeRay(jittered_x, jittered_y);
-                    c = RayTracer::trace(r);
+            for(int y_offset = 0; y_offset < samples; ++y_offset)
+            {
+                for(int x_offset = 0; x_offset < samples; ++x_offset)
+                {
+                    jittered_x = jitter(x + x_offset * inverted_samples);
+                    jittered_y = jitter(y + y_offset * inverted_samples);
+                    ray = computeRay(jittered_x, jittered_y);
+                    c = RayTracer::trace(ray);
                     colors.push_back(c);
                 }
             }
@@ -202,41 +259,52 @@ class AntiAliasCam : public Camera {
             return average(colors);
         }
 
-        // The second way that this class provides anti-aliasing is through jittering.
-        double jitter(int x) {
+        /**
+         * @brief This method adds a small amount of randomness to the pixel coordinates to reduce aliasing.
+         */
+        double jitter(const int &x)
+        {
             std::uniform_real_distribution<double> unif(0, inverted_samples);   // random numbers with a uniform distribution
             std::default_random_engine re;  // random number generator
             return x + unif(re);
         }
 };
 
+// RAY TRACER ==========================================================================================================
 /**
- * The RayTracer class is a static class that contains the logic for casting rays and tracing them through the scene.
- * I opted to store this logic in it's own class so that it can easily be replaced or extended in the future.
+ * @class RayTracer
+ * @brief The RayTracer class is a static class that contains the logic for casting rays and tracing them through the
+ * scene. I opted to store this logic in it's own class so that it can easily be replaced or extended in the future.
  */
 class RayTracer {
     public:
-        // This is the main method of the RayTracer, being the only public method. When called, it will trace a ray
-        // recursively until it reaches the maximum depth.
+        /**
+         * @brief This method traces a ray through the scene and returns the color of the object it intersects.
+         */
         static RGBColor trace(const Ray& ray, Actor* current = nullptr, const int& depth = 0) {
-            if (depth >= MAX_DEPTH) return MAX_COLOR;   // Return the maximum color if the maximum depth is reached
-            Light light = Scene::getInstance()->getLight();
+            if (depth >= MAX_DEPTH) return MAX_COLOR;
 
             // Allocate memory for the closest intersection. This is done to avoid multiple allocations.
             // This information can't be stored on the stack since it needs to be used elsewhere. Since abstract
             // classes can't be return types in C++, I opted to use pointers to the Intersections.
             void* closest_buffer = malloc(sizeof(Reflection));
+            Light light = Scene::getInstance()->getLight();
 
             AbstractIntersection* i = findClosestIntersection(ray, current, closest_buffer);
-            RGBColor c = i->computeColor(light, depth);
+            RGBColor color = i->computeColor(light, depth);
 
             free(closest_buffer);
-            return c;
+            return color;
         }
 
     private:
         static const int MAX_DEPTH = 3; // Maximum depth of recursion, should be set in the SceneBuilder
 
+        /**
+         * @brief This method finds the closest intersection of a ray with an object in the scene.
+         * @todo This is the probably the biggest bottleneck in the program, and I would like to improve it in
+         * the future. I'd probably need to implement a K-D and bounding boxes.
+         */
         static AbstractIntersection* findClosestIntersection(const Ray& ray, Actor* current, void* closest_buffer) {
             void* buffer = malloc(sizeof(Reflection));
             std::vector<Actor*> actors = Scene::getInstance()->getActors();     // Probably shouldn't be a copy
@@ -256,6 +324,20 @@ class RayTracer {
         }
 };
 
+// INTERSECTION FACTORY ================================================================================================
+/**
+ * TODO: Comment
+ */
+class IntersectionFactory {
+    public:
+        // TODO: Comment
+        static AbstractIntersection* create(Actor* obj, const Ray& ray, void* buffer);
+
+
+        static AbstractIntersection* createMissed(void* buffer);
+};
+
+// ABSTRACT INTERSECTION ===============================================================================================
 /**
  * TODO: Comment
  */

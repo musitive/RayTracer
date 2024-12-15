@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
     SceneBuilder::loadScene(input_filename);
 
     Scene *scene = Scene::getInstance();    // Get pointer to the Singleton instance of the Scene
-    Frame *frame = scene->render();         // This is where the magic happens
+    Frame *frame = scene->render();
 
     PPM::writeToFile(output_filename, frame);
 

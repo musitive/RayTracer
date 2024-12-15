@@ -3,6 +3,9 @@
 #include "MissedIntersect.h"
 #include "ReflectionIntersect.h"
 #include "DiffuseIntersect.h"
+#include "KDTree.h"
+
+KDTree* RayTracer::kdTree = nullptr;
 
 RGBColor RayTracer::trace(const Ray& ray, Actor* reflected_object, const int& depth) {
     if (depth >= MAX_DEPTH) return RGBColor(MAX_COLOR);
@@ -20,33 +23,10 @@ RGBColor RayTracer::trace(const Ray& ray, Actor* reflected_object, const int& de
 
 AbstractIntersection* RayTracer::findClosestIntersection(const Ray& ray, Actor* reflected_object, void* closest_buffer) {
     void* buffer = malloc(sizeof(Reflection));
-    vector<Actor*> actors = Scene::getInstance()->getActors();
+
     AbstractIntersection* closest = new (closest_buffer) Miss(nullptr, Ray());
-    AbstractIntersection* next;
-
-    for (Actor* o : actors) {
-        if (o == reflected_object) continue;
-
-        next = IntersectionFactory::create(o, ray, buffer);
-        if (next->isCloserThan(closest))
-            memcpy(closest_buffer, buffer, sizeof(Reflection));
-    }
+    closest = kdTree->findClosestIntersection(ray, reflected_object, closest_buffer, kdTree->root, closest, buffer);
 
     free(buffer);
     return closest;
-}
-
-AbstractIntersection* IntersectionFactory::create(Actor* obj, const Ray& ray, void* buffer) {
-    Point3D p = obj->findIntersection(ray);
-
-    if (p == MISS)
-        return new (buffer) Miss(obj, ray);
-    else if (obj->getMaterial()->isReflective)
-        return new (buffer) Reflection(obj, ray, p);
-    else
-        return new (buffer) Absorption(obj, ray, p);
-}
-
-AbstractIntersection* IntersectionFactory::createMissed(void* buffer) {
-    return new (buffer) Miss(nullptr, Ray());
 }

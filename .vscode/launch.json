@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/raytracer",
-            "args": ["${workspaceFolder}/tests/test_01_192x144p.env", "${workspaceFolder}/tests/test_01_192x144p.ppm"],
+            "args": ["${workspaceFolder}/tests/test_01.env", "${workspaceFolder}/tests/test_01.ppm"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

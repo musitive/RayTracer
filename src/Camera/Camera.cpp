@@ -34,6 +34,7 @@ double Camera::calculateViewAngle(const double &fov) const {
 Frame* Camera::render() {
     RGBColor color;
     Frame* frame = new Frame(width, height);
+    RayTracer::kdTree = new KDTree(Scene::getInstance()->getActors());
 
     for(int y = 0; y < height; ++y) {
         for(int x = 0; x < width; ++x) {
