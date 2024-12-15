@@ -1,9 +1,9 @@
 #include "ReflectionIntersect.h"
 #include "RayTracer.h"
 
-ReflectionIntersect::ReflectionIntersect(Actor* o, const Ray& r, const Point3D& p) : AbstractIntersect(o, r, p) {}
+Reflection::Reflection(Actor* o, const Ray& r, const Point3D& p) : AbstractIntersection(o, r, p) {}
 
-RGBColor ReflectionIntersect::computeColor(const Light& light, const int& depth) const {
+RGBColor Reflection::computeColor(const Light& light, const int& depth) const {
     double dt = dot(ray.direction, normal);
     Direction reflection_direction = normal * (dt * 2) - ray.direction;
     Ray reflection(point, -reflection_direction);

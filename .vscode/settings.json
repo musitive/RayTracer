@@ -69,7 +69,9 @@
         "complex": "cpp",
         "print": "cpp",
         "sstream": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "execution": "cpp",
+        "variant": "cpp"
     },
     "lldb-dap.executable-path": "/usr/local/opt/lldpd/sbin/lldpd"
 }

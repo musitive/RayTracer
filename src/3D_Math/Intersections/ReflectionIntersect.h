@@ -3,9 +3,9 @@
 
 #include "AbstractIntersect.h"
 
-class ReflectionIntersect : public AbstractIntersect {
+class Reflection : public AbstractIntersection {
     public:
-        ReflectionIntersect(Actor* o, const Ray& r, const Point3D& p);
+        Reflection(Actor* o, const Ray& r, const Point3D& p);
         RGBColor computeColor(const Light& light, const int& depth) const override;
 };
 

@@ -15,13 +15,13 @@ class RayTracer {
     private:
         static const int MAX_DEPTH = 2;
 
-        static AbstractIntersect* findClosestIntersection(const Ray& ray, Actor* current, void* closest_buffer);
+        static AbstractIntersection* findClosestIntersection(const Ray& ray, Actor* current, void* closest_buffer);
 };
 
 class IntersectionFactory {
     public:
-        static AbstractIntersect* create(Actor* obj, const Ray& ray, void* buffer);
-        static AbstractIntersect* createMissed(void* buffer);
+        static AbstractIntersection* create(Actor* obj, const Ray& ray, void* buffer);
+        static AbstractIntersection* createMissed(void* buffer);
 };
 
 #endif

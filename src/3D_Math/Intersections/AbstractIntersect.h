@@ -4,7 +4,7 @@
 #include "AbstractObject.h"
 #include "Vec.h"
 
-class AbstractIntersect {
+class AbstractIntersection {
     public:
         Actor* obj;
         Point3D point;
@@ -12,15 +12,15 @@ class AbstractIntersect {
         Ray ray;
         Direction normal;
 
-        AbstractIntersect(Actor* o, const Ray& r);
-        AbstractIntersect(Actor* o, const Ray& r, const Point3D& p);
-        AbstractIntersect(Actor* o, const Ray& r, const Point3D& p, const double& distance);
-        AbstractIntersect(Actor* o, const Ray& r, const Point3D& p, const double& distance, const Direction& n);
-        virtual ~AbstractIntersect();
+        AbstractIntersection(Actor* o, const Ray& r);
+        AbstractIntersection(Actor* o, const Ray& r, const Point3D& p);
+        AbstractIntersection(Actor* o, const Ray& r, const Point3D& p, const double& distance);
+        AbstractIntersection(Actor* o, const Ray& r, const Point3D& p, const double& distance, const Direction& n);
+        virtual ~AbstractIntersection();
 
         double findDistanceFromPoint(const Point3D& p) const;
-        bool isCloserThan(const AbstractIntersect* i) const;
-        Direction computeNormal() const;
+        bool isCloserThan(const AbstractIntersection* i) const;
+        Direction computeActorNormal() const;
         virtual RGBColor computeColor(const Light& light, const int& depth) const = 0;
 };
 

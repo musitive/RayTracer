@@ -4,7 +4,7 @@
 #include "Vec.h"
 
 // forward declaration
-class AbstractIntersect;
+class AbstractIntersection;
 
 struct Light {
     RGBColor color;
@@ -14,7 +14,7 @@ struct Light {
 class IMaterial {
     public:
         bool isReflective = false;
-        virtual RGBColor computeColor(const AbstractIntersect* i, const Light& light, const bool& blocked) = 0;
+        virtual RGBColor computeColor(const AbstractIntersection* i, const Light& light, const bool& blocked) = 0;
 };
 
 #endif

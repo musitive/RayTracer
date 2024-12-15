@@ -3,7 +3,7 @@
 
 Diffuse::Diffuse(RGBColor diffuse, RGBColor specular, double phong) : diffuse_constant(diffuse), specular_constant(specular), phong_constant(phong) {}
 
-RGBColor Diffuse::computeColor(const AbstractIntersect* i, const Light& light, const bool& blocked) {
+RGBColor Diffuse::computeColor(const AbstractIntersection* i, const Light& light, const bool& blocked) {
     if (blocked) return computeBlockedColor();
     else return computeColorFromLight(i, light);
 }
@@ -13,9 +13,9 @@ RGBColor Diffuse::computeBlockedColor() {
     return clamp(diffuse_constant * ambient_lighting, MIN_COLOR, MAX_COLOR);
 }
 
-RGBColor Diffuse::computeColorFromLight(const AbstractIntersect* i, const Light& light) {   
+RGBColor Diffuse::computeColorFromLight(const AbstractIntersection* i, const Light& light) {   
     Direction to_light = Direction(light.position, i->point);
-    double diffuse_intensity = dot(to_light, i->computeNormal());
+    double diffuse_intensity = dot(to_light, i->computeActorNormal());
 
     RGBColor diffuse = computeDiffuseColor(light.color, diffuse_intensity);
     RGBColor specular = computeSpecularColor(i, light.color, diffuse_intensity, to_light);
@@ -30,7 +30,7 @@ RGBColor Diffuse::computeDiffuseColor(const RGBColor& light_color, const double&
     return diffuse_constant * (ambient_lighting + diffuse_lighting);
 }
 
-RGBColor Diffuse::computeSpecularColor(const AbstractIntersect* i, const RGBColor& light_color, const double& diffuse_intensity, const Direction& to_light) const {
+RGBColor Diffuse::computeSpecularColor(const AbstractIntersection* i, const RGBColor& light_color, const double& diffuse_intensity, const Direction& to_light) const {
     Direction view = Direction(i->ray.origin, i->point);
     Direction light_reflection = Direction(i->normal * (diffuse_intensity * 2), to_light);
     double specular_intensity = max(0.0, dot(view, light_reflection));
