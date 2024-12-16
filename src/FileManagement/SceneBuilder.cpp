@@ -42,7 +42,7 @@ Camera* SceneBuilder::parseCamera() {
 
 void SceneBuilder::parseObjects() {
     string line_header;
-    Actor* o;
+    AbstractObject* o;
     IMaterial* m;
 
     input_file >> line_header;
@@ -58,8 +58,8 @@ void SceneBuilder::parseObjects() {
     }
 }
 
-Actor* SceneBuilder::parseObject(string line_header) {
-    Actor* o;
+AbstractObject* SceneBuilder::parseObject(string line_header) {
+    AbstractObject* o;
 
     if (line_header == "Sphere")
         o = parseSphere();

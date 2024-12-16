@@ -11,12 +11,13 @@
 
 class RayTracer {
     public:
-        static RGBColor trace(const Ray& ray, Actor* current = nullptr, const int& depth = 0);
-static KDTree* kdTree;
+        static RGBColor trace(const Ray& ray, AbstractObject* current = nullptr, const int& depth = 0);
+        static KDTree* kdTree;
+        
     private:
         static const int MAX_DEPTH = 2;
         
-        static AbstractIntersection* findClosestIntersection(const Ray& ray, Actor* current, void* closest_buffer);
+        static AbstractIntersection* findClosestIntersection(const Ray& ray, AbstractObject* current, void* closest_buffer);
 };
 
 #endif

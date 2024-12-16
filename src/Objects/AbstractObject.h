@@ -7,7 +7,7 @@
 #include "Ray.h"
 #include "BoundingBox.h"
 
-class Actor {
+class AbstractObject {
     public:
         void setMaterial(IMaterial* material);
         IMaterial* getMaterial() const;

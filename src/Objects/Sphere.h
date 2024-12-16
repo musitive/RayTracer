@@ -5,7 +5,7 @@
 #include "Vec.h"
 #include "Ray.h"
 
-class Sphere : public Actor {
+class Sphere : public AbstractObject {
     public:
         Sphere(Point3D center, double radius);
         Point3D findIntersection(const Ray& ray, const bool& culling=true) const override;

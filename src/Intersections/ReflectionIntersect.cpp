@@ -1,7 +1,7 @@
 #include "ReflectionIntersect.h"
 #include "RayTracer.h"
 
-Reflection::Reflection(Actor* o, const Ray& r, const Point3D& p) : AbstractIntersection(o, r, p) {}
+Reflection::Reflection(AbstractObject* o, const Ray& r, const Point3D& p) : AbstractIntersection(o, r, p) {}
 
 RGBColor Reflection::computeColor(const Light& light, const int& depth) const {
     double dt = dot(ray.direction, normal);

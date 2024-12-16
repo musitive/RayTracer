@@ -6,16 +6,16 @@
 
 class AbstractIntersection {
     public:
-        Actor* obj;
+        AbstractObject* obj;
         Point3D point;
         double distance;
         Ray ray;
         Direction normal;
 
-        AbstractIntersection(Actor* o, const Ray& r);
-        AbstractIntersection(Actor* o, const Ray& r, const Point3D& p);
-        AbstractIntersection(Actor* o, const Ray& r, const Point3D& p, const double& distance);
-        AbstractIntersection(Actor* o, const Ray& r, const Point3D& p, const double& distance, const Direction& n);
+        AbstractIntersection(AbstractObject* o, const Ray& r);
+        AbstractIntersection(AbstractObject* o, const Ray& r, const Point3D& p);
+        AbstractIntersection(AbstractObject* o, const Ray& r, const Point3D& p, const double& distance);
+        AbstractIntersection(AbstractObject* o, const Ray& r, const Point3D& p, const double& distance, const Direction& n);
         virtual ~AbstractIntersection();
 
         double findDistanceFromPoint(const Point3D& p) const;

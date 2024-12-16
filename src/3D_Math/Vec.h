@@ -7,17 +7,17 @@
 
 using namespace std;
 
-template<typename T>
-class Vec3 {
+template<typename double>
+class vec3 {
     public:
-        T x, y, z;
+        double x, y, z;
 
-        Vec3() : x(T(0)), y(T(0)), z(T(0)) {}
-        Vec3(T v) : x(v), y(v), z(v) {}
-        Vec3(T u, T v, T w) : x(u), y(v), z(w) {}
-        Vec3(const Vec3<T>& v) : x(v.x), y(v.y), z(v.z) {}
+        vec3() : x(double(0)), y(double(0)), z(double(0)) {}
+        vec3(double v) : x(v), y(v), z(v) {}
+        vec3(double u, double v, double w) : x(u), y(v), z(w) {}
+        vec3(const vec3<double>& v) : x(v.x), y(v.y), z(v.z) {}
 
-    const T& operator[](size_t index) const {
+    const double& operator[](size_t index) const {
         if (index == 0) return x;
         if (index == 1) return y;
         if (index == 2) return z;
@@ -25,72 +25,72 @@ class Vec3 {
     }
 };
 
-template<typename T>
-bool operator == (const Vec3<T>& a, const Vec3<T>& b) {
+template<typename double>
+bool operator == (const vec3<double>& a, const vec3<double>& b) {
     return a.x == b.x && a.y == b.y && a.z == b.z;
 }
 
-template<typename T>
-Vec3<T> operator + (const Vec3<T>& a, const Vec3<T>& b) {
-    return Vec3<T>(a.x + b.x, a.y + b.y, a.z + b.z);
+template<typename double>
+vec3<double> operator + (const vec3<double>& a, const vec3<double>& b) {
+    return vec3<double>(a.x + b.x, a.y + b.y, a.z + b.z);
 }
 
-template<typename T>
-Vec3<T> operator + (const Vec3<T>& a, const double& b) {
-    return Vec3<T>(a.x + b, a.y + b, a.z + b);
+template<typename double>
+vec3<double> operator + (const vec3<double>& a, const double& b) {
+    return vec3<double>(a.x + b, a.y + b, a.z + b);
 }
 
-template<typename T>
-Vec3<T> operator - (const Vec3<T>& a, const Vec3<T>& b) {
-    return Vec3<T>(a.x - b.x, a.y - b.y, a.z - b.z);
+template<typename double>
+vec3<double> operator - (const vec3<double>& a, const vec3<double>& b) {
+    return vec3<double>(a.x - b.x, a.y - b.y, a.z - b.z);
 }
 
-template<typename T>
-Vec3<T> operator - (const Vec3<T>& a, const double& b) {
-    return Vec3<T>(a.x - b, a.y - b, a.z - b);
+template<typename double>
+vec3<double> operator - (const vec3<double>& a, const double& b) {
+    return vec3<double>(a.x - b, a.y - b, a.z - b);
 }
 
-template<typename T>
-Vec3<T> operator * (const Vec3<T>& a, const Vec3<T>& b) {
-    return Vec3<T>(a.x * b.x, a.y * b.y, a.z * b.z);
+template<typename double>
+vec3<double> operator * (const vec3<double>& a, const vec3<double>& b) {
+    return vec3<double>(a.x * b.x, a.y * b.y, a.z * b.z);
 }
 
-template<typename T>
-Vec3<T> operator * (const Vec3<T>& a, const double& b) {
-    return Vec3<T>(a.x * b, a.y * b, a.z * b);
+template<typename double>
+vec3<double> operator * (const vec3<double>& a, const double& b) {
+    return vec3<double>(a.x * b, a.y * b, a.z * b);
 }
 
-template<typename T>
-Vec3<T> operator / (const Vec3<T>& a, const Vec3<T>& b) {
-    return Vec3<T>(a.x * b.x, a.y * b.y, a.z * b.z);
+template<typename double>
+vec3<double> operator / (const vec3<double>& a, const vec3<double>& b) {
+    return vec3<double>(a.x * b.x, a.y * b.y, a.z * b.z);
 }
 
-template<typename T>
-Vec3<T> operator / (const Vec3<T>& a, const double& b) {
+template<typename double>
+vec3<double> operator / (const vec3<double>& a, const double& b) {
     double inv_b = 1 / b;
     return a * inv_b;
 }
 
-template<typename T>
-Vec3<T> operator - (const Vec3<T>& a) {
-    return Vec3<T>(-a.x, -a.y, -a.z);
+template<typename double>
+vec3<double> operator - (const vec3<double>& a) {
+    return vec3<double>(-a.x, -a.y, -a.z);
 }
 
-template<typename T>
-ostream & operator << (ostream &os, const Vec3<T> &v) {
+template<typename double>
+ostream & operator << (ostream &os, const vec3<double> &v) {
     os << v.x << ' ' << v.y << ' ' << v.z; 
     return os; 
 }
 
-template<typename T>
-istream & operator >> (istream &is, Vec3<T> &v) {
+template<typename double>
+istream & operator >> (istream &is, vec3<double> &v) {
     is >> v.x >> v.y >> v.z;
     return is;
 }
 
-typedef Vec3<double> RGBColor;
-typedef Vec3<int> Colori;
-typedef Vec3<double> Point3D;
+typedef vec3<double> RGBColor;
+typedef vec3<int> Colori;
+typedef vec3<double> Point3D;
 
 const double MIN_COLOR = 0.0;
 const double MAX_COLOR = 1.0;
@@ -103,10 +103,10 @@ class Direction : public Point3D {
 
 typedef Point3D Vector3D;
 
-template<typename T>
-Vec3<T> average(vector<Vec3<T>> v) {
-    Vec3<T> t = Vec3<T>();
-    for(Vec3<T> c: v) {
+template<typename double>
+vec3<double> average(vector<vec3<double>> v) {
+    vec3<double> t = vec3<double>();
+    for(vec3<double> c: v) {
         t = t + c;
     }
     return t / v.size();
@@ -141,14 +141,14 @@ inline double square(const Vector3D& a) {
     return dot(a, a);
 }
 
-template<typename T>
-Vec3<T> min(const Vec3<T>& a, const Vec3<T>& b) {
-    return Vec3<T>(min(a.x, b.x), min(a.y, b.y), min(a.z, b.z));
+template<typename double>
+vec3<double> min(const vec3<double>& a, const vec3<double>& b) {
+    return vec3<double>(min(a.x, b.x), min(a.y, b.y), min(a.z, b.z));
 }
 
-template<typename T>
-Vec3<T> max(const Vec3<T>& a, const Vec3<T>& b) {
-    return Vec3<T>(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z));
+template<typename double>
+vec3<double> max(const vec3<double>& a, const vec3<double>& b) {
+    return vec3<double>(max(a.x, b.x), max(a.y, b.y), max(a.z, b.z));
 }
 
 const double INF = numeric_limits<double>::infinity();

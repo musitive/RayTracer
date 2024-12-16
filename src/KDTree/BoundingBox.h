@@ -15,7 +15,7 @@ struct BoundingBox {
        max_bound = max(max_bound, other.max_bound);
     }
 
-    bool intersects(const Ray& ray) const {
+    bool doesIntersect(const Ray& ray) const {
         // Implement ray-box intersection test
         double tmin = (min_bound.x - ray.origin.x) / ray.direction.x;
         double tmax = (max_bound.x - ray.origin.x) / ray.direction.x;

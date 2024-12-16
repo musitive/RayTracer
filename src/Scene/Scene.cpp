@@ -13,7 +13,7 @@ Frame* Scene::render() {
     return cam->render();
 }
 
-void Scene::addActor(Actor* actor) {
+void Scene::addActor(AbstractObject* actor) {
     actors.push_back(actor);
 }
 
@@ -25,7 +25,7 @@ int Scene::getCameraHeight() const {
     return cam->getHeight();
 }
 
-vector<Actor*> Scene::getActors() const {
+vector<AbstractObject*> Scene::getActors() const {
     return actors;
 }
 
@@ -43,7 +43,7 @@ Light Scene::getLight() const {
 
 Scene::~Scene() {
     delete cam;
-    for (Actor* o : actors) {
+    for (AbstractObject* o : actors) {
         delete o;
     }
 }

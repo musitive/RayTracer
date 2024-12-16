@@ -38,11 +38,11 @@ class Scene {
         }
 
         Frame* render();
-        void addActor(Actor* actor);
+        void addActor(AbstractObject* actor);
 
         int getCameraWidth() const;
         int getCameraHeight() const;
-        vector<Actor*> getActors() const;
+        vector<AbstractObject*> getActors() const;
         RGBColor getGlobalIllumination() const;
         RGBColor getBackgroundColor() const;
         Light getLight() const;
@@ -56,7 +56,7 @@ class Scene {
         Light light;
         RGBColor global;
         RGBColor background;
-        std::vector<Actor*> actors;
+        std::vector<AbstractObject*> actors;
         Camera* cam;
 
         // Static pointer to the Singleton instance

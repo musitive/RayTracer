@@ -14,7 +14,7 @@
 
 class IntersectionFactory {
     public:
-        static AbstractIntersection* create(Actor* obj, const Ray& ray, void* buffer) {
+        static AbstractIntersection* create(AbstractObject* obj, const Ray& ray, void* buffer) {
             Point3D p = obj->findIntersection(ray);
 
             if (p == MISS)
@@ -31,12 +31,12 @@ class IntersectionFactory {
 };
 
 struct KDTreeNode {
-    Actor* actor;
+    AbstractObject* actor;
     KDTreeNode* left;
     KDTreeNode* right;
     BoundingBox box;
 
-    KDTreeNode(Actor* actor) : actor(actor), left(nullptr), right(nullptr) {
+    KDTreeNode(AbstractObject* actor) : actor(actor), left(nullptr), right(nullptr) {
         box = actor->getBoundingBox();
     }
 };
@@ -45,24 +45,24 @@ class KDTree {
 public:
     KDTreeNode* root;
 
-    KDTree(vector<Actor*> actors) {
+    KDTree(vector<AbstractObject*> actors) {
         root = buildTree(actors, 0);
     }
 
-    KDTreeNode* buildTree(vector<Actor*>& actors, int depth) {
+    KDTreeNode* buildTree(vector<AbstractObject*>& actors, int depth) {
         if (actors.empty()) return nullptr;
 
         // Sort actors based on the current axis
         int axis = depth % 3;
-        sort(actors.begin(), actors.end(), [axis](Actor* a, Actor* b) {
+        sort(actors.begin(), actors.end(), [axis](AbstractObject* a, AbstractObject* b) {
             return a->getBoundingBox().center()[axis] < b->getBoundingBox().center()[axis];
         });
 
         int median = actors.size() / 2;
         KDTreeNode* node = new KDTreeNode(actors[median]);
 
-        vector<Actor*> leftActors(actors.begin(), actors.begin() + median);
-        vector<Actor*> rightActors(actors.begin() + median + 1, actors.end());
+        vector<AbstractObject*> leftActors(actors.begin(), actors.begin() + median);
+        vector<AbstractObject*> rightActors(actors.begin() + median + 1, actors.end());
 
         node->left = buildTree(leftActors, depth + 1);
         node->right = buildTree(rightActors, depth + 1);
@@ -75,7 +75,7 @@ public:
         return node;
     }
 
-    AbstractIntersection* findClosestIntersection(const Ray& ray, Actor* reflected_object, void* closest_buffer, KDTreeNode* node, AbstractIntersection* closest, void* buffer) {
+    AbstractIntersection* findClosestIntersection(const Ray& ray, AbstractObject* reflected_object, void* closest_buffer, KDTreeNode* node, AbstractIntersection* closest, void* buffer) {
         if (!node) return closest;
 
         if (node->actor != reflected_object) {
@@ -86,10 +86,10 @@ public:
         }
 
         // Traverse the KD tree
-        if (node->left && node->left->box.intersects(ray)) {
+        if (node->left && node->left->box.doesIntersect(ray)) {
             closest = findClosestIntersection(ray, reflected_object, closest_buffer, node->left, closest, buffer);
         }
-        if (node->right && node->right->box.intersects(ray)) {
+        if (node->right && node->right->box.doesIntersect(ray)) {
             closest = findClosestIntersection(ray, reflected_object, closest_buffer, node->right, closest, buffer);
         }
 

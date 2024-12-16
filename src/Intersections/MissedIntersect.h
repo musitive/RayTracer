@@ -5,7 +5,7 @@
 
 class Miss : public AbstractIntersection {
     public:
-        Miss(Actor* o, const Ray& r);
+        Miss(AbstractObject* o, const Ray& r);
         RGBColor computeColor(const Light& light, const int& depth) const override;
 };
 
