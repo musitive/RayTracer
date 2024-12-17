@@ -31,14 +31,19 @@ Camera* SceneBuilder::parseCamera() {
     std::string line_header = "";
     double width, height, fov;
     vec3 at, from, up;
+    int samples;
 
+    input_file >> line_header >> samples;
     input_file >> line_header >> width >> line_header >> height;
     input_file >> line_header >> at;
     input_file >> line_header >> from;
     input_file >> line_header >> up;
     input_file >> line_header >> fov;
 
-    return new Camera(width, height, at, from, up, fov);
+    if (samples > 1)
+        return new AntiAliasCam(width, height, at, from, up, fov, samples);
+    else
+        return new Camera(width, height, at, from, up, fov);
 }
 
 void SceneBuilder::parseObjects() {
