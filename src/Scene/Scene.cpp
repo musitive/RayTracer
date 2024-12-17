@@ -3,7 +3,7 @@
 
 Scene* Scene::instance = nullptr;
 
-Scene::Scene(const Light& light, const RGBColor& background, const RGBColor& global, Camera* cam)
+Scene::Scene(const Light& light, const RGBColor& global, const RGBColor& background, Camera* cam)
     : light(light), global(global), background(background), cam(cam)
 {
     if (instance) throw std::invalid_argument("Scene instance already exists");

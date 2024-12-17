@@ -8,7 +8,7 @@
 KDTree* RayTracer::kd_tree = nullptr;
 
 RGBColor RayTracer::trace(const Ray& ray, AbstractObject* current, const int& depth) {
-    if (depth >= MAX_DEPTH) return MAX_COLOR;
+    if (depth >= Scene::getInstance()->max_depth) return RGBColor(MAX_COLOR);
 
     // Allocate memory for the closest intersection. This is done to avoid multiple allocations.
     // This information can't be stored on the stack since it needs to be used elsewhere. Since abstract

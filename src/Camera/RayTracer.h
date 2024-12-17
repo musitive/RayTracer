@@ -25,7 +25,7 @@ class RayTracer {
         static bool isObjectBlocked(const vec3 &light_position, const vec3 &hit_point, const AbstractObject *current);
 
     private:
-        static const int MAX_DEPTH = 3;     // Maximum depth of recursion, should be set in the SceneBuilder
+        
 
         // This method finds the closest intersection of a ray with an object in the scene, using a KD tree to
         // reduce the number of intersection tests in more complex scenes.

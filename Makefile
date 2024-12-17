@@ -53,8 +53,14 @@ clean:
 	rm -f $(OBJFILES) $(TARGET) *~
 
 # Test
-small_test:
+test_01:
 	./raytracer tests/test_01.env outputs/test_01.ppm
 
-large_test:
+test_02:
 	./raytracer tests/test_02.env outputs/test_02.ppm
+
+test_03:
+	./raytracer tests/test_03.env outputs/test_03.ppm
+
+test_04:
+	./raytracer tests/test_04.env outputs/test_04.ppm

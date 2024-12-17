@@ -8,8 +8,10 @@ Scene* SceneBuilder::scene = nullptr;
 
 void SceneBuilder::loadScene(const std::string& fileName) {
     std::string line_header = "";
-
+    int max_depth = 0;
     input_file.open(fileName, std::ios::in);
+
+    input_file >> line_header >> max_depth;
     Camera* cam = parseCamera();
     Light light = Light();
     RGBColor ambient_light = RGBColor();
@@ -21,6 +23,7 @@ void SceneBuilder::loadScene(const std::string& fileName) {
     input_file >> line_header >> background;
 
     scene = Scene::createInstance(light, ambient_light, background, cam);
+    scene->max_depth = max_depth;
 
     parseObjects();
 

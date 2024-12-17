@@ -46,6 +46,7 @@ class Scene {
         RGBColor getGlobalIllumination() const;
         RGBColor getBackgroundColor() const;
         Light getLight() const;
+        int max_depth;
 
         // The copy constructor and assignment operator must be deleted to
         // prevent copying the Singleton instance
