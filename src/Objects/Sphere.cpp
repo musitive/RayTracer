@@ -1,39 +1,28 @@
 #include "Sphere.h"
 #include "Vec.h"
 
-Sphere::Sphere(Point3D center, double radius) : center(center), radius(radius) {
+Sphere::Sphere(const vec3 &center, const double &radius) : center(center), radius(radius) {
     box.min_bound = center - radius;
     box.max_bound = center + radius;
 }
 
-Point3D Sphere::findIntersection(const Ray& ray, const bool& culling) const {
-    // Distance between the center of the sphere and the origin of the ray
-    // OC = S_c - r_0
-    Vector3D to_origin = center - ray.origin;
+vec3 Sphere::findIntersection(const Ray &ray, const bool &culling) const {
+    vec3 to_origin = center - ray.origin;                                       // OC = S_c - r_0
+    double projection_length = dot(to_origin, ray.direction);                   // tca = OC . r_d
 
-    // tca = OC . r_d
-    double projection_length = dot(to_origin, ray.direction);
+    if (projection_length < 0) return MISS;     // the projection of OC onto the ray is behind the origin
 
-    // if tca < 0, the projection of OC onto the ray is behind the origin
-    if (projection_length < 0) return MISS;
+    double distance_squared = square(to_origin) - square(projection_length);    // d^2 = ||OC||^2 - r_d^2
+    double radius_squared = square(radius); 
 
-    // d^2 = ||OC||^2 - r_d^2
-    double distance_squared = square(to_origin) - square(projection_length);
-    double radius_squared = square(radius); // r^2
-
-    // if d^2 > r^2, the ray misses the sphere
     if (distance_squared > radius_squared) return MISS;
+    
+    double half_chord_length = sqrt(radius_squared - distance_squared);         // thc = sqrt(r^2 - d^2)
+    double root = projection_length - half_chord_length;                        // t0 = tca - thc
 
-    // thc = sqrt(r^2 - d^2)
-    double half_chord_length = sqrt(radius_squared - distance_squared);
-
-    // t0 = tca - thc
-    double root = projection_length - half_chord_length;
-
-    // the root exists if the ray intersects the sphere
     return ray.findPoint(root);
 }
 
-Direction Sphere::computeNormal(const Point3D& position) {
+Direction Sphere::computeNormal(const vec3 &position) {
     return Direction(position, center);
 }

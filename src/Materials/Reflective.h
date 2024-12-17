@@ -6,9 +6,10 @@
 class Reflective : public IMaterial {
     public:
         Reflective(RGBColor reflective);
-        RGBColor computeColor(const AbstractIntersection* i, const Light& light, const bool& blocked) override;
+        bool isReflective() override { return true; }
+        RGBColor computeColor(const AbstractIntersect* i, const Light& light, const bool& blocked) override;
 
-    public:
+    private:
         const RGBColor reflective;
 };
 

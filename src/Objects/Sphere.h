@@ -7,12 +7,12 @@
 
 class Sphere : public AbstractObject {
     public:
-        Sphere(Point3D center, double radius);
-        Point3D findIntersection(const Ray& ray, const bool& culling=true) const override;
-        Direction computeNormal(const Point3D& position) override;
+        Sphere(const vec3 &center, const double &radius);
+        vec3 findIntersection(const Ray &ray, const bool &culling=true) const override;
+        Direction computeNormal(const vec3 &position) override;
 
     private:
-        Point3D center;
+        vec3 center;
         double radius;
 };
 

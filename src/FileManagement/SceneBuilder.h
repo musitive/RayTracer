@@ -23,10 +23,10 @@ class SceneBuilder {
 
         static Camera* parseCamera();
         static void parseObjects();
-        static AbstractObject* parseObject(string line_header);
+        static AbstractObject* parseObject(std::string line_header);
         static Sphere* parseSphere();
         static Triangle* parseTriangle();
-        static IMaterial* parseMaterial(string line_header);
+        static IMaterial* parseMaterial(std::string line_header);
         static Diffuse* parseDiffuseMaterial();
         static Reflective* parseReflectiveMaterial();
 };

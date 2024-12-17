@@ -3,9 +3,9 @@
 
 #include "AbstractIntersect.h"
 
-class Miss : public AbstractIntersection {
+class Miss : public AbstractIntersect {
     public:
-        Miss(AbstractObject* o, const Ray& r);
+        Miss(AbstractObject* o = nullptr, const Ray& r = Ray());
         RGBColor computeColor(const Light& light, const int& depth) const override;
 };
 

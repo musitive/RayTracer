@@ -2,19 +2,16 @@
 #define RAY_H
 
 #include "Vec.h"
+#include "Direction.h"
 
-class Ray {
+struct Ray {
     public:
-        Point3D origin;        // r_0
+        vec3 origin;            // r_0
         Direction direction;    // r_d
 
         Ray();
-        Ray(Point3D eye, Direction s);
-        Point3D findPoint(double t) const;
-        
-
-    private:
-    
+        Ray(vec3 eye, Direction s);
+        vec3 findPoint(const double &distance) const;
 };
 
 #endif

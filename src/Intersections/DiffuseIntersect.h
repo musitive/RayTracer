@@ -3,11 +3,10 @@
 
 #include "AbstractIntersect.h"
 
-class Absorption : public AbstractIntersection {
+class Absorption : public AbstractIntersect {
     public:
-        Absorption(AbstractObject* o, const Ray& r, const Point3D& p);
+        Absorption(AbstractObject* o, const Ray& r, const vec3& p);
         RGBColor computeColor(const Light& light, const int& depth) const override;
-        bool isBlocked(const Point3D& light_position) const;
 };
 
 #endif

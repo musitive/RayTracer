@@ -5,28 +5,37 @@
 #include "DiffuseIntersect.h"
 #include "KDTree.h"
 
-KDTree* RayTracer::kdTree = nullptr;
+KDTree* RayTracer::kd_tree = nullptr;
 
-RGBColor RayTracer::trace(const Ray& ray, AbstractObject* reflected_object, const int& depth) {
-    if (depth >= MAX_DEPTH) return RGBColor(MAX_COLOR);
+RGBColor RayTracer::trace(const Ray& ray, AbstractObject* current, const int& depth) {
+    if (depth >= MAX_DEPTH) return MAX_COLOR;
+
+    // Allocate memory for the closest intersection. This is done to avoid multiple allocations.
+    // This information can't be stored on the stack since it needs to be used elsewhere. Since abstract
+    // classes can't be return types in C++, I opted to use pointers to the Intersections.
+    void *closest_buffer = malloc(sizeof(Reflection));
+    IntersectionFactory::createMissed(closest_buffer);
     Light light = Scene::getInstance()->getLight();
 
-    void* closest_buffer = malloc(sizeof(Reflection));
-
-    AbstractIntersection* i = findClosestIntersection(ray, reflected_object, closest_buffer);
-    RGBColor c = i->computeColor(light, depth);
+    findClosestIntersection(ray, current, closest_buffer);
+    RGBColor color = ((AbstractIntersect*) closest_buffer)->computeColor(light, depth);
 
     free(closest_buffer);
-
-    return c;
+    return color;
 }
 
-AbstractIntersection* RayTracer::findClosestIntersection(const Ray& ray, AbstractObject* reflected_object, void* closest_buffer) {
-    void* buffer = malloc(sizeof(Reflection));
+bool RayTracer::isObjectBlocked(const vec3& light_position, const vec3& hit_point, const AbstractObject* current) {
+    Ray shadow_ray(hit_point, light_position - hit_point);
+    return kd_tree->isObjectBlocked(shadow_ray, current);
+}
 
-    AbstractIntersection* closest = new (closest_buffer) Miss(nullptr, Ray());
-    closest = kdTree->findClosestIntersection(ray, reflected_object, closest_buffer, kdTree->root, closest, buffer);
+void RayTracer::findClosestIntersection(const Ray &ray, AbstractObject *reflected_object, void *closest_buffer)
+{
+    void *current_buffer = malloc(sizeof(Reflection));
+    IntersectionFactory::createMissed(current_buffer);
 
-    free(buffer);
-    return closest;
+    kd_tree->findClosestIntersection(ray, closest_buffer, current_buffer);
+
+    free(current_buffer);
+    return;
 }

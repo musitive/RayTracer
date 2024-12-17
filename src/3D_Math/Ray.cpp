@@ -1,9 +1,9 @@
 #include "Ray.h"
 
-Ray::Ray() : origin(Point3D()), direction(Direction(Point3D(), Point3D())) {}
+Ray::Ray() : origin(vec3()), direction(Direction(vec3(), vec3())) {}
 
-Ray::Ray(Point3D eye, Direction s) : origin(eye), direction(s) {}
+Ray::Ray(vec3 eye, Direction s) : origin(eye), direction(s) {}
 
-Point3D Ray::findPoint(double distance) const
+vec3 Ray::findPoint(const double &distance) const {
     return origin + direction * distance;
 }

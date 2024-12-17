@@ -1,9 +1,7 @@
 #include "Reflective.h"
 
-Reflective::Reflective(RGBColor reflective) : reflective(reflective) {
-    isReflective = true;
-}
+Reflective::Reflective(RGBColor reflective) : reflective(reflective) {}
 
-RGBColor Reflective::computeColor(const AbstractIntersection* i, const Light& light, const bool& blocked) {
-    return clamp(reflective, MIN_COLOR, MAX_COLOR);
+RGBColor Reflective::computeColor(const AbstractIntersect *i, const Light &light, const bool &blocked) {
+    return clamp(reflective);
 }

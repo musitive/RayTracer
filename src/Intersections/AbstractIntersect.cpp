@@ -1,27 +1,32 @@
 #include "AbstractIntersect.h"
+#include "RayTracer.h"
 
-AbstractIntersection::AbstractIntersection(AbstractObject* o, const Ray& r)
-    : obj(o), ray(r), point(o->findIntersection(r)), distance(findDistanceFromPoint(r.origin)), normal(o->computeNormal(point)) {}
+AbstractIntersect::AbstractIntersect(AbstractObject* o, const Ray& r)
+    : obj(o), ray(r), hit_point(o->findIntersection(r)), distance(findDistanceFromPoint(r.origin)), normal(o->computeNormal(hit_point)) {}
 
-AbstractIntersection::AbstractIntersection(AbstractObject* o, const Ray& r, const Point3D& p)
-    : obj(o), ray(r), point(p), distance(findDistanceFromPoint(r.origin)), normal(o->computeNormal(p)) {}
+AbstractIntersect::AbstractIntersect(AbstractObject* o, const Ray& r, const vec3& p)
+    : obj(o), ray(r), hit_point(p), distance(findDistanceFromPoint(r.origin)), normal(o->computeNormal(p)) {}
 
-AbstractIntersection::AbstractIntersection(AbstractObject* o, const Ray& r, const Point3D& p, const double& distance)
-    : obj(o), ray(r), point(p), distance(distance), normal(o->computeNormal(p)) {}
+AbstractIntersect::AbstractIntersect(AbstractObject* o, const Ray& r, const vec3& p, const double& distance)
+    : obj(o), ray(r), hit_point(p), distance(distance), normal(o->computeNormal(p)) {}
 
-AbstractIntersection::AbstractIntersection(AbstractObject* o, const Ray& r, const Point3D& p, const double& distance, const Direction& n)
-    : obj(o), ray(r), point(p), distance(distance), normal(n) {}
+AbstractIntersect::AbstractIntersect(AbstractObject* o, const Ray& r, const vec3& p, const double& distance, const Direction& n)
+    : obj(o), ray(r), hit_point(p), distance(distance), normal(n) {}
 
-AbstractIntersection::~AbstractIntersection() {}
+AbstractIntersect::~AbstractIntersect() {}
 
-double AbstractIntersection::findDistanceFromPoint(const Point3D& p) const {
-    return length(point - p);
+double AbstractIntersect::findDistanceFromPoint(const vec3& p) const {
+    return rt_lib::length(hit_point - p);
 }
 
-bool AbstractIntersection::isCloserThan(const AbstractIntersection* i) const {
+bool AbstractIntersect::isCloserThan(const AbstractIntersect* i) const {
     return distance < i->distance;
 }
 
-Direction AbstractIntersection::computeActorNormal() const {
-    return obj->computeNormal(point);
+Direction AbstractIntersect::computeActorNormal() const {
+    return obj->computeNormal(hit_point);
+}
+
+bool AbstractIntersect::isBlocked(const vec3 &light_position) const {
+    return RayTracer::isObjectBlocked(light_position, hit_point, obj);
 }

@@ -6,10 +6,11 @@ Scene* Scene::instance = nullptr;
 Scene::Scene(const Light& light, const RGBColor& background, const RGBColor& global, Camera* cam)
     : light(light), global(global), background(background), cam(cam)
 {
-    if (instance) throw invalid_argument("Scene instance already exists");
+    if (instance) throw std::invalid_argument("Scene instance already exists");
 }
 
 Frame* Scene::render() {
+    RayTracer::kd_tree = new KDTree(actors);
     return cam->render();
 }
 
@@ -25,7 +26,7 @@ int Scene::getCameraHeight() const {
     return cam->getHeight();
 }
 
-vector<AbstractObject*> Scene::getActors() const {
+std::vector<AbstractObject*> Scene::getActors() const {
     return actors;
 }
 

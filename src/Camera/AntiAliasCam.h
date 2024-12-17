@@ -4,16 +4,15 @@
 #include "Camera.h"
 
 class AntiAliasCam : public Camera {
-    public:
-        AntiAliasCam(const int& width, const int& height, const Point3D& look_at, const Point3D& from,
-                     const Point3D& up, const double& fov, const int& samples);
+    protected:
+        int samples;                // Number of samples to take per pixel, defined in the constructor
+        double inverted_samples;    // 1 / samples for efficiency
 
-    private:
-        int samples;
+        // Overrides the base class color computation method to add anti-aliasing
+        RGBColor computeColorAtPixel(const int &x, const int &y) override;
 
-        RGBColor computeColorAtPixel(int i, int j) override;
-        double jitter(int i, double scale);
-        Ray jitter(Ray ray);
+        // Adds a random offset to the pixel coordinates to reduce aliasing
+        double jitter(const int &x) const;
 };
 
 #endif

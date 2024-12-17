@@ -1,39 +1,33 @@
 #include "AntiAliasCam.h"
 
-double AntiAliasCam::jitter(int i, double scale) {
-    uniform_real_distribution<double> unif(0, scale);
-    default_random_engine re;
-    return i + unif(re);
-}
+#include <random>
+#include <vector>
+#include <cmath>
 
-Ray AntiAliasCam::jitter(Ray ray) {
-    uniform_real_distribution<double> unif(0,0.1);
-    default_random_engine re;
-    ray.direction = ray.direction + Vector3D(unif(re));
-    return ray;
-}
-
-AntiAliasCam::AntiAliasCam(const int& width, const int& height, const Point3D& look_at, const Point3D& from,
-                           const Point3D& up, const double& fov, const int& samples)
-    : Camera(width, height, look_at, from, up, fov), samples(samples) {}
-
-RGBColor AntiAliasCam::computeColorAtPixel(int i, int j) {
-    vector<RGBColor> colors = vector<RGBColor>();
-    double altered_i, altered_j;
-    Ray r;
+// Overrides the base class color computation method to add anti-aliasing
+RGBColor AntiAliasCam::computeColorAtPixel(const int &x, const int &y) {
+    std::vector<RGBColor> colors = std::vector<RGBColor>();
+    double jittered_x, jittered_y;
+    Ray ray;
     RGBColor c;
 
-    double scale = 1. / (double) samples;
-
-    for(int y = 0; y < samples; ++y) {
-        for(int x = 0; x < samples; ++x) {
-            altered_i = jitter(i, scale) + x * scale;
-            altered_j = jitter(j, scale) + y * scale;
-            r = computeRay(altered_i, altered_j);
-            c = RayTracer::trace(r);
+    // Cast multiple rays per pixel and average the colors
+    for(int y_offset = 0; y_offset < samples; ++y_offset) {
+        for(int x_offset = 0; x_offset < samples; ++x_offset) {
+            jittered_x = jitter(x + x_offset * inverted_samples);
+            jittered_y = jitter(y + y_offset * inverted_samples);
+            ray = computeRay(jittered_x, jittered_y);
+            c = RayTracer::trace(ray);
             colors.push_back(c);
         }
     }
 
-    return average(colors);
+    return rt_lib::average(colors);
+}
+
+// Adds a random offset to the pixel coordinates to reduce aliasing
+double AntiAliasCam::jitter(const int &x) const {
+    std::uniform_real_distribution<double> unif(0, inverted_samples);   // uniform distribution
+    std::default_random_engine re;  // random number generator
+    return x + unif(re);
 }

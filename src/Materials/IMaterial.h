@@ -4,17 +4,17 @@
 #include "Vec.h"
 
 // forward declaration
-class AbstractIntersection;
+class AbstractIntersect;
 
 struct Light {
     RGBColor color;
-    Point3D position;
+    vec3 position;
 };
 
 class IMaterial {
     public:
-        bool isReflective = false;
-        virtual RGBColor computeColor(const AbstractIntersection* i, const Light& light, const bool& blocked) = 0;
+        virtual bool isReflective() = 0;
+        virtual RGBColor computeColor(const AbstractIntersect *i, const Light &light, const bool &blocked) = 0;
 };
 
 #endif

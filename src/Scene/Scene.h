@@ -42,7 +42,7 @@ class Scene {
 
         int getCameraWidth() const;
         int getCameraHeight() const;
-        vector<AbstractObject*> getActors() const;
+        std::vector<AbstractObject*> getActors() const;
         RGBColor getGlobalIllumination() const;
         RGBColor getBackgroundColor() const;
         Light getLight() const;

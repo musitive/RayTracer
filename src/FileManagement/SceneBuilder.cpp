@@ -1,14 +1,15 @@
 #include "SceneBuilder.h"
 #include "Scene.h"
 #include "AntiAliasCam.h"
+#include "Diffuse.h"
 
 std::ifstream SceneBuilder::input_file = std::ifstream();
 Scene* SceneBuilder::scene = nullptr;
 
-void SceneBuilder::loadScene(const string& fileName) {
-    string line_header = "";
+void SceneBuilder::loadScene(const std::string& fileName) {
+    std::string line_header = "";
 
-    input_file.open(fileName, ios::in);
+    input_file.open(fileName, std::ios::in);
     Camera* cam = parseCamera();
     Light light = Light();
     RGBColor ambient_light = RGBColor();
@@ -27,9 +28,9 @@ void SceneBuilder::loadScene(const string& fileName) {
 }
 
 Camera* SceneBuilder::parseCamera() {
-    string line_header = "";
+    std::string line_header = "";
     double width, height, fov;
-    Point3D at, from, up;
+    vec3 at, from, up;
 
     input_file >> line_header >> width >> line_header >> height;
     input_file >> line_header >> at;
@@ -41,7 +42,7 @@ Camera* SceneBuilder::parseCamera() {
 }
 
 void SceneBuilder::parseObjects() {
-    string line_header;
+    std::string line_header;
     AbstractObject* o;
     IMaterial* m;
 
@@ -58,7 +59,7 @@ void SceneBuilder::parseObjects() {
     }
 }
 
-AbstractObject* SceneBuilder::parseObject(string line_header) {
+AbstractObject* SceneBuilder::parseObject(std::string line_header) {
     AbstractObject* o;
 
     if (line_header == "Sphere")
@@ -70,8 +71,8 @@ AbstractObject* SceneBuilder::parseObject(string line_header) {
 }
 
 Sphere* SceneBuilder::parseSphere() {
-    string line_header;
-    Point3D c = Point3D();
+    std::string line_header;
+    vec3 c = vec3();
     double rad = 0;
     input_file >> line_header >> c;
     input_file >> line_header >> rad;
@@ -79,14 +80,14 @@ Sphere* SceneBuilder::parseSphere() {
 }
 
 Triangle* SceneBuilder::parseTriangle() {
-    Point3D v1, v2, v3;
+    vec3 v1, v2, v3;
     input_file >> v1;
     input_file >> v2;
     input_file >> v3;
     return new Triangle(v1, v2, v3);
 }
 
-IMaterial* SceneBuilder::parseMaterial(string line_header) {
+IMaterial* SceneBuilder::parseMaterial(std::string line_header) {
     IMaterial* m;
 
     if (line_header == "Diffuse") 
@@ -98,7 +99,7 @@ IMaterial* SceneBuilder::parseMaterial(string line_header) {
 }
 
 Diffuse* SceneBuilder::parseDiffuseMaterial() {
-    string line_header;
+    std::string line_header;
     RGBColor diffuse = RGBColor();
     RGBColor specular = RGBColor();
     double phong = 0;
@@ -109,7 +110,7 @@ Diffuse* SceneBuilder::parseDiffuseMaterial() {
 }
 
 Reflective* SceneBuilder::parseReflectiveMaterial() {
-    string line_header;
+    std::string line_header;
     RGBColor reflective = RGBColor();
     input_file >> reflective;
     return new Reflective(reflective);
